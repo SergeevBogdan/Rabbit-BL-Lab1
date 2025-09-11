@@ -1,0 +1,6 @@
+C:\Users\User\Source\Repos\Rabbit-BL-Lab1\Rabbit-Model\bin\Debug\Rabbit-Model.dll
+C:\Users\User\Source\Repos\Rabbit-BL-Lab1\Rabbit-Model\bin\Debug\Rabbit-Model.pdb
+C:\Users\User\Source\Repos\Rabbit-BL-Lab1\Rabbit-Model\obj\Debug\Rabbit-Model.csproj.AssemblyReference.cache
+C:\Users\User\Source\Repos\Rabbit-BL-Lab1\Rabbit-Model\obj\Debug\Rabbit-Model.csproj.CoreCompileInputs.cache
+C:\Users\User\Source\Repos\Rabbit-BL-Lab1\Rabbit-Model\obj\Debug\Rabbit-Model.dll
+C:\Users\User\Source\Repos\Rabbit-BL-Lab1\Rabbit-Model\obj\Debug\Rabbit-Model.pdb

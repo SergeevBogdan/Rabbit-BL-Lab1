@@ -22,6 +22,10 @@ namespace Business_logic___rabbit
         /// <param name="breed">Порода кролика.</param>
         public void Add(int id, string name, int age, int weight, string breed) //TODO ЗАЩИТЯ ДЛЯ ДУРАКОВ, ЕСЛИ ЧТО ТО НЕ ДОБАВИЛ
         {
+            if (Rabbits.Any(r => r.Id == id))
+            {
+                throw new ArgumentException("Кролик с таким Id уже существует");
+            }
             Rabbit rabbit = new Rabbit() { Age = age, Breed = breed, Id = id, Name = name, Weight = weight };
             Rabbits.Add(rabbit);
         }
@@ -109,7 +113,7 @@ namespace Business_logic___rabbit
         //Список с отдельной породой
 
         //Список по фильтрации с опред параметром, сделать аналогию для консоли и для FW
-        public void Filter(int change)
+        public void Filter(int change)// сделать в winform выпадающим списком выбор по какому признаку фильтрация 
         {
 
         }
