@@ -7,11 +7,12 @@ using Rabbit_Model;
 
 namespace Business_logic___rabbit
 {
+
     public class Logic
     {
-        //Сделать вечером: 1 изменить систему изменения животный по ID, сделать поиск по имени и Id, доработать ЗОТ
+        //Сделать вечером: 3. доработать ЗОТ
 
-        private List<Rabbit> Rabbits = new List<Rabbit>();
+        private static List<Rabbit> Rabbits = new List<Rabbit>();
 
         /// <summary>
         /// Создает новый объект Rabbit с заданными параметрами и добавляет его в список.
@@ -21,21 +22,27 @@ namespace Business_logic___rabbit
         /// <param name="age">Возраст кролика.</param>
         /// <param name="weight">Вес кролика.</param>
         /// <param name="breed">Порода кролика.</param>
-        public void Add(int id, string name, int age, int weight, string breed) //TODO ЗАЩИТЯ ДЛЯ ДУРАКОВ, ЕСЛИ ЧТО ТО НЕ ДОБАВИЛ
+        public static string Add(int id, string name, int age, int weight, string breed)
         {
-            //добавить проверку на уникальность id сюда
+            // Проверяем, есть ли уже кролик с таким id
+            if (Rabbits.Exists(r => r.Id == id))
+            {
+                return "такой id уже есть"; // возвращаем ошибку, если id не уникален
+            }
+
             Rabbit rabbit = new Rabbit() { Age = age, Breed = breed, Id = id, Name = name, Weight = weight };
             Rabbits.Add(rabbit);
+            return "Кролик успешно добавлен"; // успешное добавление
         }
+
 
         /// <summary>
         /// Удаляет первого кролика из списка Rabbits по заданному идентификатору Id.
         /// </summary>
         /// <param name="id">Уникальный идентификатор кролика для удаления.</param>
-        public string Remove(int id) //УЗНАТЬ КАК РЕШИТЬ ПРОБЛЕМУ С ЗАЩИТОЙ ДЛЯ ДУРАКОВ, + добавить поиск через имя
+        public static string Remove(int id) //УЗНАТЬ КАК РЕШИТЬ ПРОБЛЕМУ С ЗАЩИТОЙ ДЛЯ ДУРАКОВ, + добавить поиск через имя
         {
-            if (ID_rabbit(id))
-            {
+
                 Rabbit rabbitToRemove = Rabbits.Find(r => r.Id == id);
                 if (rabbitToRemove != null) // защита на случай отсутствия элемента
                 {
@@ -46,11 +53,6 @@ namespace Business_logic___rabbit
                 {
                     return "Список пуст";
                 }
-            }
-            else
-            {
-                return "Неверный id";
-            }
         }
 
         /// <summary>
@@ -58,21 +60,14 @@ namespace Business_logic___rabbit
         /// </summary>
         /// <param name="id">Идентификатор кролика для поиска.</param>
         /// <returns>Строка с информацией о кролике (имя, возраст, вес, порода) или сообщение о ненахождении кролика.</returns>
-        public string Read(int id)
+        public static string Read(int id)
         {
-            if (ID_rabbit(id))
-            {
                 Rabbit rabbit = Rabbits.Find(r => r.Id == id);
                 if (rabbit == null)
                     return "Кролик с заданным Id не найден";
 
                 string text = "Имя: " + rabbit.Name + "\nВозраст: " + rabbit.Age + "\nВес: " + rabbit.Weight + "\nПорода: " + rabbit.Breed;
                 return text;
-            }
-            else
-            {
-                return "Неверный id";
-            }
         }
 
         /// <summary>
@@ -83,7 +78,7 @@ namespace Business_logic___rabbit
         /// <param name="age">Новый возраст кролика.</param>
         /// <param name="weight">Новый вес кролика.</param>
         /// <param name="breed">Новая порода кролика.</param>
-        public void Change(int id, string name, int age, int weight, string breed) //ЗАЩИТА ЕСЛИ ОДНОГО И БОЛЕЕ ПОКАЗАТЕЛЯ НЕТ - UI
+        public static void Change(int id, string name, int age, int weight, string breed) //ЗАЩИТА ЕСЛИ ОДНОГО И БОЛЕЕ ПОКАЗАТЕЛЯ НЕТ - UI
         {
             int index = Rabbits.FindIndex(r => r.Id == id);
             if (index >= 0)
@@ -100,7 +95,7 @@ namespace Business_logic___rabbit
         /// Рассчитывает средний возраст кроликов в списке.
         /// </summary>
         /// <returns>Средний возраст кроликов как число с плавающей точкой.</returns>
-        public double GetAverageAge()
+        public static double GetAverageAge()
         {
             if (Rabbits.Count != 0)
             {
@@ -113,7 +108,7 @@ namespace Business_logic___rabbit
         /// Рассчитывает средний вес кроликов в списке.
         /// </summary>
         /// <returns>Средний вес кроликов как число с плавающей точкой.</returns>
-        public double GetAverageWeight()//ЗАЩИТА  ЕСЛИ КРОЛИКОВ НЕТ
+        public static double GetAverageWeight()//ЗАЩИТА  ЕСЛИ КРОЛИКОВ НЕТ
         {
             if (Rabbits.Count != 0)
             {
@@ -122,7 +117,6 @@ namespace Business_logic___rabbit
             return 0;
         }
 
-        //Список с отдельной породой
 
         //Список по фильтрации с опред параметром, сделать аналогию для консоли и для FW
         /// <summary>
@@ -137,7 +131,7 @@ namespace Business_logic___rabbit
         /// 5 - Weight.
         /// </param>
         /// <param name="direction">Направление сортировки: true - по возрастанию, false - по убыванию.</param>
-        public void Filter(int change, bool direction)
+        public static void Filter(int change, bool direction)
         {
             switch (change)
             {
@@ -164,21 +158,22 @@ namespace Business_logic___rabbit
             }
         }
 
+
+        private static Random rnd = new Random();
         //Добавить кролика по рандому
         /// <summary>
         /// СОздает рандомного кролика и добавляет его в список.
         /// </summary>
-        private Random rnd = new Random();
-
-        public string Random_rabbit_add()
+        public static string Random_rabbit_add()
         {
-            string[] names = { "Пушок", "Снежинка", "Игнат", "Ибрагим", "Ма-му-ма-ба", "Кастет", "Энцегорловье","Доминико дэ-ко-ко", "","" };
+            string[] names = { "Пушок", "Снежинка", "Игнат", "Ибрагим", "Ма-му-ма-ба", "Кастет", "Энцегорловье","Доминико дэ-ко-ко", "Эй-эй-эй", "La lepre che salta in alto" };
             string[] breeds = { "Беляк", "Русак", "Толай", "Маньжурский", "Оранжевый" };
 
             string name = names[rnd.Next(names.Length)];  // случайное имя из списка
+            int id  = rnd.Next(1, 1000); // id от 1 до 999    
             Rabbit randomRabbit = new Rabbit
             {
-                Id = rnd.Next(1, 1000),    // id от 1 до 999                  
+                Id = id,                  
                 Name = name,
                 Breed = breeds[rnd.Next(breeds.Length)],    // случайная порода из списка
                 Age = rnd.Next(1, 14),  // от 1 до 14                    
@@ -186,20 +181,41 @@ namespace Business_logic___rabbit
             };
 
             Rabbits.Add(randomRabbit);
-            return "Рандомный кролик: " + name+ " был создан";
+            return "Рандомный кролик: " + name+ " был создан с id: " + id;
         }
-
-
-
-        // условие на ID
-        private bool ID_rabbit(int id)
+        /// <summary>
+        /// Поиск id кролика из списка.
+        /// </summary>
+        /// <param name="index"> Индекс списка по его порядковому номеру (сугубо для WinFowrms). Если такого показателя нет то возвращает 0 </param>
+        public int Get_id(int index)
         {
-            if (Rabbits.Any(r => r.Id == id))
+            if (index >= 0 && index < Rabbits.Count)
             {
-                return false;
+                return Rabbits[index].Id; // возвращаем id кролика по индексу
             }
-            return true;
+            else
+            {
+                return 0;
+            }
         }
 
+        /// <summary>
+        /// Показывает всех кроликов из списка. Если до этого был измене по фильтру, то показывает с фильтром.
+        /// </summary>
+        
+        public static string ShowAllRabbits()
+        {
+            string word = "";
+            foreach (Rabbit rabbit in Rabbits)
+            {
+                word += "Кролик: ID " + rabbit.Id + 
+                    " Имя: " + rabbit.Name +
+                    " Вес: " + rabbit.Weight +
+                    " Возраст: " + rabbit.Age +
+                    " Порода: " + rabbit.Breed +
+                    " \n";
+            }
+            return word;
+        }
     }
 }
