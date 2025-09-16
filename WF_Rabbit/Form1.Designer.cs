@@ -359,7 +359,7 @@
         private System.Windows.Forms.Button btnApplyFilter;
         private System.Windows.Forms.Button btnClearFilter;
         private System.Windows.Forms.Label label6;
-    }
+    }//не работает 
 }
 
 
