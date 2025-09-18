@@ -33,7 +33,6 @@
             this.txtName = new System.Windows.Forms.TextBox();
             this.txtAge = new System.Windows.Forms.TextBox();
             this.txtWeight = new System.Windows.Forms.TextBox();
-            this.txtBreed = new System.Windows.Forms.TextBox();
             this.btnAdd = new System.Windows.Forms.Button();
             this.btnRemove = new System.Windows.Forms.Button();
             this.btnView = new System.Windows.Forms.Button();
@@ -56,6 +55,8 @@
             this.radioDescending = new System.Windows.Forms.RadioButton();
             this.btnApplyFilter = new System.Windows.Forms.Button();
             this.btnClearFilter = new System.Windows.Forms.Button();
+            this.btnSave = new System.Windows.Forms.Button();
+            this.comboBoxBreed = new System.Windows.Forms.ComboBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.SuspendLayout();
@@ -95,13 +96,6 @@
             this.txtWeight.Name = "txtWeight";
             this.txtWeight.Size = new System.Drawing.Size(150, 20);
             this.txtWeight.TabIndex = 4;
-            // 
-            // txtBreed
-            // 
-            this.txtBreed.Location = new System.Drawing.Point(420, 200);
-            this.txtBreed.Name = "txtBreed";
-            this.txtBreed.Size = new System.Drawing.Size(150, 20);
-            this.txtBreed.TabIndex = 5;
             // 
             // btnAdd
             // 
@@ -300,15 +294,36 @@
             this.btnClearFilter.Text = "Сбросить";
             this.btnClearFilter.Click += new System.EventHandler(this.btnClearFilter_Click);
             // 
+            // btnSave
+            // 
+            this.btnSave.Location = new System.Drawing.Point(420, 409);
+            this.btnSave.Name = "btnSave";
+            this.btnSave.Size = new System.Drawing.Size(97, 23);
+            this.btnSave.TabIndex = 19;
+            this.btnSave.Text = "Сохранить";
+            this.btnSave.UseVisualStyleBackColor = true;
+            this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
+            // 
+            // comboBoxBreed
+            // 
+            this.comboBoxBreed.FormattingEnabled = true;
+            this.comboBoxBreed.Location = new System.Drawing.Point(420, 193);
+            this.comboBoxBreed.Name = "comboBoxBreed";
+            this.comboBoxBreed.Size = new System.Drawing.Size(150, 21);
+            this.comboBoxBreed.TabIndex = 20;
+            this.comboBoxBreed.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
+            // 
             // Form1
             // 
+            this.AutoSize = true;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.comboBoxBreed);
+            this.Controls.Add(this.btnSave);
             this.Controls.Add(this.listBoxRabbits);
             this.Controls.Add(this.txtId);
             this.Controls.Add(this.txtName);
             this.Controls.Add(this.txtAge);
             this.Controls.Add(this.txtWeight);
-            this.Controls.Add(this.txtBreed);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label3);
@@ -336,7 +351,6 @@
         private System.Windows.Forms.TextBox txtName;
         private System.Windows.Forms.TextBox txtAge;
         private System.Windows.Forms.TextBox txtWeight;
-        private System.Windows.Forms.TextBox txtBreed;
         private System.Windows.Forms.Button btnAdd;
         private System.Windows.Forms.Button btnRemove;
         private System.Windows.Forms.Button btnView;
@@ -359,6 +373,8 @@
         private System.Windows.Forms.Button btnApplyFilter;
         private System.Windows.Forms.Button btnClearFilter;
         private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Button btnSave;
+        private System.Windows.Forms.ComboBox comboBoxBreed;
     }//не работает 
 }
 

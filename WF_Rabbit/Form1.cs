@@ -14,12 +14,29 @@ namespace WF_Rabbit
 {
     public partial class Form1 : Form
     {
+
+
         public Form1()
         {
-           InitializeComponent();
+            InitializeComponent();
             RefreshRabbitList();
+            InitializeBreedComboBox();
             InitializeFilterComboBox();
+            Logic.SaveRabbitsToFile();
+            Logic.LoadRabbitsFromFile();
+            RefreshRabbitList();
         }
+        private void InitializeBreedComboBox()
+        {
+            comboBoxBreed.Items.Clear();
+            comboBoxBreed.Items.AddRange(new string[]
+            {
+            "Беляк", "Русак", "Толай", "Маньжурский", "Оранжевый"
+            });
+            comboBoxBreed.SelectedIndex = 0;
+        }
+
+
 
         private void InitializeFilterComboBox()
         {
@@ -55,7 +72,7 @@ namespace WF_Rabbit
             txtName.Text = "";
             txtAge.Text = "";
             txtWeight.Text = "";
-            txtBreed.Text = "";
+            comboBoxBreed.SelectedIndex = 0;
         }
 
         private void btnAdd_Click(object sender, EventArgs e)
@@ -63,8 +80,8 @@ namespace WF_Rabbit
             try
             {
                 if (string.IsNullOrEmpty(txtId.Text) || string.IsNullOrEmpty(txtName.Text) || 
-                    string.IsNullOrEmpty(txtAge.Text) || string.IsNullOrEmpty(txtWeight.Text) || 
-                    string.IsNullOrEmpty(txtBreed.Text))
+                    string.IsNullOrEmpty(txtAge.Text) || string.IsNullOrEmpty(txtWeight.Text) ||
+                    comboBoxBreed.SelectedItem == null)
                 {
                     MessageBox.Show("Заполните все поля", "Ошибка");
                     return;
@@ -74,7 +91,7 @@ namespace WF_Rabbit
                 string name = txtName.Text;
                 int age = int.Parse(txtAge.Text);
                 int weight = int.Parse(txtWeight.Text);
-                string breed = txtBreed.Text;
+                string breed = comboBoxBreed.SelectedItem.ToString();
 
                 string result = Logic.AddRabbit(id, name, age, weight, breed);
                 
@@ -170,7 +187,18 @@ namespace WF_Rabbit
                         if (line.Contains("Имя:")) txtName.Text = line.Replace("Имя:", "").Trim();
                         if (line.Contains("Возраст:")) txtAge.Text = line.Replace("Возраст:", "").Trim();
                         if (line.Contains("Вес:")) txtWeight.Text = line.Replace("Вес:", "").Trim();
-                        if (line.Contains("Порода:")) txtBreed.Text = line.Replace("Порода:", "").Trim();
+                        if (line.Contains("Порода:"))
+                        {
+                            string breedValue = line.Replace("Порода:", "").Trim();
+                            int index = comboBoxBreed.Items.IndexOf(breedValue);
+                            if (index != -1)
+                                comboBoxBreed.SelectedIndex = index;
+                            else
+                            {
+                                comboBoxBreed.Items.Add(breedValue);
+                                comboBoxBreed.SelectedIndex = comboBoxBreed.Items.Count - 1;
+                            }
+                        }
                     }
                     txtId.Text = rabbitId.ToString();
                     
@@ -198,7 +226,7 @@ namespace WF_Rabbit
                 string name = txtName.Text;
                 int age = int.Parse(txtAge.Text);
                 int weight = int.Parse(txtWeight.Text);
-                string breed = txtBreed.Text;
+                string breed = comboBoxBreed.SelectedItem?.ToString() ?? "";
 
                 Logic.ChangeStatRabbit(id, name, age, weight, breed);
                 MessageBox.Show("Данные кролика обновлены", "Успех");
@@ -250,6 +278,21 @@ namespace WF_Rabbit
         private void btnClearFields_Click(object sender, EventArgs e)
         {
             ClearInputFields();
+        }
+
+        private void btnSave_Click(object sender, EventArgs e)
+        {
+            Logic.LoadRabbitsFromFile();
+        }
+
+        private void txtBreed_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }
