@@ -315,8 +315,8 @@
             // 
             // Form1
             // 
-            this.AutoSize = true;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
+            this.ClientSize = new System.Drawing.Size(800, 464);
             this.Controls.Add(this.comboBoxBreed);
             this.Controls.Add(this.btnSave);
             this.Controls.Add(this.listBoxRabbits);
@@ -337,6 +337,7 @@
             this.Controls.Add(this.btnClearFields);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.groupBox2);
+            this.MaximizeBox = false;
             this.Name = "Form1";
             this.Text = "Кролики";
             this.groupBox1.ResumeLayout(false);

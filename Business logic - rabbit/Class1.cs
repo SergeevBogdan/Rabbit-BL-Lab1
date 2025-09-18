@@ -18,58 +18,16 @@ namespace Business_logic___rabbit
             public int Age;
             public int Weight;
         }
-        /*
-        private static string folder = "Data";
-        private static string filePath = "rabbits.txt";
-        //private static string filePath = Path.Combine(folder, fileName);
 
-        public static void SaveRabbitsToFile()
-        {
-            if (!File.Exists(filePath))
-            {
-            File.Create(filePath).Dispose();  // Создать и сразу закрыть файл
-            }
-            else
-            {
-                var lines = Rabbits.Select(r => $"{r.Id},{r.Name},{r.Breed},{r.Age},{r.Weight}");
-                File.WriteAllLines(filePath, lines);
-            }
-        }
-
-        public static void LoadRabbitsFromFile()
-        {
-            if (!File.Exists(filePath))
-            {
-            File.Create(filePath).Dispose();  // Создать и сразу закрыть файл
-            }
-
-            Rabbits.Clear();
-            var lines = File.ReadAllLines(filePath);
-            foreach (var line in lines)
-            {
-                var parts = line.Split(',');
-                if (parts.Length == 5)
-                {
-                    var rabbit = new Rabbit
-                    {
-                        Id = int.Parse(parts[0]),
-                        Name = parts[1],
-                        Breed = parts[2],
-                        Age = int.Parse(parts[3]),
-                        Weight = int.Parse(parts[4])
-                    };
-                    Rabbits.Add(rabbit);
-                }
-            }
-        }
-
-        */
-
-        // Метод для поиска пути к папке проекта, поднимаясь от текущей директории вверх
         private static string dataFolderName = "Data";
         private static string projectFolderName = "Rabbit-BL-Lab1";
-        private static string basePath = FindProjectPath(Directory.GetCurrentDirectory(), projectFolderName);
+        private static string basePath = _FindProjectPath(Directory.GetCurrentDirectory(), projectFolderName);
         private static string filePath = Path.Combine(basePath ?? "", dataFolderName, "rabbits.txt");
+        /// <summary>
+        /// Сохраняет список кроликов в текстовый файл в формате CSV.
+        /// Если папка для данных не существует, создаёт её.
+        /// Если список пуст, файл не создаётся.
+        /// </summary>
         public static void SaveRabbitsToFile()
         {
             string directoryPath = Path.Combine(basePath, dataFolderName);
@@ -79,17 +37,22 @@ namespace Business_logic___rabbit
                 Directory.CreateDirectory(directoryPath);
             }
 
-            if (Rabbits.Count == 0) return;  // Если нет данных, ничего не пишем
+            if (Rabbits.Count == 0) return;
 
             var lines = Rabbits.Select(r => $"{r.Id},{r.Name},{r.Breed},{r.Age},{r.Weight}").ToArray();
             File.WriteAllLines(filePath, lines);
-            Console.WriteLine($"Файл сохранен по пути {filePath}");
         }
+
+
+        /// <summary>
+        /// Загружает список кроликов из текстового файла, очищая текущий список перед загрузкой.
+        /// Если файл не существует, создаёт пустой.
+        /// </summary>
         public static void LoadRabbitsFromFile()
         {
             if (!File.Exists(filePath))
             {
-                File.Create(filePath).Dispose();  // Создать и сразу закрыть файл
+                File.Create(filePath).Dispose();
             }
 
             Rabbits.Clear();
@@ -110,8 +73,10 @@ namespace Business_logic___rabbit
                     Rabbits.Add(rabbit);
                 }
             }
-        }// Метод для поиска пути к папке проекта, поднимаясь от текущей директории вверх
-        private static string FindProjectPath(string currentDir, string projectFolderName)
+        }
+
+        // Метод для поиска пути к папке проекта, поднимаясь от текущей директории вверх
+        private static string _FindProjectPath(string currentDir, string projectFolderName)
         {
             DirectoryInfo dir = new DirectoryInfo(currentDir);
 
@@ -121,14 +86,15 @@ namespace Business_logic___rabbit
                 {
                     return dir.FullName;
                 }
-                dir = dir.Parent;  // поднимаемся на папку выше
+                dir = dir.Parent;
             }
             return null;
         }
 
 
-        private static List<Rabbit> Rabbits = new List<Rabbit>();
 
+
+        private static List<Rabbit> Rabbits = new List<Rabbit>();
 
         /// <summary>
         /// Создает новый объект Rabbit с заданными параметрами и добавляет его в список.
@@ -147,7 +113,6 @@ namespace Business_logic___rabbit
                 return "такой id уже есть"; // возвращаем ошибку, если id не уникален
             }
 
-
             Rabbit rabbit = new Rabbit() { Age = age, Breed = breed, Id = id, Name = name, Weight = weight };
             Rabbits.Add(rabbit);
 
@@ -160,19 +125,19 @@ namespace Business_logic___rabbit
         /// </summary>
         /// <param name="id">Уникальный идентификатор кролика для удаления.</param>
         /// <returns> Возращявет string значение, чтобы уведомнить об завершении операции </returns> 
-        public static string RemoveRabbit(int id) //УЗНАТЬ КАК РЕШИТЬ ПРОБЛЕМУ С ЗАЩИТОЙ ДЛЯ ДУРАКОВ, + добавить поиск через имя
+        public static string RemoveRabbit(int id)
         {
 
-                Rabbit rabbitToRemove = Rabbits.Find(r => r.Id == id);
-                if (rabbitToRemove != null) // защита на случай отсутствия элемента
-                {
-                    Rabbits.Remove(rabbitToRemove);
-                    return "Заяц удален";
-                }
-                else
-                {
-                    return "Список пуст";
-                }
+            Rabbit rabbitToRemove = Rabbits.Find(r => r.Id == id);
+            if (rabbitToRemove != null) // защита на случай отсутствия элемента
+            {
+                Rabbits.Remove(rabbitToRemove);
+                return "Кролик удален";
+            }
+            else
+            {
+                return "Список пуст";
+            }
         }
 
         /// <summary>
@@ -183,12 +148,12 @@ namespace Business_logic___rabbit
         /// <returns> Возращявет string значение, чтобы дать описание кролика </returns> 
         public static string ReadRabbit(int id)
         {
-                Rabbit rabbit = Rabbits.Find(r => r.Id == id);
-                if (rabbit == null)
-                    return "Кролик с заданным Id не найден";
+            Rabbit rabbit = Rabbits.Find(r => r.Id == id);
+            if (rabbit == null)
+                return "Кролик с заданным Id не найден";
 
-                string text = "Имя: " + rabbit.Name + "\nВозраст: " + rabbit.Age + "\nВес: " + rabbit.Weight + "\nПорода: " + rabbit.Breed;
-                return text;
+            string text = "Имя: " + rabbit.Name + "\nВозраст: " + rabbit.Age + "\nВес: " + rabbit.Weight + "\nПорода: " + rabbit.Breed;
+            return text;
         }
 
         /// <summary>
@@ -253,7 +218,7 @@ namespace Business_logic___rabbit
         /// </param>
         /// <param name="ascending">Направление сортировки: true - по возрастанию, false - по убыванию.</param>
         public static void SortRabbits(int sortField, bool ascending)
-        { 
+        {
             switch (sortField)
             {
                 case 1: // Id
@@ -287,11 +252,13 @@ namespace Business_logic___rabbit
         /// </summary>
         public static string AddRandomRabbit()
         {
-            string[] names = { "Пушок", "Снежинка", "Игнат", "Ибрагим", "Ма-му-ма-ба", "Кастет", "Энцегорловье","Доминико дэ-ко-ко", "Эй-эй-эй", "La lepre che salta in alto" };
+            string[] names = { "Пушок", "Снежинка", "Игнат", "Ибрагим", "Ма-му-ма-ба", "Кастет", "Энцегорловье", "Доминико дэ-ко-ко", "Эй-эй-эй", "La lepre che salta in alto" };
             string[] breeds = { "Беляк", "Русак", "Толай", "Маньжурский", "Оранжевый" };
 
             string name = names[_rnd.Next(names.Length)];  // случайное имя из списка
-            int id  = _rnd.Next(1, 1000); // id от 1 до 999
+            int id = _rnd.Next(1, 1000); // id от 1 до 999
+
+            int count = 0, C = 0;
             while (true)
             {
                 if (!Rabbits.Exists(r => r.Id == id))
@@ -299,10 +266,14 @@ namespace Business_logic___rabbit
                     break;
                 }
                 id = _rnd.Next(1, 1000); // id от 1 до 999
+                count++;
+                if (count > 999) { C++; id = count + C; break; }
             }
+
+
             Rabbit randomRabbit = new Rabbit
             {
-                Id = id,                  
+                Id = id,
                 Name = name,
                 Breed = breeds[_rnd.Next(breeds.Length)],    // случайная порода из списка
                 Age = _rnd.Next(1, 14),  // от 1 до 14                    
@@ -310,24 +281,7 @@ namespace Business_logic___rabbit
             };
 
             Rabbits.Add(randomRabbit);
-            return "Рандомный кролик: " + name+ " был создан с id: " + id;
-        }
-
-        // ШЛАК!
-        /// <summary>
-        /// Поиск id кролика из списка.
-        /// </summary>
-        /// <param name="index"> Индекс списка по его порядковому номеру (сугубо для WinFowrms). Если такого показателя нет то возвращает 0 </param>
-        public int GetRabbitIdByIndex(int index)
-        {
-            if (index >= 0 && index < Rabbits.Count)
-            {
-                return Rabbits[index].Id; // возвращаем id кролика по индексу
-            }
-            else
-            {
-                return 0;
-            }
+            return "Рандомный кролик: " + name + " был создан с id: " + id;
         }
 
         /// <summary>
@@ -339,7 +293,7 @@ namespace Business_logic___rabbit
             string result = "";
             foreach (Rabbit rabbit in Rabbits)
             {
-                result += "Кролик: ID " + rabbit.Id + 
+                result += "Кролик: ID " + rabbit.Id +
                     " Имя: " + rabbit.Name +
                     " Вес: " + rabbit.Weight +
                     " Возраст: " + rabbit.Age +
@@ -348,6 +302,5 @@ namespace Business_logic___rabbit
             }
             return result;
         }
-
     }
 }
