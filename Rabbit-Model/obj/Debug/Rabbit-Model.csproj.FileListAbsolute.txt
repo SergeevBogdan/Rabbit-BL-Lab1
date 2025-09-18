@@ -1,0 +1,6 @@
+C:\Users\AceR\Desktop\teat_github\Business logic - rabbit\Rabbit-Model\bin\Debug\Rabbit-Model.dll
+C:\Users\AceR\Desktop\teat_github\Business logic - rabbit\Rabbit-Model\bin\Debug\Rabbit-Model.pdb
+C:\Users\AceR\Desktop\teat_github\Business logic - rabbit\Rabbit-Model\obj\Debug\Rabbit-Model.csproj.AssemblyReference.cache
+C:\Users\AceR\Desktop\teat_github\Business logic - rabbit\Rabbit-Model\obj\Debug\Rabbit-Model.csproj.CoreCompileInputs.cache
+C:\Users\AceR\Desktop\teat_github\Business logic - rabbit\Rabbit-Model\obj\Debug\Rabbit-Model.dll
+C:\Users\AceR\Desktop\teat_github\Business logic - rabbit\Rabbit-Model\obj\Debug\Rabbit-Model.pdb
