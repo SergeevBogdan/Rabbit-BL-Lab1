@@ -31,7 +31,7 @@ namespace Console_Rabbit
                 Console.WriteLine(text);
                 string inputPos = Console.ReadLine();
 
-                if (string.IsNullOrEmpty(inputPos) || !int.TryParse(inputPos, out position))
+                if (string.IsNullOrEmpty(inputPos) || !int.TryParse(inputPos, out position))//2
                 {
                     Console.Clear();
                     continue;
