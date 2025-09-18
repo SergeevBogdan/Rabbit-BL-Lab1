@@ -107,7 +107,7 @@
             // 
             this.btnAdd.Location = new System.Drawing.Point(420, 230);
             this.btnAdd.Name = "btnAdd";
-            this.btnAdd.Size = new System.Drawing.Size(75, 23);
+            this.btnAdd.Size = new System.Drawing.Size(100, 23);
             this.btnAdd.TabIndex = 11;
             this.btnAdd.Text = "Добавить";
             this.btnAdd.Click += new System.EventHandler(this.btnAdd_Click);
@@ -116,7 +116,7 @@
             // 
             this.btnRemove.Location = new System.Drawing.Point(420, 260);
             this.btnRemove.Name = "btnRemove";
-            this.btnRemove.Size = new System.Drawing.Size(75, 23);
+            this.btnRemove.Size = new System.Drawing.Size(100, 23);
             this.btnRemove.TabIndex = 12;
             this.btnRemove.Text = "Удалить";
             this.btnRemove.Click += new System.EventHandler(this.btnRemove_Click);
@@ -125,7 +125,7 @@
             // 
             this.btnView.Location = new System.Drawing.Point(420, 290);
             this.btnView.Name = "btnView";
-            this.btnView.Size = new System.Drawing.Size(75, 23);
+            this.btnView.Size = new System.Drawing.Size(100, 23);
             this.btnView.TabIndex = 13;
             this.btnView.Text = "Просмотреть";
             this.btnView.Click += new System.EventHandler(this.btnView_Click);
@@ -134,7 +134,7 @@
             // 
             this.btnEdit.Location = new System.Drawing.Point(420, 320);
             this.btnEdit.Name = "btnEdit";
-            this.btnEdit.Size = new System.Drawing.Size(75, 23);
+            this.btnEdit.Size = new System.Drawing.Size(100, 23);
             this.btnEdit.TabIndex = 14;
             this.btnEdit.Text = "Редактировать";
             this.btnEdit.Click += new System.EventHandler(this.btnEdit_Click);
@@ -143,34 +143,34 @@
             // 
             this.btnUpdate.Location = new System.Drawing.Point(420, 350);
             this.btnUpdate.Name = "btnUpdate";
-            this.btnUpdate.Size = new System.Drawing.Size(75, 23);
+            this.btnUpdate.Size = new System.Drawing.Size(100, 23);
             this.btnUpdate.TabIndex = 15;
             this.btnUpdate.Text = "Обновить";
             this.btnUpdate.Click += new System.EventHandler(this.btnUpdate_Click);
             // 
             // btnAverageAge
             // 
-            this.btnAverageAge.Location = new System.Drawing.Point(10, 20);
+            this.btnAverageAge.Location = new System.Drawing.Point(6, 19);
             this.btnAverageAge.Name = "btnAverageAge";
-            this.btnAverageAge.Size = new System.Drawing.Size(75, 23);
+            this.btnAverageAge.Size = new System.Drawing.Size(104, 23);
             this.btnAverageAge.TabIndex = 0;
             this.btnAverageAge.Text = "Средний возраст";
             this.btnAverageAge.Click += new System.EventHandler(this.btnAverageAge_Click);
             // 
             // btnAverageWeight
             // 
-            this.btnAverageWeight.Location = new System.Drawing.Point(10, 50);
+            this.btnAverageWeight.Location = new System.Drawing.Point(6, 48);
             this.btnAverageWeight.Name = "btnAverageWeight";
-            this.btnAverageWeight.Size = new System.Drawing.Size(75, 23);
+            this.btnAverageWeight.Size = new System.Drawing.Size(104, 23);
             this.btnAverageWeight.TabIndex = 1;
             this.btnAverageWeight.Text = "Средний вес";
             this.btnAverageWeight.Click += new System.EventHandler(this.btnAverageWeight_Click);
             // 
             // btnAddRandom
             // 
-            this.btnAddRandom.Location = new System.Drawing.Point(91, 19);
+            this.btnAddRandom.Location = new System.Drawing.Point(116, 19);
             this.btnAddRandom.Name = "btnAddRandom";
-            this.btnAddRandom.Size = new System.Drawing.Size(75, 23);
+            this.btnAddRandom.Size = new System.Drawing.Size(75, 52);
             this.btnAddRandom.TabIndex = 2;
             this.btnAddRandom.Text = "Случайный кролик";
             this.btnAddRandom.Click += new System.EventHandler(this.btnAddRandom_Click);
@@ -231,7 +231,7 @@
             // 
             this.btnClearFields.Location = new System.Drawing.Point(420, 380);
             this.btnClearFields.Name = "btnClearFields";
-            this.btnClearFields.Size = new System.Drawing.Size(75, 23);
+            this.btnClearFields.Size = new System.Drawing.Size(100, 23);
             this.btnClearFields.TabIndex = 16;
             this.btnClearFields.Text = "Очистить поля";
             this.btnClearFields.Click += new System.EventHandler(this.btnClearFields_Click);
@@ -270,7 +270,7 @@
             // 
             this.radioAscending.Location = new System.Drawing.Point(10, 70);
             this.radioAscending.Name = "radioAscending";
-            this.radioAscending.Size = new System.Drawing.Size(104, 24);
+            this.radioAscending.Size = new System.Drawing.Size(114, 24);
             this.radioAscending.TabIndex = 2;
             this.radioAscending.Text = "По возрастанию";
             // 
@@ -278,7 +278,7 @@
             // 
             this.radioDescending.Location = new System.Drawing.Point(10, 90);
             this.radioDescending.Name = "radioDescending";
-            this.radioDescending.Size = new System.Drawing.Size(104, 24);
+            this.radioDescending.Size = new System.Drawing.Size(100, 24);
             this.radioDescending.TabIndex = 3;
             this.radioDescending.Text = "По убыванию";
             // 
@@ -323,7 +323,7 @@
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.groupBox2);
             this.Name = "Form1";
-            this.Text = "Управление кроликами - WinForms";
+            this.Text = "Кролики";
             this.groupBox1.ResumeLayout(false);
             this.groupBox2.ResumeLayout(false);
             this.ResumeLayout(false);

@@ -76,7 +76,7 @@ namespace WF_Rabbit
                 int weight = int.Parse(txtWeight.Text);
                 string breed = txtBreed.Text;
 
-                string result = Logic.Add(id, name, age, weight, breed);
+                string result = Logic.AddRabbit(id, name, age, weight, breed);
                 
                 if (result == "Кролик успешно добавлен")
                 {
@@ -113,7 +113,7 @@ namespace WF_Rabbit
                     
                     if (result == DialogResult.Yes)
                     {
-                        string message = Logic.Remove(rabbitId);
+                        string message = Logic.RemoveRabbit(rabbitId);
                         MessageBox.Show(message);
                         RefreshRabbitList();
                     }
@@ -138,7 +138,7 @@ namespace WF_Rabbit
                 
                 if (int.TryParse(selectedItem.Substring(startIndex, endIndex - startIndex), out int rabbitId))
                 {
-                    string rabbitInfo = Logic.Read(rabbitId);
+                    string rabbitInfo = Logic.ReadRabbit(rabbitId);
                     MessageBox.Show(rabbitInfo, "Информация о кролике");
                 }
             }
@@ -162,7 +162,7 @@ namespace WF_Rabbit
                 if (int.TryParse(selectedItem.Substring(startIndex, endIndex - startIndex), out int rabbitId))
                 {
                     // Загружаем данные выбранного кролика в поля для редактирования
-                    string rabbitInfo = Logic.Read(rabbitId);
+                    string rabbitInfo = Logic.ReadRabbit(rabbitId);
                     string[] lines = rabbitInfo.Split('\n');
                     
                     foreach (string line in lines)
@@ -200,7 +200,7 @@ namespace WF_Rabbit
                 int weight = int.Parse(txtWeight.Text);
                 string breed = txtBreed.Text;
 
-                Logic.Change(id, name, age, weight, breed);
+                Logic.ChangeStatRabbit(id, name, age, weight, breed);
                 MessageBox.Show("Данные кролика обновлены", "Успех");
                 ClearInputFields();
                 RefreshRabbitList();
@@ -225,7 +225,7 @@ namespace WF_Rabbit
 
         private void btnAddRandom_Click(object sender, EventArgs e)
         {
-            string message = Logic.Random_rabbit_add();
+            string message = Logic.AddRandomRabbit();
             MessageBox.Show(message);
             RefreshRabbitList();
         }
@@ -235,7 +235,7 @@ namespace WF_Rabbit
             int field = comboBoxFilterField.SelectedIndex + 1;
             bool direction = radioAscending.Checked;
             
-            Logic.Filter(field, direction);
+            Logic.SortRabbits(field, direction);
             MessageBox.Show("Фильтр применен", "Успех");
             RefreshRabbitList();
         }

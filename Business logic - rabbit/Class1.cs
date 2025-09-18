@@ -65,12 +65,10 @@ namespace Business_logic___rabbit
 
         */
 
+        // Метод для поиска пути к папке проекта, поднимаясь от текущей директории вверх
         private static string dataFolderName = "Data";
-
-        private static string projectFolderName = "Business logic - rabbit";
-
+        private static string projectFolderName = "Rabbit-BL-Lab1";
         private static string basePath = FindProjectPath(Directory.GetCurrentDirectory(), projectFolderName);
-
         private static string filePath = Path.Combine(basePath ?? "", dataFolderName, "rabbits.txt");
         public static void SaveRabbitsToFile()
         {
@@ -87,8 +85,6 @@ namespace Business_logic___rabbit
             File.WriteAllLines(filePath, lines);
             Console.WriteLine($"Файл сохранен по пути {filePath}");
         }
-
-
         public static void LoadRabbitsFromFile()
         {
             if (!File.Exists(filePath))
@@ -114,9 +110,7 @@ namespace Business_logic___rabbit
                     Rabbits.Add(rabbit);
                 }
             }
-        }
-
-        // Метод для поиска пути к папке проекта, поднимаясь от текущей директории вверх
+        }// Метод для поиска пути к папке проекта, поднимаясь от текущей директории вверх
         private static string FindProjectPath(string currentDir, string projectFolderName)
         {
             DirectoryInfo dir = new DirectoryInfo(currentDir);
@@ -152,6 +146,7 @@ namespace Business_logic___rabbit
             {
                 return "такой id уже есть"; // возвращаем ошибку, если id не уникален
             }
+
 
             Rabbit rabbit = new Rabbit() { Age = age, Breed = breed, Id = id, Name = name, Weight = weight };
             Rabbits.Add(rabbit);
@@ -296,7 +291,15 @@ namespace Business_logic___rabbit
             string[] breeds = { "Беляк", "Русак", "Толай", "Маньжурский", "Оранжевый" };
 
             string name = names[_rnd.Next(names.Length)];  // случайное имя из списка
-            int id  = _rnd.Next(1, 1000); // id от 1 до 999    
+            int id  = _rnd.Next(1, 1000); // id от 1 до 999
+            while (true)
+            {
+                if (!Rabbits.Exists(r => r.Id == id))
+                {
+                    break;
+                }
+                id = _rnd.Next(1, 1000); // id от 1 до 999
+            }
             Rabbit randomRabbit = new Rabbit
             {
                 Id = id,                  
@@ -345,5 +348,6 @@ namespace Business_logic___rabbit
             }
             return result;
         }
+
     }
 }
