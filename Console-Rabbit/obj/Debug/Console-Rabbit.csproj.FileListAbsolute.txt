@@ -1,0 +1,11 @@
+C:\Users\AceR\Desktop\teat_github\Business logic - rabbit\Console-Rabbit\bin\Debug\Console-Rabbit.exe.config
+C:\Users\AceR\Desktop\teat_github\Business logic - rabbit\Console-Rabbit\bin\Debug\Console-Rabbit.exe
+C:\Users\AceR\Desktop\teat_github\Business logic - rabbit\Console-Rabbit\bin\Debug\Console-Rabbit.pdb
+C:\Users\AceR\Desktop\teat_github\Business logic - rabbit\Console-Rabbit\bin\Debug\Business logic - rabbit.dll
+C:\Users\AceR\Desktop\teat_github\Business logic - rabbit\Console-Rabbit\bin\Debug\Business logic - rabbit.pdb
+C:\Users\AceR\Desktop\teat_github\Business logic - rabbit\Console-Rabbit\obj\Debug\Console-Rabbit.csproj.AssemblyReference.cache
+C:\Users\AceR\Desktop\teat_github\Business logic - rabbit\Console-Rabbit\obj\Debug\Console-Rabbit.csproj.CoreCompileInputs.cache
+C:\Users\AceR\Desktop\teat_github\Business logic - rabbit\Console-Rabbit\obj\Debug\Console-.18CEF01B.Up2Date
+C:\Users\AceR\Desktop\teat_github\Business logic - rabbit\Console-Rabbit\obj\Debug\Console-Rabbit.exe
+C:\Users\AceR\Desktop\teat_github\Business logic - rabbit\Console-Rabbit\obj\Debug\Console-Rabbit.pdb
+C:\Users\AceR\Desktop\teat_github\Business logic - rabbit\Console-Rabbit\obj\Debug\Console-Rabbit.exe.config
