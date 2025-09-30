@@ -10,15 +10,6 @@ namespace Business_logic___rabbit
 
     public class Logic
     {
-        private class Rabbit
-        {
-            public int Id;
-            public string Name;
-            public string Breed;
-            public int Age;
-            public int Weight;
-        }
-
         private static string dataFolderName = "Data";
         private static string projectFolderName = "Rabbit-BL-Lab1";
         private static string basePath = _FindProjectPath(Directory.GetCurrentDirectory(), projectFolderName);
@@ -28,7 +19,7 @@ namespace Business_logic___rabbit
         /// Если папка для данных не существует, создаёт её.
         /// Если список пуст, файл не создаётся.
         /// </summary>
-        public static void SaveRabbitsToFile()
+        public void SaveRabbitsToFile()
         {
             string directoryPath = Path.Combine(basePath, dataFolderName);
 
@@ -48,7 +39,7 @@ namespace Business_logic___rabbit
         /// Загружает список кроликов из текстового файла, очищая текущий список перед загрузкой.
         /// Если файл не существует, создаёт пустой.
         /// </summary>
-        public static void LoadRabbitsFromFile()
+        public void LoadRabbitsFromFile()
         {
             if (!File.Exists(filePath))
             {
@@ -75,7 +66,7 @@ namespace Business_logic___rabbit
             }
         }
 
-        // Метод для поиска пути к папке проекта, поднимаясь от текущей директории вверх
+        
         private static string _FindProjectPath(string currentDir, string projectFolderName)
         {
             DirectoryInfo dir = new DirectoryInfo(currentDir);
@@ -105,18 +96,18 @@ namespace Business_logic___rabbit
         /// <param name="weight">Вес кролика.</param>
         /// <param name="breed">Порода кролика.</param>
         /// <returns> Возращявет string значение, чтобы уведомнить об завершении операции </returns> 
-        public static string AddRabbit(int id, string name, int age, int weight, string breed)
+        public string AddRabbit(int id, string name, int age, int weight, string breed)
         {
-            // Проверяем, есть ли уже кролик с таким id
+           
             if (Rabbits.Exists(r => r.Id == id))
             {
-                return "такой id уже есть"; // возвращаем ошибку, если id не уникален
+                return "такой id уже есть"; 
             }
 
             Rabbit rabbit = new Rabbit() { Age = age, Breed = breed, Id = id, Name = name, Weight = weight };
             Rabbits.Add(rabbit);
 
-            return "Кролик успешно добавлен"; // успешное добавление
+            return "Кролик успешно добавлен"; 
         }
 
 
@@ -125,11 +116,11 @@ namespace Business_logic___rabbit
         /// </summary>
         /// <param name="id">Уникальный идентификатор кролика для удаления.</param>
         /// <returns> Возращявет string значение, чтобы уведомнить об завершении операции </returns> 
-        public static string RemoveRabbit(int id)
+        public string RemoveRabbit(int id)
         {
 
             Rabbit rabbitToRemove = Rabbits.Find(r => r.Id == id);
-            if (rabbitToRemove != null) // защита на случай отсутствия элемента
+            if (rabbitToRemove != null) 
             {
                 Rabbits.Remove(rabbitToRemove);
                 return "Кролик удален";
@@ -146,7 +137,7 @@ namespace Business_logic___rabbit
         /// <param name="id">Идентификатор кролика для поиска.</param>
         /// <returns>Строка с информацией о кролике (имя, возраст, вес, порода) или сообщение о ненахождении кролика.</returns>
         /// <returns> Возращявет string значение, чтобы дать описание кролика </returns> 
-        public static string ReadRabbit(int id)
+        public string ReadRabbit(int id)
         {
             Rabbit rabbit = Rabbits.Find(r => r.Id == id);
             if (rabbit == null)
@@ -164,7 +155,7 @@ namespace Business_logic___rabbit
         /// <param name="age">Новый возраст кролика.</param>
         /// <param name="weight">Новый вес кролика.</param>
         /// <param name="breed">Новая порода кролика.</param>
-        public static void ChangeStatRabbit(int id, string name, int age, int weight, string breed) //ЗАЩИТА ЕСЛИ ОДНОГО И БОЛЕЕ ПОКАЗАТЕЛЯ НЕТ - UI
+        public void ChangeStatRabbit(int id, string name, int age, int weight, string breed)
         {
             int index = Rabbits.FindIndex(r => r.Id == id);
             if (index >= 0)
@@ -181,7 +172,7 @@ namespace Business_logic___rabbit
         /// Рассчитывает средний возраст кроликов в списке.
         /// </summary>
         /// <returns>Средний возраст кроликов как число с плавающей точкой.</returns>
-        public static double GetAverageAge()
+        public double GetAverageAge()
         {
             if (Rabbits.Count != 0)
             {
@@ -194,7 +185,7 @@ namespace Business_logic___rabbit
         /// Рассчитывает средний вес кроликов в списке.
         /// </summary>
         /// <returns>Средний вес кроликов как число с плавающей точкой.</returns>
-        public static double GetAverageWeight()//ЗАЩИТА  ЕСЛИ КРОЛИКОВ НЕТ
+        public double GetAverageWeight()
         {
             if (Rabbits.Count != 0)
             {
@@ -204,7 +195,6 @@ namespace Business_logic___rabbit
         }
 
 
-        //Список по фильтрации с опред параметром, сделать аналогию для консоли и для FW
         /// <summary>
         /// Сортирует список кроликов по выбранному полю и направлению.
         /// </summary>
@@ -217,7 +207,7 @@ namespace Business_logic___rabbit
         /// 5 - Weight.
         /// </param>
         /// <param name="ascending">Направление сортировки: true - по возрастанию, false - по убыванию.</param>
-        public static void SortRabbits(int sortField, bool ascending)
+        public void SortRabbits(int sortField, bool ascending)
         {
             switch (sortField)
             {
@@ -250,7 +240,7 @@ namespace Business_logic___rabbit
         /// <summary>
         /// СОздает рандомного кролика и добавляет его в список.
         /// </summary>
-        public static string AddRandomRabbit()
+        public string AddRandomRabbit()
         {
             string[] names = { "Пушок", "Снежинка", "Игнат", "Ибрагим", "Ма-му-ма-ба", "Кастет", "Энцегорловье", "Доминико дэ-ко-ко", "Эй-эй-эй", "La lepre che salta in alto" };
             string[] breeds = { "Беляк", "Русак", "Толай", "Маньжурский", "Оранжевый" };
@@ -288,7 +278,7 @@ namespace Business_logic___rabbit
         /// Показывает всех кроликов из списка. Если до этого был измене по фильтру, то показывает с фильтром.
         /// </summary>
         /// <returns> Возвращает string значение, для вывода всех кроликов</returns>
-        public static string ShowAllRabbits()
+        public string ShowAllRabbits()
         {
             string result = "";
             foreach (Rabbit rabbit in Rabbits)

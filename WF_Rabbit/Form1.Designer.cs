@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.listBoxRabbits = new System.Windows.Forms.ListBox();
             this.txtId = new System.Windows.Forms.TextBox();
             this.txtName = new System.Windows.Forms.TextBox();
             this.txtAge = new System.Windows.Forms.TextBox();
@@ -54,20 +53,13 @@
             this.radioAscending = new System.Windows.Forms.RadioButton();
             this.radioDescending = new System.Windows.Forms.RadioButton();
             this.btnApplyFilter = new System.Windows.Forms.Button();
-            this.btnClearFilter = new System.Windows.Forms.Button();
             this.btnSave = new System.Windows.Forms.Button();
             this.comboBoxBreed = new System.Windows.Forms.ComboBox();
+            this.dataGridViewRabbits = new System.Windows.Forms.DataGridView();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewRabbits)).BeginInit();
             this.SuspendLayout();
-            // 
-            // listBoxRabbits
-            // 
-            this.listBoxRabbits.FormattingEnabled = true;
-            this.listBoxRabbits.Location = new System.Drawing.Point(12, 12);
-            this.listBoxRabbits.Name = "listBoxRabbits";
-            this.listBoxRabbits.Size = new System.Drawing.Size(400, 394);
-            this.listBoxRabbits.TabIndex = 0;
             // 
             // txtId
             // 
@@ -237,7 +229,6 @@
             this.groupBox2.Controls.Add(this.radioAscending);
             this.groupBox2.Controls.Add(this.radioDescending);
             this.groupBox2.Controls.Add(this.btnApplyFilter);
-            this.groupBox2.Controls.Add(this.btnClearFilter);
             this.groupBox2.Location = new System.Drawing.Point(580, 120);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(200, 150);
@@ -285,15 +276,6 @@
             this.btnApplyFilter.Text = "Применить фильтр";
             this.btnApplyFilter.Click += new System.EventHandler(this.btnApplyFilter_Click);
             // 
-            // btnClearFilter
-            // 
-            this.btnClearFilter.Location = new System.Drawing.Point(120, 120);
-            this.btnClearFilter.Name = "btnClearFilter";
-            this.btnClearFilter.Size = new System.Drawing.Size(75, 23);
-            this.btnClearFilter.TabIndex = 5;
-            this.btnClearFilter.Text = "Сбросить";
-            this.btnClearFilter.Click += new System.EventHandler(this.btnClearFilter_Click);
-            // 
             // btnSave
             // 
             this.btnSave.Location = new System.Drawing.Point(420, 409);
@@ -313,13 +295,31 @@
             this.comboBoxBreed.TabIndex = 20;
             this.comboBoxBreed.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
             // 
+            // dataGridViewRabbits
+            // 
+            this.dataGridViewRabbits.AllowUserToAddRows = false;
+            this.dataGridViewRabbits.AllowUserToDeleteRows = false;
+            this.dataGridViewRabbits.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.dataGridViewRabbits.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.dataGridViewRabbits.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridViewRabbits.Location = new System.Drawing.Point(12, 12);
+            this.dataGridViewRabbits.Name = "dataGridViewRabbits";
+            this.dataGridViewRabbits.ReadOnly = true;
+            this.dataGridViewRabbits.RowHeadersVisible = false;
+            this.dataGridViewRabbits.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dataGridViewRabbits.Size = new System.Drawing.Size(400, 394);
+            this.dataGridViewRabbits.TabIndex = 0;
+            this.dataGridViewRabbits.SelectionChanged += new System.EventHandler(this.dataGridViewRabbits_SelectionChanged);
+            // 
             // Form1
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
             this.ClientSize = new System.Drawing.Size(800, 464);
+            this.Controls.Add(this.dataGridViewRabbits);
             this.Controls.Add(this.comboBoxBreed);
             this.Controls.Add(this.btnSave);
-            this.Controls.Add(this.listBoxRabbits);
             this.Controls.Add(this.txtId);
             this.Controls.Add(this.txtName);
             this.Controls.Add(this.txtAge);
@@ -342,12 +342,11 @@
             this.Text = "Кролики";
             this.groupBox1.ResumeLayout(false);
             this.groupBox2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewRabbits)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
         }
-
-        private System.Windows.Forms.ListBox listBoxRabbits;
         private System.Windows.Forms.TextBox txtId;
         private System.Windows.Forms.TextBox txtName;
         private System.Windows.Forms.TextBox txtAge;
@@ -372,11 +371,11 @@
         private System.Windows.Forms.RadioButton radioAscending;
         private System.Windows.Forms.RadioButton radioDescending;
         private System.Windows.Forms.Button btnApplyFilter;
-        private System.Windows.Forms.Button btnClearFilter;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Button btnSave;
         private System.Windows.Forms.ComboBox comboBoxBreed;
-    }//не работает 
+        private System.Windows.Forms.DataGridView dataGridViewRabbits;
+    }
 }
 
 

@@ -18,11 +18,12 @@ namespace Console_Rabbit
             string name, result;
             string[] breeds = { "Беляк", "Русак", "Толай", "Маньжурский", "Оранжевый" };
             Logic logic = new Logic();
+    
 
-            Logic.SaveRabbitsToFile();
-            Logic.LoadRabbitsFromFile();
+            logic.SaveRabbitsToFile();
+            logic.LoadRabbitsFromFile();
+            string show = logic.ShowAllRabbits();
 
-            //TODO Сделать оформление
             string text = " Выберите опцию: " +
                 "\n 1. Создать кролика" +
                 "\n 2. Удалить кролика " +
@@ -111,7 +112,7 @@ namespace Console_Rabbit
 
                         string breed = breeds[breedChoice - 1];
 
-                        result = Logic.AddRabbit(id, name, age, weight, breed);
+                        result = logic.AddRabbit(id, name, age, weight, breed);
                         Console.WriteLine(result);
                         Console.WriteLine("Нажмите любую клавишу...");
                         Console.ReadKey();
@@ -119,6 +120,7 @@ namespace Console_Rabbit
                         break;
                     case 2:
                         int idToRemove;
+                        Console.WriteLine(show);
                         while (true)
                         {
                             Console.WriteLine("Введите id кролика для удаления:");
@@ -133,7 +135,7 @@ namespace Console_Rabbit
 
                         }
 
-                        result = Logic.RemoveRabbit(idToRemove);
+                        result = logic.RemoveRabbit(idToRemove);
                         Console.WriteLine(result);
                         Console.WriteLine("Нажмите любую клавишу...");
                         Console.ReadKey();
@@ -141,6 +143,7 @@ namespace Console_Rabbit
                         break;
                     case 3:
                         int idToRead;
+                        Console.WriteLine(show);
                         while (true)
                         {
                             Console.WriteLine("Введите id кролика для чтения:");
@@ -154,14 +157,14 @@ namespace Console_Rabbit
                             break;
                         }
 
-                        string output = Logic.ReadRabbit(idToRead);
+                        string output = logic.ReadRabbit(idToRead);
                         Console.WriteLine(output);
                         Console.WriteLine("Нажмите любую клавишу...");
                         Console.ReadKey();
                         Console.Clear();
                         break;
                     case 4:
-
+                        Console.WriteLine(show);
                         while (true)
                         {
                             Console.WriteLine("Введите id кролика для изменения (не изменяется):");
@@ -229,36 +232,35 @@ namespace Console_Rabbit
 
                         string breed1 = breeds[breedChoice - 1];
 
-                        Logic.ChangeStatRabbit(id, name, age, weight, breed1);
+                        logic.ChangeStatRabbit(id, name, age, weight, breed1);
                         Console.WriteLine("Кролик изменён");
                         Console.WriteLine("Нажмите любую клавишу...");
                         Console.ReadKey();
                         Console.Clear();
                         break;
                     case 5:
-                        double ages = Logic.GetAverageAge();
+                        double ages = logic.GetAverageAge();
                         Console.WriteLine("Средний возраст кроликов: " + ages);
                         Console.WriteLine("Нажмите любую клавишу...");
                         Console.ReadKey();
                         Console.Clear();
                         break;
                     case 6:
-                        double weights = Logic.GetAverageWeight();
+                        double weights = logic.GetAverageWeight();
                         Console.WriteLine("Средний вес кроликов: " + weights);
                         Console.WriteLine("Нажмите любую клавишу...");
                         Console.ReadKey();
                         Console.Clear();
                         break;
                     case 7:
-                        string RandomRabit = Logic.AddRandomRabbit();
+                        string RandomRabit = logic.AddRandomRabbit();
                         Console.WriteLine(RandomRabit);
                         Console.WriteLine("Нажмите любую клавишу...");
                         Console.ReadKey();
                         Console.Clear();
                         break;
                     case 8:
-                        string ShowAll = Logic.ShowAllRabbits();
-                        Console.WriteLine(ShowAll);
+                        Console.WriteLine(show);
                         Console.WriteLine("Нажмите любую клавишу...");
                         Console.ReadKey();
                         Console.Clear();
@@ -297,13 +299,13 @@ namespace Console_Rabbit
                                 Console.WriteLine("Введите 1 или 0");
                             }
                         }
-                        Logic.SortRabbits(sortField, direction);
+                        logic.SortRabbits(sortField, direction);
                         Console.WriteLine("Нажмите любую клавишу...");
                         Console.ReadKey();
                         Console.Clear();
                         break;
                     case 10:
-                        Logic.SaveRabbitsToFile();
+                        logic.SaveRabbitsToFile();
                         Console.WriteLine("Изменения успешно сохранены");
                         Console.WriteLine("Нажмите любую клавишу...");
                         Console.ReadKey();
@@ -312,7 +314,7 @@ namespace Console_Rabbit
                 }
             }
 
-            Logic.SaveRabbitsToFile();
+            logic.SaveRabbitsToFile();
         }
     }
 }
