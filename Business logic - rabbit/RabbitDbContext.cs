@@ -9,27 +9,20 @@ using System.Threading.Tasks;
 namespace Business_logic___rabbit
 {
     public class RabbitDbContext : DbContext
-    { 
-        public RabbitDbContext() : base(GetConnectionString())
+    {
+        public RabbitDbContext() : base("RabbitDbConnection")
         {
-            Database.SetInitializer<RabbitDbContext>(null);
+            // Включаем ленивую загрузку и создание базы если не существует
+            Configuration.LazyLoadingEnabled = false;
+            Database.SetInitializer(new CreateDatabaseIfNotExists<RabbitDbContext>());
         }
 
         public DbSet<Rabbit> Rabbits { get; set; }
 
-        private static string GetConnectionString()
-        {
-            string basePath = Directory.GetCurrentDirectory();
-            string dbPath = Path.Combine(basePath, "Database1.mdf");
-            return $@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename={dbPath};Integrated Security=True";
-        }
-
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
-            // МИНИМАЛЬНАЯ КОНФИГУРАЦИЯ - только таблица и ключ
+            // Минимальная конфигурация - EF сам создаст таблицу по атрибутам
             modelBuilder.Entity<Rabbit>().ToTable("Rabbits");
-            modelBuilder.Entity<Rabbit>().HasKey(r => r.Id);
-
             base.OnModelCreating(modelBuilder);
         }
     }

@@ -11,7 +11,6 @@ namespace Business_logic___rabbit
     using System;
     using System.Collections.Generic;
     using System.Linq;
-
     public class Logic
     {
         private IRepository<Rabbit> _repository;
@@ -28,11 +27,14 @@ namespace Business_logic___rabbit
                     var context = new RabbitDbContext();
                     _repository = new EntityRepository<Rabbit>(context);
                     _technology = "Entity Framework";
-                    Console.WriteLine("✅ Entity Framework готов");
+
+                    // Тестовый запрос для проверки
+                    var testData = _repository.ReadAll();
+                    Console.WriteLine($"✅ Entity Framework готов! Записей в базе: {testData.Count()}");
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine($"❌ EF не работает: {ex.Message}");
+                    Console.WriteLine($"❌ Entity Framework не работает: {ex.Message}");
                     Console.WriteLine("🔄 Переключаемся на Dapper...");
                     _repository = new DapperRepository<Rabbit>();
                     _technology = "Dapper";
@@ -42,7 +44,7 @@ namespace Business_logic___rabbit
             {
                 _repository = new DapperRepository<Rabbit>();
                 _technology = "Dapper";
-                Console.WriteLine("✅ Dapper готов");
+                Console.WriteLine("✅ Dapper инициализирован");
             }
 
             Console.WriteLine($"📊 Используется: {_technology}");
@@ -55,131 +57,197 @@ namespace Business_logic___rabbit
 
         public string AddRabbit(int id, string name, int age, int weight, string breed)
         {
-            var existing = _repository.ReadById(id);
-            if (existing != null)
-                return "такой id уже есть";
+            try
+            {
+                var existing = _repository.ReadById(id);
+                if (existing != null)
+                    return "такой id уже есть";
 
-            var rabbit = new Rabbit { Id = id, Name = name, Age = age, Weight = weight, Breed = breed };
-            _repository.Add(rabbit);
-            return "Кролик успешно добавлен";
+                var rabbit = new Rabbit { Id = id, Name = name, Age = age, Weight = weight, Breed = breed };
+                _repository.Add(rabbit);
+                return "Кролик успешно добавлен";
+            }
+            catch (Exception ex)
+            {
+                return $"Ошибка при добавлении: {ex.Message}";
+            }
         }
 
         public string RemoveRabbit(int id)
         {
-            var rabbit = _repository.ReadById(id);
-            if (rabbit != null)
+            try
             {
-                _repository.Delete(rabbit);
-                return "Кролик удален";
+                var rabbit = _repository.ReadById(id);
+                if (rabbit != null)
+                {
+                    _repository.Delete(rabbit);
+                    return "Кролик удален";
+                }
+                return "Кролик не найден";
             }
-            return "Кролик не найден";
+            catch (Exception ex)
+            {
+                return $"Ошибка при удалении: {ex.Message}";
+            }
         }
 
         public string ReadRabbit(int id)
         {
-            var rabbit = _repository.ReadById(id);
-            if (rabbit == null)
-                return "Кролик с заданным Id не найден";
+            try
+            {
+                var rabbit = _repository.ReadById(id);
+                if (rabbit == null)
+                    return "Кролик с заданным Id не найден";
 
-            return $"Имя: {rabbit.Name}\nВозраст: {rabbit.Age}\nВес: {rabbit.Weight}\nПорода: {rabbit.Breed}";
+                return $"Имя: {rabbit.Name}\nВозраст: {rabbit.Age}\nВес: {rabbit.Weight}\nПорода: {rabbit.Breed}";
+            }
+            catch (Exception ex)
+            {
+                return $"Ошибка при чтении: {ex.Message}";
+            }
         }
 
         public void ChangeStatRabbit(int id, string name, int age, int weight, string breed)
         {
-            var rabbit = _repository.ReadById(id);
-            if (rabbit != null)
+            try
             {
-                rabbit.Name = name;
-                rabbit.Age = age;
-                rabbit.Weight = weight;
-                rabbit.Breed = breed;
-                _repository.Update(rabbit);
+                var rabbit = _repository.ReadById(id);
+                if (rabbit != null)
+                {
+                    rabbit.Name = name;
+                    rabbit.Age = age;
+                    rabbit.Weight = weight;
+                    rabbit.Breed = breed;
+                    _repository.Update(rabbit);
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Ошибка при изменении: {ex.Message}");
             }
         }
 
         public double GetAverageAge()
         {
-            var rabbits = _repository.ReadAll().ToList();
-            // ИСПРАВЛЕНО: Count() с круглыми скобками
-            if (rabbits.Count() != 0)
+            try
             {
-                return rabbits.Average(r => r.Age);
+                var rabbits = _repository.ReadAll().ToList();
+                if (rabbits.Count() != 0)
+                {
+                    return rabbits.Average(r => r.Age);
+                }
+                return 0;
             }
-            return 0;
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Ошибка при расчете среднего возраста: {ex.Message}");
+                return 0;
+            }
         }
 
         public double GetAverageWeight()
         {
-            var rabbits = _repository.ReadAll().ToList();
-            // ИСПРАВЛЕНО: Count() с круглыми скобками
-            if (rabbits.Count() != 0)
+            try
             {
-                return rabbits.Average(r => r.Weight);
+                var rabbits = _repository.ReadAll().ToList();
+                if (rabbits.Count() != 0)
+                {
+                    return rabbits.Average(r => r.Weight);
+                }
+                return 0;
             }
-            return 0;
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Ошибка при расчете среднего веса: {ex.Message}");
+                return 0;
+            }
         }
 
         public string AddRandomRabbit()
         {
-            string[] names = { "Пушок", "Снежинка", "Игнат", "Ибрагим", "Ма-му-ма-ба", "Кастет", "Энцегорловье", "Доминико дэ-ко-ко", "Эй-эй-эй", "La lepre che salta in alto" };
-            string[] breeds = { "Беляк", "Русак", "Толай", "Маньжурский", "Оранжевый" };
-
-            string name = names[_rnd.Next(names.Length)];
-            int id = _rnd.Next(1, 1000);
-
-            // Проверяем уникальность ID
-            int count = 0;
-            while (_repository.ReadById(id) != null && count < 1000)
+            try
             {
-                id = _rnd.Next(1, 1000);
-                count++;
+                string[] names = { "Пушок", "Снежинка", "Игнат", "Ибрагим", "Ма-му-ма-ба", "Кастет", "Энцегорловье", "Доминико дэ-ко-ко", "Эй-эй-эй", "La lepre che salta in alto" };
+                string[] breeds = { "Беляк", "Русак", "Толай", "Маньжурский", "Оранжевый" };
+
+                string name = names[_rnd.Next(names.Length)];
+                int id = _rnd.Next(1, 1000);
+
+                int count = 0;
+                while (_repository.ReadById(id) != null && count < 1000)
+                {
+                    id = _rnd.Next(1, 1000);
+                    count++;
+                }
+
+                var randomRabbit = new Rabbit
+                {
+                    Id = id,
+                    Name = name,
+                    Breed = breeds[_rnd.Next(breeds.Length)],
+                    Age = _rnd.Next(1, 14),
+                    Weight = _rnd.Next(1, 15)
+                };
+
+                _repository.Add(randomRabbit);
+                return $"Рандомный кролик: {name} создан с id: {id}";
             }
-
-            var randomRabbit = new Rabbit
+            catch (Exception ex)
             {
-                Id = id,
-                Name = name,
-                Breed = breeds[_rnd.Next(breeds.Length)],
-                Age = _rnd.Next(1, 14),
-                Weight = _rnd.Next(1, 15)
-            };
-
-            _repository.Add(randomRabbit);
-            return $"Рандомный кролик: {name} создан с id: {id}";
+                return $"Ошибка при создании рандомного кролика: {ex.Message}";
+            }
         }
 
         public void SortRabbits(int sortField, bool ascending)
         {
-            var rabbits = _repository.ReadAll().ToList();
-
-            switch (sortField)
+            try
             {
-                case 1:
-                    rabbits = ascending ? rabbits.OrderBy(r => r.Id).ToList() : rabbits.OrderByDescending(r => r.Id).ToList();
-                    break;
-                case 2:
-                    rabbits = ascending ? rabbits.OrderBy(r => r.Name).ToList() : rabbits.OrderByDescending(r => r.Name).ToList();
-                    break;
-                case 3:
-                    rabbits = ascending ? rabbits.OrderBy(r => r.Breed).ToList() : rabbits.OrderByDescending(r => r.Breed).ToList();
-                    break;
-                case 4:
-                    rabbits = ascending ? rabbits.OrderBy(r => r.Age).ToList() : rabbits.OrderByDescending(r => r.Age).ToList();
-                    break;
-                case 5:
-                    rabbits = ascending ? rabbits.OrderBy(r => r.Weight).ToList() : rabbits.OrderByDescending(r => r.Weight).ToList();
-                    break;
-                default:
-                    break;
+                var rabbits = _repository.ReadAll().ToList();
+
+                List<Rabbit> sortedRabbits;
+
+                switch (sortField)
+                {
+                    case 1:
+                        sortedRabbits = ascending ?
+                            rabbits.OrderBy(r => r.Id).ToList() :
+                            rabbits.OrderByDescending(r => r.Id).ToList();
+                        break;
+                    case 2:
+                        sortedRabbits = ascending ?
+                            rabbits.OrderBy(r => r.Name).ToList() :
+                            rabbits.OrderByDescending(r => r.Name).ToList();
+                        break;
+                    case 3:
+                        sortedRabbits = ascending ?
+                            rabbits.OrderBy(r => r.Breed).ToList() :
+                            rabbits.OrderByDescending(r => r.Breed).ToList();
+                        break;
+                    case 4:
+                        sortedRabbits = ascending ?
+                            rabbits.OrderBy(r => r.Age).ToList() :
+                            rabbits.OrderByDescending(r => r.Age).ToList();
+                        break;
+                    case 5:
+                        sortedRabbits = ascending ?
+                            rabbits.OrderBy(r => r.Weight).ToList() :
+                            rabbits.OrderByDescending(r => r.Weight).ToList();
+                        break;
+                    default:
+                        sortedRabbits = rabbits;
+                        break;
+                }
+
+                Console.WriteLine("=== ОТСОРТИРОВАННЫЙ СПИСОК ===");
+                foreach (var rabbit in sortedRabbits)
+                {
+                    Console.WriteLine($"ID: {rabbit.Id} | Имя: {rabbit.Name} | Порода: {rabbit.Breed} | Возраст: {rabbit.Age} | Вес: {rabbit.Weight}");
+                }
             }
-
-            // Перезаписываем данные
-            var allRabbits = _repository.ReadAll().ToList();
-            foreach (var rabbit in allRabbits)
-                _repository.Delete(rabbit);
-
-            foreach (var rabbit in rabbits)
-                _repository.Add(rabbit);
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Ошибка при сортировке: {ex.Message}");
+            }
         }
 
         public string ShowAllRabbits()
@@ -188,7 +256,6 @@ namespace Business_logic___rabbit
             {
                 var rabbits = _repository.ReadAll();
 
-                // Проверяем, есть ли кролики
                 if (rabbits == null || !rabbits.Any())
                     return "Список кроликов пуст";
 

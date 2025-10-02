@@ -16,16 +16,18 @@ namespace Console_Rabbit
         static void Main(string[] args)
         {
             Console.WriteLine("=== СИСТЕМА УПРАВЛЕНИЯ КРОЛИКАМИ ===");
-            Console.WriteLine("Архитектура: Data Access Layer с EF и Dapper");
+            Console.WriteLine("Data Access Layer: EF + Dapper");
 
-            // Тестируем подключения
-            TestDatabaseConnections();
+            // Выбор технологии
+            bool useEntityFramework = ChooseTechnology();
+            var logic = new Logic(useEntityFramework);
 
-            Console.WriteLine("\nНажмите любую клавишу для запуска основного приложения...");
+            Console.WriteLine($"\n🚀 Запуск с: {logic.GetCurrentTechnology()}");
+            Console.WriteLine("Нажмите любую клавишу для продолжения...");
             Console.ReadKey();
             Console.Clear();
 
-            RunMainApplication();
+            RunMainMenu(logic);
         }
 
         static void TestDatabaseConnections()
@@ -80,12 +82,17 @@ namespace Console_Rabbit
 
         static void RunMainApplication()
         {
-            // Выбор технологии
-            bool useEntityFramework = ChooseTechnology();
-            var logic = new Logic(useEntityFramework);
+            // Простой выбор без сложной логики
+            Console.WriteLine("Выберите технологию:");
+            Console.WriteLine("1 - Dapper (рекомендуется)");
+            Console.WriteLine("2 - Entity Framework");
 
-            Console.WriteLine($"\n🚀 Запуск приложения с технологией: {logic.GetCurrentTechnology()}");
-            Console.WriteLine("Нажмите любую клавишу для продолжения...");
+            var choice = Console.ReadLine();
+            var useEF = choice == "2";
+
+            var logic = new Logic(useEF);
+
+            Console.WriteLine($"🚀 Запуск с: {logic.GetCurrentTechnology()}");
             Console.ReadKey();
             Console.Clear();
 
@@ -100,8 +107,7 @@ namespace Console_Rabbit
                 Console.WriteLine("=== ВЫБОР ТЕХНОЛОГИИ ДОСТУПА К ДАННЫМ ===");
                 Console.WriteLine("1 - Entity Framework (ORM)");
                 Console.WriteLine("2 - Dapper (Micro-ORM)");
-                Console.WriteLine("3 - Автоматический выбор");
-                Console.Write("\nВыберите опцию (1-3): ");
+                Console.Write("\nВыберите опцию (1-2): ");
 
                 var choice = Console.ReadLine();
                 switch (choice)
@@ -112,9 +118,6 @@ namespace Console_Rabbit
                     case "2":
                         Console.WriteLine("🎯 Выбран: Dapper");
                         return false;
-                    case "3":
-                        Console.WriteLine("🎯 Автоматический выбор...");
-                        return TryDetectBestTechnology();
                     default:
                         Console.WriteLine("❌ Неверный выбор! Попробуйте снова.");
                         Console.ReadKey();
@@ -123,7 +126,7 @@ namespace Console_Rabbit
             }
         }
 
-        static bool TryDetectBestTechnology()
+            static bool TryDetectBestTechnology()
         {
             try
             {
@@ -156,7 +159,7 @@ namespace Console_Rabbit
                     continue;
                 }
 
-                if (choice == 11) break;
+                if (choice == 10) break;
 
                 ProcessMenuChoice(choice, logic, breeds);
             }
@@ -198,7 +201,6 @@ namespace Console_Rabbit
                 case 7: AddRandomRabbitMenu(logic); break;
                 case 8: ShowAllRabbitsMenu(logic); break;
                 case 9: SortRabbitsMenu(logic); break;
-                case 10: ChangeTechnologyMenu(); break;
                 default: ShowError("Неверная опция!"); break;
             }
         }

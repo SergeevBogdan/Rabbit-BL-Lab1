@@ -16,7 +16,18 @@ namespace Business_logic___rabbit
         public EntityRepository(RabbitDbContext context)
         {
             _context = context;
-            Console.WriteLine("✅ EntityRepository создан");
+
+            try
+            {
+                // Создаем базу и таблицу если не существуют
+                _context.Database.CreateIfNotExists();
+                Console.WriteLine("✅ EF: База данных готова");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"❌ EF: Ошибка инициализации - {ex.Message}");
+                throw;
+            }
         }
 
         public void Add(T entity)
@@ -68,7 +79,7 @@ namespace Business_logic___rabbit
         {
             try
             {
-                var result = _context.Set<T>().FirstOrDefault(e => e.Id == id);
+                var result = _context.Set<T>().Find(id);
                 Console.WriteLine($"✅ Найден через EF ID {id}: {result != null}");
                 return result;
             }
@@ -83,7 +94,7 @@ namespace Business_logic___rabbit
         {
             try
             {
-                var existing = _context.Set<T>().Find(entity.Id);
+                var existing = _context.Set<T>().Find((entity as Rabbit).Id);
                 if (existing != null)
                 {
                     _context.Entry(existing).CurrentValues.SetValues(entity);

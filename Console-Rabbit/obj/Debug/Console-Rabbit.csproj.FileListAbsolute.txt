@@ -28,16 +28,10 @@ C:\Users\AceR\Desktop\Rabbit-Lab - 4\Console-Rabbit\bin\Debug\Console-Rabbit.pdb
 C:\Users\AceR\Desktop\Rabbit-Lab - 4\Console-Rabbit\bin\Debug\Business logic - rabbit.dll
 C:\Users\AceR\Desktop\Rabbit-Lab - 4\Console-Rabbit\bin\Debug\EntityFramework.dll
 C:\Users\AceR\Desktop\Rabbit-Lab - 4\Console-Rabbit\bin\Debug\Dapper.dll
-C:\Users\AceR\Desktop\Rabbit-Lab - 4\Console-Rabbit\bin\Debug\Microsoft.Bcl.AsyncInterfaces.dll
-C:\Users\AceR\Desktop\Rabbit-Lab - 4\Console-Rabbit\bin\Debug\System.Threading.Tasks.Extensions.dll
-C:\Users\AceR\Desktop\Rabbit-Lab - 4\Console-Rabbit\bin\Debug\System.Runtime.CompilerServices.Unsafe.dll
 C:\Users\AceR\Desktop\Rabbit-Lab - 4\Console-Rabbit\bin\Debug\Business logic - rabbit.pdb
 C:\Users\AceR\Desktop\Rabbit-Lab - 4\Console-Rabbit\bin\Debug\Business logic - rabbit.dll.config
 C:\Users\AceR\Desktop\Rabbit-Lab - 4\Console-Rabbit\bin\Debug\EntityFramework.xml
 C:\Users\AceR\Desktop\Rabbit-Lab - 4\Console-Rabbit\bin\Debug\Dapper.xml
-C:\Users\AceR\Desktop\Rabbit-Lab - 4\Console-Rabbit\bin\Debug\Microsoft.Bcl.AsyncInterfaces.xml
-C:\Users\AceR\Desktop\Rabbit-Lab - 4\Console-Rabbit\bin\Debug\System.Threading.Tasks.Extensions.xml
-C:\Users\AceR\Desktop\Rabbit-Lab - 4\Console-Rabbit\bin\Debug\System.Runtime.CompilerServices.Unsafe.xml
 C:\Users\AceR\Desktop\Rabbit-Lab - 4\Console-Rabbit\obj\Debug\Console-Rabbit.csproj.AssemblyReference.cache
 C:\Users\AceR\Desktop\Rabbit-Lab - 4\Console-Rabbit\obj\Debug\Console-Rabbit.exe.config
 C:\Users\AceR\Desktop\Rabbit-Lab - 4\Console-Rabbit\obj\Debug\Console-Rabbit.csproj.CoreCompileInputs.cache
