@@ -21,24 +21,11 @@ namespace Business_logic___rabbit
         {
             try
             {
-                // Способ 1: Через ConfigurationManager с проверкой
-                var connectionStringSettings = System.Configuration.ConfigurationManager.ConnectionStrings["RabbitDbConnection"];
+                string basePath = Directory.GetCurrentDirectory();
+                string dbPath = Path.Combine(basePath, "Database1.mdf");
+                _connectionString = $@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename={dbPath};Integrated Security=True";
 
-                if (connectionStringSettings == null)
-                {
-                    Console.WriteLine("❌ Connection string не найден в App.config, используем fallback...");
-                    // Способ 2: Fallback - создаем строку вручную
-                    string basePath = Directory.GetCurrentDirectory();
-                    string dbPath = Path.Combine(basePath, "Database1.mdf");
-                    _connectionString = $@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename={dbPath};Integrated Security=True";
-                }
-                else
-                {
-                    _connectionString = connectionStringSettings.ConnectionString;
-                    Console.WriteLine("✅ Connection string загружен из App.config");
-                }
-
-                Console.WriteLine($"📁 Путь к базе: {_connectionString}");
+                Console.WriteLine($"📁 База данных: {dbPath}");
                 EnsureTableExists();
             }
             catch (Exception ex)
@@ -54,6 +41,7 @@ namespace Business_logic___rabbit
             {
                 using (var db = new SqlConnection(_connectionString))
                 {
+                    db.Open();
                     var tableExists = db.ExecuteScalar<int>(
                         "SELECT COUNT(*) FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = 'Rabbits'");
 
@@ -83,54 +71,135 @@ namespace Business_logic___rabbit
             }
         }
 
-        // Остальные методы без изменений...
         public void Add(T entity)
         {
-            using (var db = new SqlConnection(_connectionString))
+            try
             {
-                var sql = "INSERT INTO Rabbits (Id, Name, Breed, Age, Weight) VALUES (@Id, @Name, @Breed, @Age, @Weight)";
-                db.Execute(sql, entity);
-                Console.WriteLine($"✅ Добавлено через Dapper: {entity.Id}");
+                using (var db = new SqlConnection(_connectionString))
+                {
+                    db.Open();
+                    var rabbit = entity as Rabbit;
+                    if (rabbit == null) throw new ArgumentException("Entity must be of type Rabbit");
+
+                    var sql = @"INSERT INTO Rabbits (Id, Name, Breed, Age, Weight) 
+                           VALUES (@Id, @Name, @Breed, @Age, @Weight)";
+
+                    var parameters = new
+                    {
+                        Id = rabbit.Id,
+                        Name = rabbit.Name,
+                        Breed = rabbit.Breed,
+                        Age = rabbit.Age,
+                        Weight = rabbit.Weight
+                    };
+
+                    int rowsAffected = db.Execute(sql, parameters);
+                    Console.WriteLine($"✅ Добавлено через Dapper: {rabbit.Id}, строк затронуто: {rowsAffected}");
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"❌ Ошибка Dapper Add: {ex.Message}");
+                throw;
             }
         }
 
         public void Delete(T entity)
         {
-            using (var db = new SqlConnection(_connectionString))
+            try
             {
-                var sql = "DELETE FROM Rabbits WHERE Id = @Id";
-                db.Execute(sql, new { entity.Id });
-                Console.WriteLine($"✅ Удалено через Dapper: {entity.Id}");
+                using (var db = new SqlConnection(_connectionString))
+                {
+                    db.Open();
+                    var rabbit = entity as Rabbit;
+                    if (rabbit == null) throw new ArgumentException("Entity must be of type Rabbit");
+
+                    var sql = "DELETE FROM Rabbits WHERE Id = @Id";
+                    var parameters = new { Id = rabbit.Id };
+
+                    int rowsAffected = db.Execute(sql, parameters);
+                    Console.WriteLine($"✅ Удалено через Dapper: {rabbit.Id}, строк затронуто: {rowsAffected}");
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"❌ Ошибка Dapper Delete: {ex.Message}");
+                throw;
             }
         }
 
         public IEnumerable<T> ReadAll()
         {
-            using (var db = new SqlConnection(_connectionString))
+            try
             {
-                var result = db.Query<T>("SELECT * FROM Rabbits").ToList();
-                Console.WriteLine($"✅ Прочитано через Dapper: {result.Count} записей");
-                return result;
+                using (var db = new SqlConnection(_connectionString))
+                {
+                    db.Open();
+                    var result = db.Query<Rabbit>("SELECT * FROM Rabbits").ToList() as IEnumerable<T>;
+                    Console.WriteLine($"✅ Прочитано через Dapper: {result.Count()} записей");
+                    return result;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"❌ Ошибка Dapper ReadAll: {ex.Message}");
+                return new List<T>();
             }
         }
 
         public T ReadById(int id)
         {
-            using (var db = new SqlConnection(_connectionString))
+            try
             {
-                var result = db.Query<T>("SELECT * FROM Rabbits WHERE Id = @Id", new { Id = id }).FirstOrDefault();
-                Console.WriteLine($"✅ Найден через Dapper ID {id}: {result != null}");
-                return result;
+                using (var db = new SqlConnection(_connectionString))
+                {
+                    db.Open();
+                    var sql = "SELECT * FROM Rabbits WHERE Id = @Id";
+                    var parameters = new { Id = id };
+
+                    var result = db.Query<Rabbit>(sql, parameters).FirstOrDefault() as T;
+                    Console.WriteLine($"✅ Найден через Dapper ID {id}: {result != null}");
+                    return result;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"❌ Ошибка Dapper ReadById: {ex.Message}");
+                return null;
             }
         }
 
         public void Update(T entity)
         {
-            using (var db = new SqlConnection(_connectionString))
+            try
             {
-                var sql = "UPDATE Rabbits SET Name = @Name, Breed = @Breed, Age = @Age, Weight = @Weight WHERE Id = @Id";
-                db.Execute(sql, entity);
-                Console.WriteLine($"✅ Обновлено через Dapper: {entity.Id}");
+                using (var db = new SqlConnection(_connectionString))
+                {
+                    db.Open();
+                    var rabbit = entity as Rabbit;
+                    if (rabbit == null) throw new ArgumentException("Entity must be of type Rabbit");
+
+                    var sql = @"UPDATE Rabbits 
+                           SET Name = @Name, Breed = @Breed, Age = @Age, Weight = @Weight 
+                           WHERE Id = @Id";
+
+                    var parameters = new
+                    {
+                        Id = rabbit.Id,
+                        Name = rabbit.Name,
+                        Breed = rabbit.Breed,
+                        Age = rabbit.Age,
+                        Weight = rabbit.Weight
+                    };
+
+                    int rowsAffected = db.Execute(sql, parameters);
+                    Console.WriteLine($"✅ Обновлено через Dapper: {rabbit.Id}, строк затронуто: {rowsAffected}");
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"❌ Ошибка Dapper Update: {ex.Message}");
+                throw;
             }
         }
     }

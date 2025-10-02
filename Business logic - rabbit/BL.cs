@@ -184,18 +184,25 @@ namespace Business_logic___rabbit
 
         public string ShowAllRabbits()
         {
-            var rabbits = _repository.ReadAll();
-
-            // ИСПРАВЛЕНО: Any() с круглыми скобками
-            if (!rabbits.Any())
-                return "Список кроликов пуст";
-
-            string result = "";
-            foreach (Rabbit rabbit in rabbits)
+            try
             {
-                result += $"Кролик: ID {rabbit.Id} Имя: {rabbit.Name} Вес: {rabbit.Weight} Возраст: {rabbit.Age} Порода: {rabbit.Breed}\n";
+                var rabbits = _repository.ReadAll();
+
+                // Проверяем, есть ли кролики
+                if (rabbits == null || !rabbits.Any())
+                    return "Список кроликов пуст";
+
+                string result = "=== СПИСОК ВСЕХ КРОЛИКОВ ===\n";
+                foreach (var rabbit in rabbits)
+                {
+                    result += $"ID: {rabbit.Id} | Имя: {rabbit.Name} | Порода: {rabbit.Breed} | Возраст: {rabbit.Age} | Вес: {rabbit.Weight}\n";
+                }
+                return result;
             }
-            return result;
+            catch (Exception ex)
+            {
+                return $"❌ Ошибка при получении списка кроликов: {ex.Message}";
+            }
         }
     }
 }

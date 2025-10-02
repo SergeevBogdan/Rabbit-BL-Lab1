@@ -387,12 +387,32 @@ namespace Console_Rabbit
         {
             Console.Clear();
             Console.WriteLine("=== ВСЕ КРОЛИКИ ===");
+            Console.WriteLine("🔍 Отладка: Зашли в метод ShowAllRabbitsMenu");
 
-            string result = logic.ShowAllRabbits();
-            if (result.Contains("пуст"))
-                ShowInfo(result);
-            else
-                Console.WriteLine(result);
+            try
+            {
+                Console.WriteLine("🔍 Отладка: Вызываем logic.ShowAllRabbits()...");
+                string result = logic.ShowAllRabbits();
+                Console.WriteLine("🔍 Отладка: Получили результат:");
+                Console.WriteLine($"'{result}'");
+
+                if (string.IsNullOrEmpty(result))
+                {
+                    Console.WriteLine("❌ Результат пустой!");
+                }
+                else if (result.Contains("пуст"))
+                {
+                    Console.WriteLine("ℹ️ Список действительно пуст");
+                }
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"❌ Ошибка в ShowAllRabbitsMenu: {ex.Message}");
+                Console.WriteLine($"❌ StackTrace: {ex.StackTrace}");
+            }
+
+            WaitForContinue();
         }
 
         static void SortRabbitsMenu(Logic logic)
