@@ -20,8 +20,6 @@ C:\Users\User\Source\Repos\Rabbit-BL-Lab1\Console-Rabbit\obj\Debug\Console-Rabbi
 C:\Users\User\Source\Repos\Rabbit-BL-Lab1\Console-Rabbit\obj\Debug\Console-.18CEF01B.Up2Date
 C:\Users\User\Source\Repos\Rabbit-BL-Lab1\Console-Rabbit\obj\Debug\Console-Rabbit.exe
 C:\Users\User\Source\Repos\Rabbit-BL-Lab1\Console-Rabbit\obj\Debug\Console-Rabbit.pdb
-C:\Users\AceR\Desktop\Rabbit-Lab - 4\Console-Rabbit\bin\Debug\Database1.mdf
-C:\Users\AceR\Desktop\Rabbit-Lab - 4\Console-Rabbit\bin\Debug\Database1_log.ldf
 C:\Users\AceR\Desktop\Rabbit-Lab - 4\Console-Rabbit\bin\Debug\Console-Rabbit.exe.config
 C:\Users\AceR\Desktop\Rabbit-Lab - 4\Console-Rabbit\bin\Debug\Console-Rabbit.exe
 C:\Users\AceR\Desktop\Rabbit-Lab - 4\Console-Rabbit\bin\Debug\Console-Rabbit.pdb
@@ -40,3 +38,5 @@ C:\Users\AceR\Desktop\Rabbit-Lab - 4\Console-Rabbit\obj\Debug\Console-Rabbit.exe
 C:\Users\AceR\Desktop\Rabbit-Lab - 4\Console-Rabbit\obj\Debug\Console-Rabbit.pdb
 C:\Users\AceR\Desktop\Rabbit-Lab - 4\Console-Rabbit\bin\Debug\EntityFramework.SqlServer.dll
 C:\Users\AceR\Desktop\Rabbit-Lab - 4\Console-Rabbit\bin\Debug\EntityFramework.SqlServer.xml
+C:\Users\AceR\Desktop\Rabbit-Lab - 4\Console-Rabbit\bin\Debug\Database1.mdf
+C:\Users\AceR\Desktop\Rabbit-Lab - 4\Console-Rabbit\bin\Debug\Database1_log.ldf

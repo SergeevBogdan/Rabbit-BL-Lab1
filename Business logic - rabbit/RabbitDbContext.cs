@@ -12,7 +12,6 @@ namespace Business_logic___rabbit
         public RabbitDbContext() : base("RabbitDbConnection")
         {
             Database.SetInitializer<RabbitDbContext>(null);
-            this.Database.Log = sql => Console.WriteLine($"EF SQL: {sql}");
         }
 
         public DbSet<Rabbit> Rabbits { get; set; }
@@ -20,8 +19,6 @@ namespace Business_logic___rabbit
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Rabbit>().ToTable("Rabbits");
-
-            // 🔥 ВАЖНО: Указываем что Id НЕ автоинкрементный 🔥
             modelBuilder.Entity<Rabbit>().HasKey(r => r.Id);
             modelBuilder.Entity<Rabbit>().Property(r => r.Id)
                 .HasDatabaseGeneratedOption(System.ComponentModel.DataAnnotations.Schema.DatabaseGeneratedOption.None);

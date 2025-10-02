@@ -11,35 +11,57 @@ namespace Business_logic___rabbit
 {
     public class DapperRepository<T> : IRepository<T> where T : class, IDomainObject
     {
-        private readonly string _connectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\AceR\Desktop\Rabbit-Lab - 4\Business logic - rabbit\Database1.mdf;Integrated Security=True";
+        private readonly string _connectionString;
 
         public DapperRepository()
         {
+            // 🔥 АБСОЛЮТНЫЙ ПУТЬ к твоему Database1.mdf
+            string dbPath = @"C:\Users\AceR\Desktop\Rabbit-Lab - 4\Business logic - rabbit\Database1.mdf";
+            _connectionString = $@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename={dbPath};Integrated Security=True";
+
+            Console.WriteLine($"📁 Dapper база: {dbPath}");
+            Console.WriteLine($"🔍 Файл существует: {File.Exists(dbPath)}");
+
             EnsureTableExists();
         }
 
         private void EnsureTableExists()
         {
-            using (var db = new SqlConnection(_connectionString))
+            try
             {
-                db.Open();
-                var tableExists = db.ExecuteScalar<int>(
-                    "SELECT COUNT(*) FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = 'Rabbits'");
-
-                if (tableExists == 0)
+                using (var db = new SqlConnection(_connectionString))
                 {
-                    db.Execute(@"
-                        CREATE TABLE Rabbits (
-                            Id INT PRIMARY KEY,
-                            Name NVARCHAR(100) NOT NULL,
-                            Breed NVARCHAR(100) NOT NULL,
-                            Age INT NOT NULL,
-                            Weight INT NOT NULL
-                    )");
+                    db.Open();
+                    var tableExists = db.ExecuteScalar<int>(
+                        "SELECT COUNT(*) FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = 'Rabbits'");
+
+                    if (tableExists == 0)
+                    {
+                        Console.WriteLine("🔄 Dapper: Создаем таблицу Rabbits...");
+                        db.Execute(@"
+                            CREATE TABLE Rabbits (
+                                Id INT PRIMARY KEY,
+                                Name NVARCHAR(100) NOT NULL,
+                                Breed NVARCHAR(100) NOT NULL,
+                                Age INT NOT NULL,
+                                Weight INT NOT NULL
+                        )");
+                        Console.WriteLine("✅ Dapper: Таблица Rabbits создана");
+                    }
+                    else
+                    {
+                        Console.WriteLine("✅ Dapper: Таблица Rabbits существует");
+                    }
                 }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"❌ Dapper: Ошибка создания таблицы: {ex.Message}");
+                throw;
             }
         }
 
+        // ... остальные методы без изменений
         public void Add(T entity)
         {
             using (var db = new SqlConnection(_connectionString))

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
+using System.Linq; // 🔥 ДОЛЖНА БЫТЬ
 using System.Text;
 using System.Threading.Tasks;
 
@@ -15,33 +14,19 @@ namespace Business_logic___rabbit
 
         public Logic(bool useEntityFramework = true)
         {
-            // 🔥 ПРОВЕРКА - какая база используется
-            string dapperPath = Directory.GetCurrentDirectory();
-            string dapperDbPath = Path.Combine(dapperPath, "Database1.mdf");
-            Console.WriteLine($"🔍 Dapper база: {dapperDbPath}");
-
-            // Для EF путь будет в bin/debug или bin/release
-            string efPath = AppDomain.CurrentDomain.GetData("DataDirectory") as string ?? Directory.GetCurrentDirectory();
-            Console.WriteLine($"🔍 EF база: {efPath}");
             if (useEntityFramework)
             {
                 try
                 {
-                    Console.WriteLine("🔄 Запуск Entity Framework...");
-
                     var provider = System.Data.Entity.SqlServer.SqlProviderServices.Instance;
-
                     var context = new RabbitDbContext();
                     _repository = new EntityRepository<Rabbit>(context);
                     _technology = "Entity Framework";
-
-                    Console.WriteLine("✅ Entity Framework готов к работе!");
-
+                    Console.WriteLine("✅ Entity Framework готов");
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine($"❌ Ошибка EF: {ex.Message}");
-                    Console.WriteLine("🔄 Используем Dapper...");
+                    Console.WriteLine($"❌ Entity Framework ошибка: {ex.Message}");
                     _repository = new DapperRepository<Rabbit>();
                     _technology = "Dapper";
                 }
@@ -64,10 +49,25 @@ namespace Business_logic___rabbit
                 if (existing != null) return "такой id уже есть";
 
                 var rabbit = new Rabbit { Id = id, Name = name, Age = age, Weight = weight, Breed = breed };
+
+                Console.WriteLine($"🔍 Добавляем кролика: ID={id}, Name={name}, Breed={breed}, Age={age}, Weight={weight}");
+
                 _repository.Add(rabbit);
                 return "Кролик успешно добавлен";
             }
-            catch (Exception ex) { return $"Ошибка при добавлении: {ex.Message}"; }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"❌ Детали ошибки добавления: {ex.Message}");
+                if (ex.InnerException != null)
+                {
+                    Console.WriteLine($"🔍 Внутренняя ошибка: {ex.InnerException.Message}");
+                    if (ex.InnerException.InnerException != null)
+                    {
+                        Console.WriteLine($"🔍 Детали SQL: {ex.InnerException.InnerException.Message}");
+                    }
+                }
+                return $"Ошибка при добавлении: {ex.Message}";
+            }
         }
 
         public string RemoveRabbit(int id)
@@ -167,6 +167,8 @@ namespace Business_logic___rabbit
                     count++;
                 }
 
+                Console.WriteLine($"🔍 Создаем рандомного кролика: ID={id}, Name={name}");
+
                 var randomRabbit = new Rabbit
                 {
                     Id = id,
@@ -176,11 +178,22 @@ namespace Business_logic___rabbit
                     Weight = _rnd.Next(1, 15)
                 };
 
+                Console.WriteLine($"🔍 Параметры: Breed={randomRabbit.Breed}, Age={randomRabbit.Age}, Weight={randomRabbit.Weight}");
+
                 _repository.Add(randomRabbit);
                 return $"Рандомный кролик: {name} создан с id: {id}";
             }
             catch (Exception ex)
             {
+                Console.WriteLine($"❌ Детали ошибки рандомного кролика: {ex.Message}");
+                if (ex.InnerException != null)
+                {
+                    Console.WriteLine($"🔍 Внутренняя ошибка: {ex.InnerException.Message}");
+                    if (ex.InnerException.InnerException != null)
+                    {
+                        Console.WriteLine($"🔍 Детали SQL: {ex.InnerException.InnerException.Message}");
+                    }
+                }
                 return $"Ошибка при создании рандомного кролика: {ex.Message}";
             }
         }
@@ -259,7 +272,6 @@ namespace Business_logic___rabbit
             }
         }
 
-        // Метод для получения списка пород
         public string[] GetBreeds()
         {
             return new string[] { "Беляк", "Русак", "Толай", "Маньжурский", "Оранжевый" };
