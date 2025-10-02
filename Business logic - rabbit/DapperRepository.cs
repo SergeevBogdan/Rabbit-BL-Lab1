@@ -154,7 +154,7 @@ namespace Business_logic___rabbit
                 using (var db = new SqlConnection(_connectionString))
                 {
                     db.Open();
-                    var sql = "SELECT * FROM Rabbits WHERE Id = @Id";
+                    var sql = "SELECT * FROM Rabbits WHERE Id = @Id"; 
                     var parameters = new { Id = id };
 
                     var result = db.Query<Rabbit>(sql, parameters).FirstOrDefault() as T;
