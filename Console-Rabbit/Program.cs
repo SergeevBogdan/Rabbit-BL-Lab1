@@ -15,7 +15,7 @@ namespace Console_Rabbit
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("=== СИСТЕМА УПРАВЛЕНИЯ КРОЛИКАМИ ===");
+            Console.WriteLine("=== СИСТЕМА УПРАВЛЕНИЯ КРОЛИКАМИ ===");  
             Console.WriteLine("Архитектура: Data Access Layer с EF и Dapper");
 
             // Тестируем подключения

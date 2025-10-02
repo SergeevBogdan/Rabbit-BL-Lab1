@@ -15,3 +15,4 @@ namespace Business_logic___rabbit
         public int Weight;
     }
 }
+ 

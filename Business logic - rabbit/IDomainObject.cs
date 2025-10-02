@@ -11,3 +11,4 @@ namespace Business_logic___rabbit
         int Id {  get; set; }
     }
 }
+ 

@@ -12,7 +12,7 @@ namespace Business_logic___rabbit
     public class EntityRepository<T> : IRepository<T> where T : class, IDomainObject
     {
         private readonly RabbitDbContext _context;
-
+ 
         public EntityRepository(RabbitDbContext context)
         {
             _context = context;

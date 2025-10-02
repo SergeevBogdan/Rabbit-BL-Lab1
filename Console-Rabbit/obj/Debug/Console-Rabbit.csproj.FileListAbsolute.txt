@@ -44,3 +44,16 @@ C:\Users\AceR\Desktop\Rabbit-Lab - 4\Console-Rabbit\obj\Debug\Console-Rabbit.csp
 C:\Users\AceR\Desktop\Rabbit-Lab - 4\Console-Rabbit\obj\Debug\Console-.18CEF01B.Up2Date
 C:\Users\AceR\Desktop\Rabbit-Lab - 4\Console-Rabbit\obj\Debug\Console-Rabbit.exe
 C:\Users\AceR\Desktop\Rabbit-Lab - 4\Console-Rabbit\obj\Debug\Console-Rabbit.pdb
+C:\Users\User\source\repos\Rabbit-BL-Lab1\Console-Rabbit\bin\Debug\Database1.mdf
+C:\Users\User\source\repos\Rabbit-BL-Lab1\Console-Rabbit\bin\Debug\Database1_log.ldf
+C:\Users\User\source\repos\Rabbit-BL-Lab1\Console-Rabbit\bin\Debug\EntityFramework.dll
+C:\Users\User\source\repos\Rabbit-BL-Lab1\Console-Rabbit\bin\Debug\Dapper.dll
+C:\Users\User\source\repos\Rabbit-BL-Lab1\Console-Rabbit\bin\Debug\Microsoft.Bcl.AsyncInterfaces.dll
+C:\Users\User\source\repos\Rabbit-BL-Lab1\Console-Rabbit\bin\Debug\System.Threading.Tasks.Extensions.dll
+C:\Users\User\source\repos\Rabbit-BL-Lab1\Console-Rabbit\bin\Debug\System.Runtime.CompilerServices.Unsafe.dll
+C:\Users\User\source\repos\Rabbit-BL-Lab1\Console-Rabbit\bin\Debug\Business logic - rabbit.dll.config
+C:\Users\User\source\repos\Rabbit-BL-Lab1\Console-Rabbit\bin\Debug\EntityFramework.xml
+C:\Users\User\source\repos\Rabbit-BL-Lab1\Console-Rabbit\bin\Debug\Dapper.xml
+C:\Users\User\source\repos\Rabbit-BL-Lab1\Console-Rabbit\bin\Debug\Microsoft.Bcl.AsyncInterfaces.xml
+C:\Users\User\source\repos\Rabbit-BL-Lab1\Console-Rabbit\bin\Debug\System.Threading.Tasks.Extensions.xml
+C:\Users\User\source\repos\Rabbit-BL-Lab1\Console-Rabbit\bin\Debug\System.Runtime.CompilerServices.Unsafe.xml

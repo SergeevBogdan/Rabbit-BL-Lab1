@@ -11,7 +11,7 @@ namespace Business_logic___rabbit
         void Add(T entity);
         void Delete(T entity);
         IEnumerable<T> ReadAll();
-        T ReadById(int id);
+        T ReadById(int id); 
         void Update(T entity);
     }
 }

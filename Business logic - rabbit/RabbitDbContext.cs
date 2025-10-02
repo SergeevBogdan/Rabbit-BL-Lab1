@@ -15,7 +15,7 @@ namespace Business_logic___rabbit
             Database.SetInitializer<RabbitDbContext>(null);
         }
 
-        public DbSet<Rabbit> Rabbits { get; set; }
+        public DbSet<Rabbit> Rabbits { get; set; } 
 
         private static string GetConnectionString()
         {

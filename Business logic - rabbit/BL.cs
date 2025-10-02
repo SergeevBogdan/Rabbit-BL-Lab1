@@ -7,7 +7,7 @@ using System.IO;
 
 namespace Business_logic___rabbit
 {
-    //Я еблан 
+     
     using System;
     using System.Collections.Generic;
     using System.Linq;
