@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace Business_logic___rabbit
 {
     public class RabbitDbContext : DbContext
-    {
+    { 
         public RabbitDbContext() : base(GetConnectionString())
         {
             Database.SetInitializer<RabbitDbContext>(null);

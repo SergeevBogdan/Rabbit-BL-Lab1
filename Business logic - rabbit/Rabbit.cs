@@ -10,7 +10,7 @@ namespace Business_logic___rabbit
     {
         public int Id { get; set; }
         public string Name;
-        public string Breed;
+        public string Breed; 
         public int Age;
         public int Weight;
     }
