@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace Business_logic___rabbit
 {
-    public class Rabbit: IDomainObject
+    public class Rabbit : IDomainObject
     {
         public int Id { get; set; }
-        public string Name;
-        public string Breed; 
-        public int Age;
-        public int Weight;
+        public string Name { get; set; }
+        public string Breed { get; set; }
+        public int Age { get; set; }
+        public int Weight { get; set; }
     }
 }

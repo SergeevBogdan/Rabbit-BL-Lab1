@@ -1,16 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.IO; 
 
 namespace Business_logic___rabbit
 {
-    //Я еблан 
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
     public class Logic
     {
         private IRepository<Rabbit> _repository;
@@ -19,23 +15,33 @@ namespace Business_logic___rabbit
 
         public Logic(bool useEntityFramework = true)
         {
+            // 🔥 ПРОВЕРКА - какая база используется
+            string dapperPath = Directory.GetCurrentDirectory();
+            string dapperDbPath = Path.Combine(dapperPath, "Database1.mdf");
+            Console.WriteLine($"🔍 Dapper база: {dapperDbPath}");
+
+            // Для EF путь будет в bin/debug или bin/release
+            string efPath = AppDomain.CurrentDomain.GetData("DataDirectory") as string ?? Directory.GetCurrentDirectory();
+            Console.WriteLine($"🔍 EF база: {efPath}");
             if (useEntityFramework)
             {
                 try
                 {
-                    Console.WriteLine("🔄 Инициализация Entity Framework...");
+                    Console.WriteLine("🔄 Запуск Entity Framework...");
+
+                    var provider = System.Data.Entity.SqlServer.SqlProviderServices.Instance;
+
                     var context = new RabbitDbContext();
                     _repository = new EntityRepository<Rabbit>(context);
                     _technology = "Entity Framework";
 
-                    // Тестовый запрос для проверки
-                    var testData = _repository.ReadAll();
-                    Console.WriteLine($"✅ Entity Framework готов! Записей в базе: {testData.Count()}");
+                    Console.WriteLine("✅ Entity Framework готов к работе!");
+
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine($"❌ Entity Framework не работает: {ex.Message}");
-                    Console.WriteLine("🔄 Переключаемся на Dapper...");
+                    Console.WriteLine($"❌ Ошибка EF: {ex.Message}");
+                    Console.WriteLine("🔄 Используем Dapper...");
                     _repository = new DapperRepository<Rabbit>();
                     _technology = "Dapper";
                 }
@@ -44,33 +50,24 @@ namespace Business_logic___rabbit
             {
                 _repository = new DapperRepository<Rabbit>();
                 _technology = "Dapper";
-                Console.WriteLine("✅ Dapper инициализирован");
+                Console.WriteLine("✅ Dapper готов");
             }
-
-            Console.WriteLine($"📊 Используется: {_technology}");
         }
 
-        public string GetCurrentTechnology()
-        {
-            return _technology;
-        }
+        public string GetCurrentTechnology() => _technology;
 
         public string AddRabbit(int id, string name, int age, int weight, string breed)
         {
             try
             {
                 var existing = _repository.ReadById(id);
-                if (existing != null)
-                    return "такой id уже есть";
+                if (existing != null) return "такой id уже есть";
 
                 var rabbit = new Rabbit { Id = id, Name = name, Age = age, Weight = weight, Breed = breed };
                 _repository.Add(rabbit);
                 return "Кролик успешно добавлен";
             }
-            catch (Exception ex)
-            {
-                return $"Ошибка при добавлении: {ex.Message}";
-            }
+            catch (Exception ex) { return $"Ошибка при добавлении: {ex.Message}"; }
         }
 
         public string RemoveRabbit(int id)
@@ -85,10 +82,7 @@ namespace Business_logic___rabbit
                 }
                 return "Кролик не найден";
             }
-            catch (Exception ex)
-            {
-                return $"Ошибка при удалении: {ex.Message}";
-            }
+            catch (Exception ex) { return $"Ошибка при удалении: {ex.Message}"; }
         }
 
         public string ReadRabbit(int id)
@@ -96,15 +90,11 @@ namespace Business_logic___rabbit
             try
             {
                 var rabbit = _repository.ReadById(id);
-                if (rabbit == null)
-                    return "Кролик с заданным Id не найден";
+                if (rabbit == null) return "Кролик с заданным Id не найден";
 
                 return $"Имя: {rabbit.Name}\nВозраст: {rabbit.Age}\nВес: {rabbit.Weight}\nПорода: {rabbit.Breed}";
             }
-            catch (Exception ex)
-            {
-                return $"Ошибка при чтении: {ex.Message}";
-            }
+            catch (Exception ex) { return $"Ошибка при чтении: {ex.Message}"; }
         }
 
         public void ChangeStatRabbit(int id, string name, int age, int weight, string breed)
@@ -121,10 +111,7 @@ namespace Business_logic___rabbit
                     _repository.Update(rabbit);
                 }
             }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Ошибка при изменении: {ex.Message}");
-            }
+            catch (Exception ex) { Console.WriteLine($"Ошибка при изменении: {ex.Message}"); }
         }
 
         public double GetAverageAge()
@@ -132,7 +119,7 @@ namespace Business_logic___rabbit
             try
             {
                 var rabbits = _repository.ReadAll().ToList();
-                if (rabbits.Count() != 0)
+                if (rabbits.Count != 0)
                 {
                     return rabbits.Average(r => r.Age);
                 }
@@ -150,7 +137,7 @@ namespace Business_logic___rabbit
             try
             {
                 var rabbits = _repository.ReadAll().ToList();
-                if (rabbits.Count() != 0)
+                if (rabbits.Count != 0)
                 {
                     return rabbits.Average(r => r.Weight);
                 }
@@ -270,6 +257,12 @@ namespace Business_logic___rabbit
             {
                 return $"❌ Ошибка при получении списка кроликов: {ex.Message}";
             }
+        }
+
+        // Метод для получения списка пород
+        public string[] GetBreeds()
+        {
+            return new string[] { "Беляк", "Русак", "Толай", "Маньжурский", "Оранжевый" };
         }
     }
 }

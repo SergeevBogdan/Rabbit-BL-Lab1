@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Business_logic___rabbit
 {
-    public interface IRepository<T> where T : IDomainObject 
+    public interface IRepository<T> where T : IDomainObject
     {
         void Add(T entity);
         void Delete(T entity);

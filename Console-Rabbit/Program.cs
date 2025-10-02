@@ -1,152 +1,51 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using Business_logic___rabbit; 
+using Business_logic___rabbit;
 
 namespace Console_Rabbit
 {
-    using System;
-    using System.Collections.Generic;
-
-    internal class Program
+    class Program
     {
         static void Main(string[] args)
         {
             Console.WriteLine("=== СИСТЕМА УПРАВЛЕНИЯ КРОЛИКАМИ ===");
-            Console.WriteLine("Data Access Layer: EF + Dapper");
 
-            // Выбор технологии
-            bool useEntityFramework = ChooseTechnology();
-            var logic = new Logic(useEntityFramework);
-
-            Console.WriteLine($"\n🚀 Запуск с: {logic.GetCurrentTechnology()}");
-            Console.WriteLine("Нажмите любую клавишу для продолжения...");
-            Console.ReadKey();
-            Console.Clear();
-
-            RunMainMenu(logic);
-        }
-
-        static void TestDatabaseConnections()
-        {
-            Console.WriteLine("\n🔧 ТЕСТИРОВАНИЕ ПОДКЛЮЧЕНИЙ К БАЗЕ ДАННЫХ:");
-
-            // Тест Dapper
-            Console.WriteLine("\n--- Тестируем Dapper ---");
-            try
-            {
-                var dapperRepo = new DapperRepository<Rabbit>();
-                Console.WriteLine("✅ Dapper: Успешно");
-
-                // Тестовые операции
-                var testRabbit = new Rabbit { Id = 999, Name = "ТестDapper", Breed = "Тест", Age = 1, Weight = 1 };
-                dapperRepo.Add(testRabbit);
-                var rabbits = dapperRepo.ReadAll();
-
-                // ИСПРАВЛЕНО: Count() с круглыми скобками
-                int rabbitCount = rabbits.Count();
-                dapperRepo.Delete(testRabbit);
-                Console.WriteLine($"✅ Dapper: CRUD операции работают (протестировано записей: {rabbitCount})");
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"❌ Dapper ошибка: {ex.Message}");
-            }
-
-            // Тест Entity Framework
-            Console.WriteLine("\n--- Тестируем Entity Framework ---");
-            try
-            {
-                var context = new RabbitDbContext();
-                var efRepo = new EntityRepository<Rabbit>(context);
-                Console.WriteLine("✅ Entity Framework: Успешно");
-
-                // Тестовые операции
-                var testRabbit = new Rabbit { Id = 888, Name = "ТестEF", Breed = "Тест", Age = 1, Weight = 1 };
-                efRepo.Add(testRabbit);
-                var rabbits = efRepo.ReadAll();
-
-                // ИСПРАВЛЕНО: Count() с круглыми скобками
-                int rabbitCount = rabbits.Count();
-                efRepo.Delete(testRabbit);
-                Console.WriteLine($"✅ Entity Framework: CRUD операции работают (протестировано записей: {rabbitCount})");
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"❌ Entity Framework ошибка: {ex.Message}");
-            }
-        }
-
-        static void RunMainApplication()
-        {
-            // Простой выбор без сложной логики
-            Console.WriteLine("Выберите технологию:");
-            Console.WriteLine("1 - Dapper (рекомендуется)");
-            Console.WriteLine("2 - Entity Framework");
-
-            var choice = Console.ReadLine();
-            var useEF = choice == "2";
-
+            bool useEF = ChooseTechnology();
             var logic = new Logic(useEF);
 
-            Console.WriteLine($"🚀 Запуск с: {logic.GetCurrentTechnology()}");
+            Console.WriteLine($"\n🚀 Используется: {logic.GetCurrentTechnology()}");
+            Console.WriteLine("Нажмите любую клавишу для продолжения...");
             Console.ReadKey();
-            Console.Clear();
 
             RunMainMenu(logic);
         }
 
         static bool ChooseTechnology()
         {
+            Console.WriteLine("Выберите технологию:");
+            Console.WriteLine("1 - Entity Framework");
+            Console.WriteLine("2 - Dapper");
+
             while (true)
             {
-                Console.Clear();
-                Console.WriteLine("=== ВЫБОР ТЕХНОЛОГИИ ДОСТУПА К ДАННЫМ ===");
-                Console.WriteLine("1 - Entity Framework (ORM)");
-                Console.WriteLine("2 - Dapper (Micro-ORM)");
-                Console.Write("\nВыберите опцию (1-2): ");
-
                 var choice = Console.ReadLine();
-                switch (choice)
+                if (choice == "1")
                 {
-                    case "1":
-                        Console.WriteLine("🎯 Выбран: Entity Framework");
-                        return true;
-                    case "2":
-                        Console.WriteLine("🎯 Выбран: Dapper");
-                        return false;
-                    default:
-                        Console.WriteLine("❌ Неверный выбор! Попробуйте снова.");
-                        Console.ReadKey();
-                        break;
+                    Console.WriteLine("🎯 Выбран: Entity Framework");
+                    return true;
                 }
-            }
-        }
-
-            static bool TryDetectBestTechnology()
-        {
-            try
-            {
-                Console.WriteLine("Проверяем Entity Framework...");
-                var context = new RabbitDbContext();
-                var efRepo = new EntityRepository<Rabbit>(context);
-                Console.WriteLine("✅ Entity Framework работает стабильно");
-                return true;
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"⚠️ Entity Framework не доступен: {ex.Message}");
-                Console.WriteLine("🔄 Используем Dapper...");
-                return false;
+                else if (choice == "2")
+                {
+                    Console.WriteLine("🎯 Выбран: Dapper");
+                    return false;
+                }
+                Console.Write("Введите 1 или 2: ");
             }
         }
 
         static void RunMainMenu(Logic logic)
         {
-            string[] breeds = { "Беляк", "Русак", "Толай", "Маньжурский", "Оранжевый" };
+            string[] breeds = logic.GetBreeds();
 
             while (true)
             {
@@ -174,16 +73,15 @@ namespace Console_Rabbit
             Console.WriteLine($"Время: {DateTime.Now:HH:mm:ss}");
             Console.WriteLine();
             Console.WriteLine(" 1. Создать кролика");
-            Console.WriteLine(" 2.  Удалить кролика");
-            Console.WriteLine(" 3.  Прочесть кролика");
-            Console.WriteLine(" 4.  Изменить кролика");
+            Console.WriteLine(" 2. Удалить кролика");
+            Console.WriteLine(" 3. Прочесть кролика");
+            Console.WriteLine(" 4. Изменить кролика");
             Console.WriteLine(" 5. Средний возраст");
-            Console.WriteLine(" 6.  Средний вес");
+            Console.WriteLine(" 6. Средний вес");
             Console.WriteLine(" 7. Создать рандомного кролика");
             Console.WriteLine(" 8. Показать всех кроликов");
             Console.WriteLine(" 9. Сортировать кроликов");
-            Console.WriteLine("10. Сменить технологию");
-            Console.WriteLine("11. Выход");
+            Console.WriteLine("10. Выход");
             Console.WriteLine();
             Console.Write("Выберите опцию: ");
         }
@@ -230,9 +128,13 @@ namespace Console_Rabbit
                 // Ввод веса
                 int weight = ReadValidNumber("Введите вес кролика: ", 1, 100);
 
-                // Выбор породы
-                int breedChoice = ReadValidNumber($"Выберите породу (1-{breeds.Length}):\n" +
-                    GetBreedsMenu(breeds), 1, breeds.Length);
+                // Выбор породы из списка
+                Console.WriteLine("\nВыберите породу:");
+                for (int i = 0; i < breeds.Length; i++)
+                {
+                    Console.WriteLine($"{i + 1}. {breeds[i]}");
+                }
+                int breedChoice = ReadValidNumber("Порода: ", 1, breeds.Length);
                 string breed = breeds[breedChoice - 1];
 
                 string result = logic.AddRabbit(id, name, age, weight, breed);
@@ -249,15 +151,8 @@ namespace Console_Rabbit
             Console.Clear();
             Console.WriteLine("=== УДАЛЕНИЕ КРОЛИКА ===");
 
-            // Показываем всех кроликов для reference
+            // Показываем всех кроликов перед удалением
             string allRabbits = logic.ShowAllRabbits();
-            if (allRabbits.Contains("пуст"))
-            {
-                ShowInfo("Список кроликов пуст!");
-                return;
-            }
-
-            Console.WriteLine("Текущие кролики:");
             Console.WriteLine(allRabbits);
             Console.WriteLine();
 
@@ -266,6 +161,10 @@ namespace Console_Rabbit
                 int id = ReadValidNumber("Введите ID кролика для удаления: ", 1, 9999);
                 string result = logic.RemoveRabbit(id);
                 ShowSuccess(result);
+
+                // Показываем обновленный список
+                Console.WriteLine("\nОбновленный список:");
+                Console.WriteLine(logic.ShowAllRabbits());
             }
             catch (Exception ex)
             {
@@ -323,7 +222,7 @@ namespace Console_Rabbit
                     return;
                 }
 
-                Console.WriteLine($"Текущие данные: {existing}");
+                Console.WriteLine($"Текущие данные:\n{existing}");
                 Console.WriteLine();
 
                 // Ввод новых данных
@@ -338,12 +237,21 @@ namespace Console_Rabbit
                 int age = ReadValidNumber("Введите новый возраст: ", 1, 50);
                 int weight = ReadValidNumber("Введите новый вес: ", 1, 100);
 
-                int breedChoice = ReadValidNumber($"Выберите новую породу (1-{breeds.Length}):\n" +
-                    GetBreedsMenu(breeds), 1, breeds.Length);
+                // Выбор новой породы из списка
+                Console.WriteLine("\nВыберите новую породу:");
+                for (int i = 0; i < breeds.Length; i++)
+                {
+                    Console.WriteLine($"{i + 1}. {breeds[i]}");
+                }
+                int breedChoice = ReadValidNumber("Порода: ", 1, breeds.Length);
                 string breed = breeds[breedChoice - 1];
 
                 logic.ChangeStatRabbit(id, name, age, weight, breed);
                 ShowSuccess("Данные кролика успешно обновлены!");
+
+                // Показываем обновленный список
+                Console.WriteLine("\nОбновленный список:");
+                Console.WriteLine(logic.ShowAllRabbits());
             }
             catch (Exception ex)
             {
@@ -378,6 +286,10 @@ namespace Console_Rabbit
             {
                 string result = logic.AddRandomRabbit();
                 ShowSuccess(result);
+
+                // Показываем обновленный список
+                Console.WriteLine("\nОбновленный список:");
+                Console.WriteLine(logic.ShowAllRabbits());
             }
             catch (Exception ex)
             {
@@ -389,29 +301,15 @@ namespace Console_Rabbit
         {
             Console.Clear();
             Console.WriteLine("=== ВСЕ КРОЛИКИ ===");
-            Console.WriteLine("🔍 Отладка: Зашли в метод ShowAllRabbitsMenu");
 
             try
             {
-                Console.WriteLine("🔍 Отладка: Вызываем logic.ShowAllRabbits()...");
                 string result = logic.ShowAllRabbits();
-                Console.WriteLine("🔍 Отладка: Получили результат:");
-                Console.WriteLine($"'{result}'");
-
-                if (string.IsNullOrEmpty(result))
-                {
-                    Console.WriteLine("❌ Результат пустой!");
-                }
-                else if (result.Contains("пуст"))
-                {
-                    Console.WriteLine("ℹ️ Список действительно пуст");
-                }
-
+                Console.WriteLine(result);
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"❌ Ошибка в ShowAllRabbitsMenu: {ex.Message}");
-                Console.WriteLine($"❌ StackTrace: {ex.StackTrace}");
+                Console.WriteLine($"❌ Ошибка: {ex.Message}");
             }
 
             WaitForContinue();
@@ -441,20 +339,12 @@ namespace Console_Rabbit
                 bool ascending = directionChoice == 1;
 
                 logic.SortRabbits(field, ascending);
-                ShowSuccess("Кролики успешно отсортированы!");
+                WaitForContinue();
             }
             catch (Exception ex)
             {
                 ShowError($"Ошибка при сортировке: {ex.Message}");
             }
-        }
-
-        static void ChangeTechnologyMenu()
-        {
-            Console.Clear();
-            Console.WriteLine("=== СМЕНА ТЕХНОЛОГИИ ===");
-            Console.WriteLine("Для смены технологии требуется перезапуск приложения.");
-            Console.WriteLine("Завершите текущую сессию и запустите приложение заново.");
         }
 
         // Вспомогательные методы
@@ -468,16 +358,6 @@ namespace Console_Rabbit
 
                 ShowError($"Введите число от {min} до {max}!");
             }
-        }
-
-        static string GetBreedsMenu(string[] breeds)
-        {
-            string menu = "";
-            for (int i = 0; i < breeds.Length; i++)
-            {
-                menu += $"{i + 1}. {breeds[i]}\n";
-            }
-            return menu;
         }
 
         static void ShowSuccess(string message)
