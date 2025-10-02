@@ -14,38 +14,139 @@ namespace WF_Rabbit
 {
     public partial class Form1 : Form
     {
+        Logic logic = new Logic();
+
         public Form1()
         {
-           InitializeComponent();
-            RefreshRabbitList();
+            InitializeComponent();
+            InitializeDataGridView();
+            RefreshDataGridView();
+            InitializeBreedComboBox();
             InitializeFilterComboBox();
+
+            logic.SaveRabbitsToFile();
+            logic.LoadRabbitsFromFile();
+            RefreshDataGridView();
+        }
+
+        private void InitializeDataGridView()
+        {
+            
+            dataGridViewRabbits.Columns.Clear();
+
+            
+            dataGridViewRabbits.Columns.Add(new DataGridViewTextBoxColumn()
+            {
+                Name = "Id",
+                HeaderText = "ID",
+                SortMode = DataGridViewColumnSortMode.NotSortable 
+            });
+
+            dataGridViewRabbits.Columns.Add(new DataGridViewTextBoxColumn()
+            {
+                Name = "Name",
+                HeaderText = "Имя",
+                SortMode = DataGridViewColumnSortMode.NotSortable
+            });
+
+            dataGridViewRabbits.Columns.Add(new DataGridViewTextBoxColumn()
+            {
+                Name = "Age",
+                HeaderText = "Возраст",
+                SortMode = DataGridViewColumnSortMode.NotSortable
+            });
+
+            dataGridViewRabbits.Columns.Add(new DataGridViewTextBoxColumn()
+            {
+                Name = "Weight",
+                HeaderText = "Вес",
+                SortMode = DataGridViewColumnSortMode.NotSortable
+            });
+
+            dataGridViewRabbits.Columns.Add(new DataGridViewTextBoxColumn()
+            {
+                Name = "Breed",
+                HeaderText = "Порода",
+                SortMode = DataGridViewColumnSortMode.NotSortable
+            });
+
+            
+            dataGridViewRabbits.Columns["Id"].Width = 50;
+            dataGridViewRabbits.Columns["Name"].Width = 100;
+            dataGridViewRabbits.Columns["Age"].Width = 70;
+            dataGridViewRabbits.Columns["Weight"].Width = 70;
+            dataGridViewRabbits.Columns["Breed"].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+
+        
+            dataGridViewRabbits.AllowUserToOrderColumns = false; 
+            dataGridViewRabbits.EnableHeadersVisualStyles = false; 
+        }
+
+        private void InitializeBreedComboBox()
+        {
+            comboBoxBreed.Items.Clear();
+            comboBoxBreed.Items.AddRange(new string[]
+            {
+            "Беляк", "Русак", "Толай", "Маньжурский", "Оранжевый"
+            });
+            comboBoxBreed.SelectedIndex = 0;
         }
 
         private void InitializeFilterComboBox()
         {
             comboBoxFilterField.Items.AddRange(new string[] {
-                "ID", "Имя", "Порода", "Возраст", "Вес"
-            });
+            "ID", "Имя", "Порода", "Возраст", "Вес"
+        });
             comboBoxFilterField.SelectedIndex = 0;
             radioAscending.Checked = true;
         }
 
-        private void RefreshRabbitList()
+        private void RefreshDataGridView()
         {
-            listBoxRabbits.Items.Clear();
-            string allRabbits = Logic.ShowAllRabbits();
-            
+            dataGridViewRabbits.Rows.Clear();
+            string allRabbits = logic.ShowAllRabbits();
+
             if (string.IsNullOrEmpty(allRabbits))
             {
-                listBoxRabbits.Items.Add("Список кроликов пуст");
-                return;
+                return; 
             }
 
             string[] rabbits = allRabbits.Split(new[] { "\n" }, StringSplitOptions.RemoveEmptyEntries);
-            
+
             foreach (string rabbit in rabbits)
             {
-                listBoxRabbits.Items.Add(rabbit);
+                var rabbitData = ParseRabbitString(rabbit);
+                if (rabbitData != null)
+                {
+                    dataGridViewRabbits.Rows.Add(
+                        rabbitData.Id,
+                        rabbitData.Name,
+                        rabbitData.Age,
+                        rabbitData.Weight,
+                        rabbitData.Breed
+                    );
+                }
+            }
+        }
+
+        private RabbitData ParseRabbitString(string rabbitString)
+        {
+            try
+            {
+                
+                var parts = rabbitString.Split(' ');
+                return new RabbitData
+                {
+                    Id = int.Parse(parts[2]),
+                    Name = parts[4],
+                    Weight = int.Parse(parts[6]),
+                    Age = int.Parse(parts[8]),
+                    Breed = parts.Length > 10 ? parts[10] : ""
+                };
+            }
+            catch
+            {
+                return null;
             }
         }
 
@@ -55,16 +156,16 @@ namespace WF_Rabbit
             txtName.Text = "";
             txtAge.Text = "";
             txtWeight.Text = "";
-            txtBreed.Text = "";
+            comboBoxBreed.SelectedIndex = 0;
         }
 
         private void btnAdd_Click(object sender, EventArgs e)
         {
             try
             {
-                if (string.IsNullOrEmpty(txtId.Text) || string.IsNullOrEmpty(txtName.Text) || 
-                    string.IsNullOrEmpty(txtAge.Text) || string.IsNullOrEmpty(txtWeight.Text) || 
-                    string.IsNullOrEmpty(txtBreed.Text))
+                if (string.IsNullOrEmpty(txtId.Text) || string.IsNullOrEmpty(txtName.Text) ||
+                    string.IsNullOrEmpty(txtAge.Text) || string.IsNullOrEmpty(txtWeight.Text) ||
+                    comboBoxBreed.SelectedItem == null)
                 {
                     MessageBox.Show("Заполните все поля", "Ошибка");
                     return;
@@ -74,15 +175,15 @@ namespace WF_Rabbit
                 string name = txtName.Text;
                 int age = int.Parse(txtAge.Text);
                 int weight = int.Parse(txtWeight.Text);
-                string breed = txtBreed.Text;
+                string breed = comboBoxBreed.SelectedItem.ToString();
 
-                string result = Logic.Add(id, name, age, weight, breed);
-                
+                string result = logic.AddRabbit(id, name, age, weight, breed);
+
                 if (result == "Кролик успешно добавлен")
                 {
                     MessageBox.Show(result, "Успех");
                     ClearInputFields();
-                    RefreshRabbitList();
+                    RefreshDataGridView();
                 }
                 else
                 {
@@ -97,26 +198,18 @@ namespace WF_Rabbit
 
         private void btnRemove_Click(object sender, EventArgs e)
         {
-            if (listBoxRabbits.SelectedIndex != -1 && listBoxRabbits.SelectedItem.ToString() != "Список кроликов пуст")
+            if (dataGridViewRabbits.SelectedRows.Count > 0)
             {
-                // Получаем ID из текста выбранного элемента
-                string selectedItem = listBoxRabbits.SelectedItem.ToString();
-                int startIndex = selectedItem.IndexOf("ID ") + 3;
-                int endIndex = selectedItem.IndexOf(" ", startIndex);
-                
-                if (endIndex == -1) endIndex = selectedItem.Length;
-                
-                if (int.TryParse(selectedItem.Substring(startIndex, endIndex - startIndex), out int rabbitId))
+                int rabbitId = (int)dataGridViewRabbits.SelectedRows[0].Cells["Id"].Value;
+
+                DialogResult result = MessageBox.Show($"Удалить кролика с ID {rabbitId}?",
+                    "Подтверждение удаления", MessageBoxButtons.YesNo);
+
+                if (result == DialogResult.Yes)
                 {
-                    DialogResult result = MessageBox.Show($"Удалить кролика с ID {rabbitId}?", 
-                        "Подтверждение удаления", MessageBoxButtons.YesNo);
-                    
-                    if (result == DialogResult.Yes)
-                    {
-                        string message = Logic.Remove(rabbitId);
-                        MessageBox.Show(message);
-                        RefreshRabbitList();
-                    }
+                    string message = logic.RemoveRabbit(rabbitId);
+                    MessageBox.Show(message);
+                    RefreshDataGridView();
                 }
             }
             else
@@ -127,20 +220,11 @@ namespace WF_Rabbit
 
         private void btnView_Click(object sender, EventArgs e)
         {
-            if (listBoxRabbits.SelectedIndex != -1 && listBoxRabbits.SelectedItem.ToString() != "Список кроликов пуст")
+            if (dataGridViewRabbits.SelectedRows.Count > 0)
             {
-                // Получаем ID из текста выбранного элемента
-                string selectedItem = listBoxRabbits.SelectedItem.ToString();
-                int startIndex = selectedItem.IndexOf("ID ") + 3;
-                int endIndex = selectedItem.IndexOf(" ", startIndex);
-                
-                if (endIndex == -1) endIndex = selectedItem.Length;
-                
-                if (int.TryParse(selectedItem.Substring(startIndex, endIndex - startIndex), out int rabbitId))
-                {
-                    string rabbitInfo = Logic.Read(rabbitId);
-                    MessageBox.Show(rabbitInfo, "Информация о кролике");
-                }
+                int rabbitId = (int)dataGridViewRabbits.SelectedRows[0].Cells["Id"].Value;
+                string rabbitInfo = logic.ReadRabbit(rabbitId);
+                MessageBox.Show(rabbitInfo, "Информация о кролике");
             }
             else
             {
@@ -150,33 +234,29 @@ namespace WF_Rabbit
 
         private void btnEdit_Click(object sender, EventArgs e)
         {
-            if (listBoxRabbits.SelectedIndex != -1 && listBoxRabbits.SelectedItem.ToString() != "Список кроликов пуст")
+            if (dataGridViewRabbits.SelectedRows.Count > 0)
             {
-                // Получаем ID из текста выбранного элемента
-                string selectedItem = listBoxRabbits.SelectedItem.ToString();
-                int startIndex = selectedItem.IndexOf("ID ") + 3;
-                int endIndex = selectedItem.IndexOf(" ", startIndex);
-                
-                if (endIndex == -1) endIndex = selectedItem.Length;
-                
-                if (int.TryParse(selectedItem.Substring(startIndex, endIndex - startIndex), out int rabbitId))
+                var selectedRow = dataGridViewRabbits.SelectedRows[0];
+                int rabbitId = (int)selectedRow.Cells["Id"].Value;
+
+              
+                txtId.Text = rabbitId.ToString();
+                txtName.Text = selectedRow.Cells["Name"].Value.ToString();
+                txtAge.Text = selectedRow.Cells["Age"].Value.ToString();
+                txtWeight.Text = selectedRow.Cells["Weight"].Value.ToString();
+
+                string breedValue = selectedRow.Cells["Breed"].Value.ToString();
+                int index = comboBoxBreed.Items.IndexOf(breedValue);
+                if (index != -1)
+                    comboBoxBreed.SelectedIndex = index;
+                else
                 {
-                    // Загружаем данные выбранного кролика в поля для редактирования
-                    string rabbitInfo = Logic.Read(rabbitId);
-                    string[] lines = rabbitInfo.Split('\n');
-                    
-                    foreach (string line in lines)
-                    {
-                        if (line.Contains("Имя:")) txtName.Text = line.Replace("Имя:", "").Trim();
-                        if (line.Contains("Возраст:")) txtAge.Text = line.Replace("Возраст:", "").Trim();
-                        if (line.Contains("Вес:")) txtWeight.Text = line.Replace("Вес:", "").Trim();
-                        if (line.Contains("Порода:")) txtBreed.Text = line.Replace("Порода:", "").Trim();
-                    }
-                    txtId.Text = rabbitId.ToString();
-                    
-                    MessageBox.Show("Данные кролика загружены для редактирования. Измените нужные поля и нажмите 'Обновить'", 
-                        "Редактирование");
+                    comboBoxBreed.Items.Add(breedValue);
+                    comboBoxBreed.SelectedIndex = comboBoxBreed.Items.Count - 1;
                 }
+
+                MessageBox.Show("Данные кролика загружены для редактирования. Измените нужные поля и нажмите 'Обновить'",
+                    "Редактирование");
             }
             else
             {
@@ -198,12 +278,12 @@ namespace WF_Rabbit
                 string name = txtName.Text;
                 int age = int.Parse(txtAge.Text);
                 int weight = int.Parse(txtWeight.Text);
-                string breed = txtBreed.Text;
+                string breed = comboBoxBreed.SelectedItem?.ToString() ?? "";
 
-                Logic.Change(id, name, age, weight, breed);
+                logic.ChangeStatRabbit(id, name, age, weight, breed);
                 MessageBox.Show("Данные кролика обновлены", "Успех");
                 ClearInputFields();
-                RefreshRabbitList();
+                RefreshDataGridView();
             }
             catch (FormatException)
             {
@@ -213,43 +293,74 @@ namespace WF_Rabbit
 
         private void btnAverageAge_Click(object sender, EventArgs e)
         {
-            double averageAge = Logic.GetAverageAge();
+            double averageAge = logic.GetAverageAge();
             MessageBox.Show($"Средний возраст кроликов: {averageAge:F2}", "Статистика");
         }
 
         private void btnAverageWeight_Click(object sender, EventArgs e)
         {
-            double averageWeight = Logic.GetAverageWeight();
+            double averageWeight = logic.GetAverageWeight();
             MessageBox.Show($"Средний вес кроликов: {averageWeight:F2}", "Статистика");
         }
 
         private void btnAddRandom_Click(object sender, EventArgs e)
         {
-            string message = Logic.Random_rabbit_add();
+            string message = logic.AddRandomRabbit();
             MessageBox.Show(message);
-            RefreshRabbitList();
+            RefreshDataGridView();
         }
 
         private void btnApplyFilter_Click(object sender, EventArgs e)
         {
             int field = comboBoxFilterField.SelectedIndex + 1;
             bool direction = radioAscending.Checked;
-            
-            Logic.Filter(field, direction);
-            MessageBox.Show("Фильтр применен", "Успех");
-            RefreshRabbitList();
-        }
 
-        private void btnClearFilter_Click(object sender, EventArgs e)
-        {
-            // Просто обновляем список чтобы показать исходный порядок
-            RefreshRabbitList();
-            MessageBox.Show("Фильтр сброшен", "Успех");
+            logic.SortRabbits(field, direction);
+            MessageBox.Show("Фильтр применен", "Успех");
+            RefreshDataGridView();
         }
 
         private void btnClearFields_Click(object sender, EventArgs e)
         {
             ClearInputFields();
         }
+
+        private void btnSave_Click(object sender, EventArgs e)
+        {
+            logic.LoadRabbitsFromFile();
+            RefreshDataGridView();
+        }
+
+        private void dataGridViewRabbits_SelectionChanged(object sender, EventArgs e)
+        {
+            
+            if (dataGridViewRabbits.SelectedRows.Count > 0)
+            {
+                var selectedRow = dataGridViewRabbits.SelectedRows[0];
+                txtId.Text = selectedRow.Cells["Id"].Value.ToString();
+                txtName.Text = selectedRow.Cells["Name"].Value.ToString();
+                txtAge.Text = selectedRow.Cells["Age"].Value.ToString();
+                txtWeight.Text = selectedRow.Cells["Weight"].Value.ToString();
+
+                string breedValue = selectedRow.Cells["Breed"].Value.ToString();
+                int index = comboBoxBreed.Items.IndexOf(breedValue);
+                if (index != -1)
+                    comboBoxBreed.SelectedIndex = index;
+            }
+        }
+
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            
+        }
+        public class RabbitData
+        {
+            public int Id { get; set; }
+            public string Name { get; set; }
+            public int Age { get; set; }
+            public int Weight { get; set; }
+            public string Breed { get; set; }
+        }
+
     }
 }
