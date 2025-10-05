@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq; // 🔥 ДОЛЖНА БЫТЬ
-using System.Text;
-using System.Threading.Tasks;
+using System.Linq;
 
 namespace Business_logic___rabbit
 {
@@ -18,17 +16,22 @@ namespace Business_logic___rabbit
             {
                 try
                 {
-                    var provider = System.Data.Entity.SqlServer.SqlProviderServices.Instance;
+                    Console.WriteLine("🔄 Пробуем Entity Framework...");
                     var context = new RabbitDbContext();
                     _repository = new EntityRepository<Rabbit>(context);
                     _technology = "Entity Framework";
                     Console.WriteLine("✅ Entity Framework готов");
+                    Console.WriteLine("Все хорошо");
+                    Console.ReadKey();
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine($"❌ Entity Framework ошибка: {ex.Message}");
+                    Console.WriteLine($"❌ EF ошибка: {ex.Message}");
+                    Console.WriteLine("🔄 Переключаемся на Dapper...");
                     _repository = new DapperRepository<Rabbit>();
-                    _technology = "Dapper";
+                    _technology = "Dapper (автопереключение)";
+                    Console.WriteLine("Все ХУЕВО");
+                    Console.ReadKey();
                 }
             }
             else
@@ -36,6 +39,8 @@ namespace Business_logic___rabbit
                 _repository = new DapperRepository<Rabbit>();
                 _technology = "Dapper";
                 Console.WriteLine("✅ Dapper готов");
+                Console.WriteLine("Все ОК");
+                Console.ReadKey();
             }
         }
 
@@ -49,23 +54,11 @@ namespace Business_logic___rabbit
                 if (existing != null) return "такой id уже есть";
 
                 var rabbit = new Rabbit { Id = id, Name = name, Age = age, Weight = weight, Breed = breed };
-
-                Console.WriteLine($"🔍 Добавляем кролика: ID={id}, Name={name}, Breed={breed}, Age={age}, Weight={weight}");
-
                 _repository.Add(rabbit);
                 return "Кролик успешно добавлен";
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"❌ Детали ошибки добавления: {ex.Message}");
-                if (ex.InnerException != null)
-                {
-                    Console.WriteLine($"🔍 Внутренняя ошибка: {ex.InnerException.Message}");
-                    if (ex.InnerException.InnerException != null)
-                    {
-                        Console.WriteLine($"🔍 Детали SQL: {ex.InnerException.InnerException.Message}");
-                    }
-                }
                 return $"Ошибка при добавлении: {ex.Message}";
             }
         }
@@ -119,11 +112,7 @@ namespace Business_logic___rabbit
             try
             {
                 var rabbits = _repository.ReadAll().ToList();
-                if (rabbits.Count != 0)
-                {
-                    return rabbits.Average(r => r.Age);
-                }
-                return 0;
+                return rabbits.Count != 0 ? rabbits.Average(r => r.Age) : 0;
             }
             catch (Exception ex)
             {
@@ -137,11 +126,7 @@ namespace Business_logic___rabbit
             try
             {
                 var rabbits = _repository.ReadAll().ToList();
-                if (rabbits.Count != 0)
-                {
-                    return rabbits.Average(r => r.Weight);
-                }
-                return 0;
+                return rabbits.Count != 0 ? rabbits.Average(r => r.Weight) : 0;
             }
             catch (Exception ex)
             {
@@ -154,7 +139,7 @@ namespace Business_logic___rabbit
         {
             try
             {
-                string[] names = { "Пушок", "Снежинка", "Игнат", "Ибрагим", "Ма-му-ма-ба", "Кастет", "Энцегорловье", "Доминико дэ-ко-ко", "Эй-эй-эй", "La lepre che salta in alto" };
+                string[] names = { "Пушок", "Снежинка", "Игнат", "Ибрагим", "Ма-му-ма-ба", "Кастет" };
                 string[] breeds = { "Беляк", "Русак", "Толай", "Маньжурский", "Оранжевый" };
 
                 string name = names[_rnd.Next(names.Length)];
@@ -167,8 +152,6 @@ namespace Business_logic___rabbit
                     count++;
                 }
 
-                Console.WriteLine($"🔍 Создаем рандомного кролика: ID={id}, Name={name}");
-
                 var randomRabbit = new Rabbit
                 {
                     Id = id,
@@ -178,22 +161,11 @@ namespace Business_logic___rabbit
                     Weight = _rnd.Next(1, 15)
                 };
 
-                Console.WriteLine($"🔍 Параметры: Breed={randomRabbit.Breed}, Age={randomRabbit.Age}, Weight={randomRabbit.Weight}");
-
                 _repository.Add(randomRabbit);
                 return $"Рандомный кролик: {name} создан с id: {id}";
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"❌ Детали ошибки рандомного кролика: {ex.Message}");
-                if (ex.InnerException != null)
-                {
-                    Console.WriteLine($"🔍 Внутренняя ошибка: {ex.InnerException.Message}");
-                    if (ex.InnerException.InnerException != null)
-                    {
-                        Console.WriteLine($"🔍 Детали SQL: {ex.InnerException.InnerException.Message}");
-                    }
-                }
                 return $"Ошибка при создании рандомного кролика: {ex.Message}";
             }
         }
@@ -203,39 +175,16 @@ namespace Business_logic___rabbit
             try
             {
                 var rabbits = _repository.ReadAll().ToList();
-
                 List<Rabbit> sortedRabbits;
 
                 switch (sortField)
                 {
-                    case 1:
-                        sortedRabbits = ascending ?
-                            rabbits.OrderBy(r => r.Id).ToList() :
-                            rabbits.OrderByDescending(r => r.Id).ToList();
-                        break;
-                    case 2:
-                        sortedRabbits = ascending ?
-                            rabbits.OrderBy(r => r.Name).ToList() :
-                            rabbits.OrderByDescending(r => r.Name).ToList();
-                        break;
-                    case 3:
-                        sortedRabbits = ascending ?
-                            rabbits.OrderBy(r => r.Breed).ToList() :
-                            rabbits.OrderByDescending(r => r.Breed).ToList();
-                        break;
-                    case 4:
-                        sortedRabbits = ascending ?
-                            rabbits.OrderBy(r => r.Age).ToList() :
-                            rabbits.OrderByDescending(r => r.Age).ToList();
-                        break;
-                    case 5:
-                        sortedRabbits = ascending ?
-                            rabbits.OrderBy(r => r.Weight).ToList() :
-                            rabbits.OrderByDescending(r => r.Weight).ToList();
-                        break;
-                    default:
-                        sortedRabbits = rabbits;
-                        break;
+                    case 1: sortedRabbits = ascending ? rabbits.OrderBy(r => r.Id).ToList() : rabbits.OrderByDescending(r => r.Id).ToList(); break;
+                    case 2: sortedRabbits = ascending ? rabbits.OrderBy(r => r.Name).ToList() : rabbits.OrderByDescending(r => r.Name).ToList(); break;
+                    case 3: sortedRabbits = ascending ? rabbits.OrderBy(r => r.Breed).ToList() : rabbits.OrderByDescending(r => r.Breed).ToList(); break;
+                    case 4: sortedRabbits = ascending ? rabbits.OrderBy(r => r.Age).ToList() : rabbits.OrderByDescending(r => r.Age).ToList(); break;
+                    case 5: sortedRabbits = ascending ? rabbits.OrderBy(r => r.Weight).ToList() : rabbits.OrderByDescending(r => r.Weight).ToList(); break;
+                    default: sortedRabbits = rabbits; break;
                 }
 
                 Console.WriteLine("=== ОТСОРТИРОВАННЫЙ СПИСОК ===");

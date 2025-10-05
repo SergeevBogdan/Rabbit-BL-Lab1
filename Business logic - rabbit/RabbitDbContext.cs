@@ -1,17 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.Entity;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Data.Entity;
 
 namespace Business_logic___rabbit
 {
     public class RabbitDbContext : DbContext
     {
-        public RabbitDbContext() : base("RabbitDbConnection")
+        public RabbitDbContext() : base(GetConnectionString())
         {
             Database.SetInitializer<RabbitDbContext>(null);
+        }
+
+        private static string GetConnectionString()
+        {
+            return @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\AceR\Desktop\Rabbit-Lab - 4\Business logic - rabbit\Database1.mdf;Integrated Security=True";
         }
 
         public DbSet<Rabbit> Rabbits { get; set; }
@@ -22,8 +22,6 @@ namespace Business_logic___rabbit
             modelBuilder.Entity<Rabbit>().HasKey(r => r.Id);
             modelBuilder.Entity<Rabbit>().Property(r => r.Id)
                 .HasDatabaseGeneratedOption(System.ComponentModel.DataAnnotations.Schema.DatabaseGeneratedOption.None);
-
-            base.OnModelCreating(modelBuilder);
         }
     }
 }

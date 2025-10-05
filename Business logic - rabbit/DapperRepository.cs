@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Data.SqlClient;
-using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Dapper;
 
 namespace Business_logic___rabbit
@@ -15,53 +11,32 @@ namespace Business_logic___rabbit
 
         public DapperRepository()
         {
-            // 🔥 АБСОЛЮТНЫЙ ПУТЬ к твоему Database1.mdf
-            string dbPath = @"C:\Users\AceR\Desktop\Rabbit-Lab - 4\Business logic - rabbit\Database1.mdf";
-            _connectionString = $@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename={dbPath};Integrated Security=True";
-
-            Console.WriteLine($"📁 Dapper база: {dbPath}");
-            Console.WriteLine($"🔍 Файл существует: {File.Exists(dbPath)}");
-
+            _connectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\AceR\Desktop\Rabbit-Lab - 4\Business logic - rabbit\Database1.mdf;Integrated Security=True";
             EnsureTableExists();
         }
 
         private void EnsureTableExists()
         {
-            try
+            using (var db = new SqlConnection(_connectionString))
             {
-                using (var db = new SqlConnection(_connectionString))
-                {
-                    db.Open();
-                    var tableExists = db.ExecuteScalar<int>(
-                        "SELECT COUNT(*) FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = 'Rabbits'");
+                db.Open();
+                var tableExists = db.ExecuteScalar<int>(
+                    "SELECT COUNT(*) FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = 'Rabbits'");
 
-                    if (tableExists == 0)
-                    {
-                        Console.WriteLine("🔄 Dapper: Создаем таблицу Rabbits...");
-                        db.Execute(@"
-                            CREATE TABLE Rabbits (
-                                Id INT PRIMARY KEY,
-                                Name NVARCHAR(100) NOT NULL,
-                                Breed NVARCHAR(100) NOT NULL,
-                                Age INT NOT NULL,
-                                Weight INT NOT NULL
+                if (tableExists == 0)
+                {
+                    db.Execute(@"
+                        CREATE TABLE Rabbits (
+                            Id INT PRIMARY KEY,
+                            Name NVARCHAR(100) NOT NULL,
+                            Breed NVARCHAR(100) NOT NULL,
+                            Age INT NOT NULL,
+                            Weight INT NOT NULL
                         )");
-                        Console.WriteLine("✅ Dapper: Таблица Rabbits создана");
-                    }
-                    else
-                    {
-                        Console.WriteLine("✅ Dapper: Таблица Rabbits существует");
-                    }
                 }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"❌ Dapper: Ошибка создания таблицы: {ex.Message}");
-                throw;
             }
         }
 
-        // ... остальные методы без изменений
         public void Add(T entity)
         {
             using (var db = new SqlConnection(_connectionString))

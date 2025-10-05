@@ -36,7 +36,15 @@ C:\Users\AceR\Desktop\Rabbit-Lab - 4\Console-Rabbit\obj\Debug\Console-Rabbit.csp
 C:\Users\AceR\Desktop\Rabbit-Lab - 4\Console-Rabbit\obj\Debug\Console-.18CEF01B.Up2Date
 C:\Users\AceR\Desktop\Rabbit-Lab - 4\Console-Rabbit\obj\Debug\Console-Rabbit.exe
 C:\Users\AceR\Desktop\Rabbit-Lab - 4\Console-Rabbit\obj\Debug\Console-Rabbit.pdb
-C:\Users\AceR\Desktop\Rabbit-Lab - 4\Console-Rabbit\bin\Debug\EntityFramework.SqlServer.dll
-C:\Users\AceR\Desktop\Rabbit-Lab - 4\Console-Rabbit\bin\Debug\EntityFramework.SqlServer.xml
 C:\Users\AceR\Desktop\Rabbit-Lab - 4\Console-Rabbit\bin\Debug\Database1.mdf
 C:\Users\AceR\Desktop\Rabbit-Lab - 4\Console-Rabbit\bin\Debug\Database1_log.ldf
+C:\Users\AceR\Desktop\Rabbit-Lab - 4\Console-Rabbit\bin\Debug\System.Configuration.ConfigurationManager.dll
+C:\Users\AceR\Desktop\Rabbit-Lab - 4\Console-Rabbit\bin\Debug\System.Security.AccessControl.dll
+C:\Users\AceR\Desktop\Rabbit-Lab - 4\Console-Rabbit\bin\Debug\System.Security.Permissions.dll
+C:\Users\AceR\Desktop\Rabbit-Lab - 4\Console-Rabbit\bin\Debug\System.Security.Principal.Windows.dll
+C:\Users\AceR\Desktop\Rabbit-Lab - 4\Console-Rabbit\bin\Debug\System.Configuration.ConfigurationManager.xml
+C:\Users\AceR\Desktop\Rabbit-Lab - 4\Console-Rabbit\bin\Debug\System.Security.AccessControl.xml
+C:\Users\AceR\Desktop\Rabbit-Lab - 4\Console-Rabbit\bin\Debug\System.Security.Permissions.xml
+C:\Users\AceR\Desktop\Rabbit-Lab - 4\Console-Rabbit\bin\Debug\System.Security.Principal.Windows.xml
+C:\Users\AceR\Desktop\Rabbit-Lab - 4\Console-Rabbit\bin\Debug\EntityFramework.SqlServer.dll
+C:\Users\AceR\Desktop\Rabbit-Lab - 4\Console-Rabbit\bin\Debug\EntityFramework.SqlServer.xml
