@@ -22,32 +22,23 @@ namespace WF_Rabbit
         public Form1()
         {
             InitializeComponent();
-
-            // Сначала инициализируем логику
             logic = new Logic(useEntityFramework);
-
-            // Потом создаем интерфейс
             InitializeTechnologySelection();
             InitializeDataGridView();
             InitializeBreedComboBox();
             InitializeFilterComboBox();
             RefreshDataGridView();
-
-            // Показываем текущую технологию при запуске
             UpdateTechnologyDisplay();
         }
 
         private void InitializeTechnologySelection()
         {
-            // Создаем меню для выбора технологии
             var menuStrip = new MenuStrip();
 
             var technologyMenu = new ToolStripMenuItem("Технология данных");
             var efItem = new ToolStripMenuItem("Entity Framework", null, (s, e) => SwitchTechnology(true));
             var dapperItem = new ToolStripMenuItem("Dapper", null, (s, e) => SwitchTechnology(false));
-
-            // Создаем пустой элемент, заполним после инициализации logic
-            technologyStatusItem = new ToolStripMenuItem("Текущая: загрузка...");
+            technologyStatusItem = new ToolStripMenuItem("Текущая: загрузка");
 
             var menuItems = new ToolStripItem[]
             {
@@ -78,14 +69,9 @@ namespace WF_Rabbit
             try
             {
                 useEntityFramework = useEF;
-
-                // Пересоздаем объект Logic с новой технологией
                 logic = new Logic(useEntityFramework);
                 RefreshDataGridView();
-
-                // Обновляем отображение
                 UpdateTechnologyDisplay();
-
                 MessageBox.Show($"Переключено на: {logic.GetCurrentTechnology()}", "Технология данных");
             }
             catch (Exception ex)
@@ -143,23 +129,17 @@ namespace WF_Rabbit
             try
             {
                 string allRabbits = logic.ShowAllRabbits();
-                Console.WriteLine($"ShowAllRabbits returned: {allRabbits}"); // для отладки
 
                 if (string.IsNullOrEmpty(allRabbits) || allRabbits == "Список кроликов пуст")
                 {
-                    Console.WriteLine("No rabbits to display"); // для отладки
                     return;
                 }
 
                 string[] rabbits = allRabbits.Split(new[] { "\n" }, StringSplitOptions.RemoveEmptyEntries);
-                Console.WriteLine($"Found {rabbits.Length} lines"); // для отладки
 
                 foreach (string rabbit in rabbits)
                 {
-                    Console.WriteLine($"Processing: {rabbit}"); // для отладки
-
-                    // Пропускаем заголовок
-                    if (rabbit.Contains("СПИСОК") || rabbit.Contains("---"))
+                    if (rabbit.Contains("Список") || rabbit.Contains("---"))
                         continue;
 
                     var rabbitData = ParseRabbitString(rabbit);
@@ -178,15 +158,12 @@ namespace WF_Rabbit
             catch (Exception ex)
             {
                 MessageBox.Show($"Ошибка при загрузке данных: {ex.Message}", "Ошибка");
-                Console.WriteLine($"Refresh error: {ex}"); // для отладки
             }
         }
-
         private Rabbit ParseRabbitString(string rabbitString)
         {
             try
             {
-                // Улучшенный парсинг для формата из ShowAllRabbits
                 if (rabbitString.Contains("ID:"))
                 {
                     var parts = rabbitString.Split(new[] { '|' }, StringSplitOptions.RemoveEmptyEntries);
@@ -219,7 +196,6 @@ namespace WF_Rabbit
             txtWeight.Text = "";
             comboBoxBreed.SelectedIndex = 0;
         }
-
         private void btnAdd_Click(object sender, EventArgs e)
         {
             try
@@ -315,12 +291,12 @@ namespace WF_Rabbit
                     comboBoxBreed.SelectedIndex = comboBoxBreed.Items.Count - 1;
                 }
 
-                MessageBox.Show("Данные кролика загружены для редактирования. Измените нужные поля и нажмите 'Обновить'",
+                MessageBox.Show("Измените нужные поля",
                     "Редактирование");
             }
             else
             {
-                MessageBox.Show("Выберите кролика для редактирования");
+                MessageBox.Show("Выберите кролика");
             }
         }
 
@@ -330,7 +306,7 @@ namespace WF_Rabbit
             {
                 if (string.IsNullOrEmpty(txtId.Text))
                 {
-                    MessageBox.Show("Нет данных для обновления. Сначала выберите кролика для редактирования", "Ошибка");
+                    MessageBox.Show("Сначала выберите кролика для редактирования", "Ошибка");
                     return;
                 }
 
@@ -406,7 +382,5 @@ namespace WF_Rabbit
                     comboBoxBreed.SelectedIndex = index;
             }
         }
-
-        // Убрал обработчик comboBox1_SelectedIndexChanged так как он не нужен
     }
 }
