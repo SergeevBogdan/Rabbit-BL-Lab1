@@ -9,12 +9,12 @@ namespace Console_Rabbit
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("=== СИСТЕМА УПРАВЛЕНИЯ КРОЛИКАМИ ===");
+            Console.WriteLine("   СИСТЕМА УПРАВЛЕНИЯ КРОЛИКАМИ   ");
 
             bool useEF = ChooseTechnology();
             var logic = new Logic(useEF);
 
-            Console.WriteLine($"\n🚀 Используется: {logic.GetCurrentTechnology()}");
+            Console.WriteLine($"\n Используется: {logic.GetCurrentTechnology()}");
 
             RunMainMenu(logic);
         }
@@ -51,7 +51,7 @@ namespace Console_Rabbit
 
         static void ShowMainMenu(string technology)
         {
-            Console.WriteLine($"=== ГЛАВНОЕ МЕНЮ ({technology}) ===");
+            Console.WriteLine($"   ГЛАВНОЕ МЕНЮ ({technology})   ");
             Console.WriteLine("1. Создать кролика");
             Console.WriteLine("2. Удалить кролика");
             Console.WriteLine("3. Прочесть кролика");
@@ -78,9 +78,9 @@ namespace Console_Rabbit
                 case 7: AddRandomRabbitMenu(logic); break;
                 case 8: ShowAllRabbitsMenu(logic); break;
                 case 9: SortRabbitsMenu(logic); break;
-                default: Console.WriteLine("Неверная опция!"); break;
+                default: Console.WriteLine("Неверная опция"); break;
             }
-            Console.WriteLine("\nНажмите любую клавишу...");
+            Console.WriteLine("\nНажмите любую клавишу");
             Console.ReadKey();
         }
 
@@ -93,7 +93,7 @@ namespace Console_Rabbit
             try
             {
                 string allRabbits = logic.ShowAllRabbits();
-                if (!allRabbits.Contains("пуст"))
+                if (!allRabbits.Contains("Пусто"))
                 {
                     Console.WriteLine("Текущие кролики:");
                     Console.WriteLine(allRabbits);
@@ -103,9 +103,9 @@ namespace Console_Rabbit
                 int id = ReadValidNumber("Введите ID кролика (1-9999): ", 1, 9999);
 
                 string existingRabbit = logic.ReadRabbit(id);
-                if (!existingRabbit.Contains("не найден"))
+                if (!existingRabbit.Contains("Не найден"))
                 {
-                    ShowError($"Кролик с ID {id} уже существует!");
+                    ShowError($"Кролик с ID {id} уже существует");
                     return;
                 }
 
@@ -114,7 +114,7 @@ namespace Console_Rabbit
                 string name = Console.ReadLine();
                 if (string.IsNullOrWhiteSpace(name))
                 {
-                    ShowError("Имя не может быть пустым!");
+                    ShowError("Имя не может быть пустым");
                     return;
                 }
 
@@ -148,7 +148,7 @@ namespace Console_Rabbit
 
                 string result = logic.AddRabbit(id, name, age, weight, breed);
 
-                if (result.Contains("успешно"))
+                if (result.Contains("Успешно"))
                 {
                     ShowSuccess(result);
                     Console.WriteLine("\nОбновленный список кроликов:");
@@ -199,7 +199,7 @@ namespace Console_Rabbit
                 int id = ReadValidNumber("Введите ID кролика: ", 1, 9999);
                 string result = logic.ReadRabbit(id);
 
-                if (result.Contains("не найден"))
+                if (result.Contains("Не найден"))
                     ShowError(result);
                 else
                     ShowSuccess($"Данные кролика:\n{result}");
@@ -213,11 +213,11 @@ namespace Console_Rabbit
         static void UpdateRabbitMenu(Logic logic)
         {
             Console.Clear();
-            Console.WriteLine("=== ИЗМЕНЕНИЕ ДАННЫХ КРОЛИКА ===");
+            Console.WriteLine("   ИЗМЕНЕНИЕ ДАННЫХ КРОЛИКА   ");
             string allRabbits = logic.ShowAllRabbits();
             if (allRabbits.Contains("пуст"))
             {
-                ShowInfo("Список кроликов пуст! Сначала создайте кроликов.");
+                ShowInfo("Список кроликов пуст, сначала создайте кроликов.");
                 return;
             }
 
@@ -229,9 +229,9 @@ namespace Console_Rabbit
             {
                 int id = ReadValidNumber("Введите ID кролика для изменения: ", 1, 9999);
                 string currentData = logic.ReadRabbit(id);
-                if (currentData.Contains("не найден"))
+                if (currentData.Contains("Не найден"))
                 {
-                    ShowError($"Кролик с ID {id} не найден!");
+                    ShowError($"Кролик с ID {id} не найден");
                     return;
                 }
 
@@ -242,7 +242,7 @@ namespace Console_Rabbit
                 string name = Console.ReadLine();
                 if (string.IsNullOrWhiteSpace(name))
                 {
-                    ShowError("Имя не может быть пустым!");
+                    ShowError("Имя не может быть пустым");
                     return;
                 }
 
@@ -274,7 +274,7 @@ namespace Console_Rabbit
                 }
 
                 logic.ChangeStatRabbit(id, name, age, weight, breed);
-                ShowSuccess("Данные кролика успешно обновлены!");
+                ShowSuccess("Данные кролика успешно обновлены");
 
                 Console.WriteLine("\nОбновленные данные:");
                 string updatedData = logic.ReadRabbit(id);
@@ -292,7 +292,7 @@ namespace Console_Rabbit
         static void ShowAverageAge(Logic logic)
         {
             Console.Clear();
-            Console.WriteLine("=== СРЕДНИЙ ВОЗРАСТ ===");
+            Console.WriteLine("   СРЕДНИЙ ВОЗРАСТ   ");
 
             double averageAge = logic.GetAverageAge();
             ShowInfo($"Средний возраст всех кроликов: {averageAge:F2} лет");
@@ -301,7 +301,7 @@ namespace Console_Rabbit
         static void ShowAverageWeight(Logic logic)
         {
             Console.Clear();
-            Console.WriteLine("=== СРЕДНИЙ ВЕС ===");
+            Console.WriteLine("   СРЕДНИЙ ВЕС   ");
 
             double averageWeight = logic.GetAverageWeight();
             ShowInfo($"Средний вес всех кроликов: {averageWeight:F2} кг");
@@ -310,7 +310,7 @@ namespace Console_Rabbit
         static void AddRandomRabbitMenu(Logic logic)
         {
             Console.Clear();
-            Console.WriteLine("=== СОЗДАНИЕ РАНДОМНОГО КРОЛИКА ===");
+            Console.WriteLine("   СОЗДАНИЕ РАНДОМНОГО КРОЛИКА   ");
 
             try
             {
@@ -329,7 +329,7 @@ namespace Console_Rabbit
         static void ShowAllRabbitsMenu(Logic logic)
         {
             Console.Clear();
-            Console.WriteLine("=== ВСЕ КРОЛИКИ ===");
+            Console.WriteLine("   ВСЕ КРОЛИКИ   ");
 
             try
             {
@@ -384,13 +384,12 @@ namespace Console_Rabbit
                 if (int.TryParse(Console.ReadLine(), out int result) && result >= min && result <= max)
                     return result;
 
-                ShowError($"Введите число от {min} до {max}!");
+                ShowError($"Введите число от {min} до {max} ");
             }
         }
 
         static void ShowSuccess(string message)
         {
-            Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine(message);
             Console.ResetColor();
             WaitForContinue();
@@ -398,7 +397,6 @@ namespace Console_Rabbit
 
         static void ShowError(string message)
         {
-            Console.ForegroundColor = ConsoleColor.Red;
             Console.WriteLine(message);
             Console.ResetColor();
             WaitForContinue();
@@ -406,7 +404,6 @@ namespace Console_Rabbit
 
         static void ShowInfo(string message)
         {
-            Console.ForegroundColor = ConsoleColor.Cyan;
             Console.WriteLine(message);
             Console.ResetColor();
             WaitForContinue();
@@ -414,7 +411,7 @@ namespace Console_Rabbit
 
         static void WaitForContinue()
         {
-            Console.WriteLine("\nНажмите любую клавишу для продолжения...");
+            Console.WriteLine("\nНажмите любую клавишу для продолжения ");
             Console.ReadKey();
         }
     }
