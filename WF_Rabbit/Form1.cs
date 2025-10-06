@@ -143,16 +143,21 @@ namespace WF_Rabbit
             try
             {
                 string allRabbits = logic.ShowAllRabbits();
+                Console.WriteLine($"ShowAllRabbits returned: {allRabbits}"); // для отладки
 
                 if (string.IsNullOrEmpty(allRabbits) || allRabbits == "Список кроликов пуст")
                 {
+                    Console.WriteLine("No rabbits to display"); // для отладки
                     return;
                 }
 
                 string[] rabbits = allRabbits.Split(new[] { "\n" }, StringSplitOptions.RemoveEmptyEntries);
+                Console.WriteLine($"Found {rabbits.Length} lines"); // для отладки
 
                 foreach (string rabbit in rabbits)
                 {
+                    Console.WriteLine($"Processing: {rabbit}"); // для отладки
+
                     // Пропускаем заголовок
                     if (rabbit.Contains("СПИСОК") || rabbit.Contains("---"))
                         continue;
@@ -173,6 +178,7 @@ namespace WF_Rabbit
             catch (Exception ex)
             {
                 MessageBox.Show($"Ошибка при загрузке данных: {ex.Message}", "Ошибка");
+                Console.WriteLine($"Refresh error: {ex}"); // для отладки
             }
         }
 

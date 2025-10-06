@@ -25,6 +25,7 @@ namespace Business_logic___rabbit
             {
                 try
                 {
+                    var ensureDLLIsCopied = System.Data.Entity.SqlServer.SqlProviderServices.Instance;
                     var context = new RabbitDbContext();
                     _repository = new EntityRepository<Rabbit>(context);
                     _technology = "Entity Framework";
