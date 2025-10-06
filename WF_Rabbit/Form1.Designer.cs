@@ -20,12 +20,8 @@
             base.Dispose(disposing);
         }
 
-        #region Код, автоматически созданный конструктором форм Windows
+        #region Windows Form Designer generated code
 
-        /// <summary>
-        /// Требуемый метод для поддержки конструктора — не изменяйте 
-        /// содержимое этого метода с помощью редактора кода.
-        /// </summary>
         private void InitializeComponent()
         {
             this.txtId = new System.Windows.Forms.TextBox();
@@ -60,243 +56,215 @@
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewRabbits)).BeginInit();
             this.SuspendLayout();
-            // 
+
             // txtId
-            // 
-            this.txtId.Location = new System.Drawing.Point(420, 40);
+            this.txtId.Location = new System.Drawing.Point(420, 60);
             this.txtId.Name = "txtId";
             this.txtId.Size = new System.Drawing.Size(150, 20);
             this.txtId.TabIndex = 1;
-            // 
+
             // txtName
-            // 
-            this.txtName.Location = new System.Drawing.Point(420, 80);
+            this.txtName.Location = new System.Drawing.Point(420, 100);
             this.txtName.Name = "txtName";
             this.txtName.Size = new System.Drawing.Size(150, 20);
             this.txtName.TabIndex = 2;
-            // 
+
             // txtAge
-            // 
-            this.txtAge.Location = new System.Drawing.Point(420, 120);
+            this.txtAge.Location = new System.Drawing.Point(420, 140);
             this.txtAge.Name = "txtAge";
             this.txtAge.Size = new System.Drawing.Size(150, 20);
             this.txtAge.TabIndex = 3;
-            // 
+
             // txtWeight
-            // 
-            this.txtWeight.Location = new System.Drawing.Point(420, 160);
+            this.txtWeight.Location = new System.Drawing.Point(420, 180);
             this.txtWeight.Name = "txtWeight";
             this.txtWeight.Size = new System.Drawing.Size(150, 20);
             this.txtWeight.TabIndex = 4;
-            // 
+
             // btnAdd
-            // 
-            this.btnAdd.Location = new System.Drawing.Point(420, 230);
+            this.btnAdd.Location = new System.Drawing.Point(420, 250);
             this.btnAdd.Name = "btnAdd";
             this.btnAdd.Size = new System.Drawing.Size(100, 23);
             this.btnAdd.TabIndex = 11;
             this.btnAdd.Text = "Добавить";
             this.btnAdd.Click += new System.EventHandler(this.btnAdd_Click);
-            // 
+
             // btnRemove
-            // 
-            this.btnRemove.Location = new System.Drawing.Point(420, 260);
+            this.btnRemove.Location = new System.Drawing.Point(420, 280);
             this.btnRemove.Name = "btnRemove";
             this.btnRemove.Size = new System.Drawing.Size(100, 23);
             this.btnRemove.TabIndex = 12;
             this.btnRemove.Text = "Удалить";
             this.btnRemove.Click += new System.EventHandler(this.btnRemove_Click);
-            // 
+
             // btnView
-            // 
-            this.btnView.Location = new System.Drawing.Point(420, 290);
+            this.btnView.Location = new System.Drawing.Point(420, 310);
             this.btnView.Name = "btnView";
             this.btnView.Size = new System.Drawing.Size(100, 23);
             this.btnView.TabIndex = 13;
             this.btnView.Text = "Просмотреть";
             this.btnView.Click += new System.EventHandler(this.btnView_Click);
-            // 
+
             // btnEdit
-            // 
-            this.btnEdit.Location = new System.Drawing.Point(420, 320);
+            this.btnEdit.Location = new System.Drawing.Point(420, 340);
             this.btnEdit.Name = "btnEdit";
             this.btnEdit.Size = new System.Drawing.Size(100, 23);
             this.btnEdit.TabIndex = 14;
             this.btnEdit.Text = "Редактировать";
             this.btnEdit.Click += new System.EventHandler(this.btnEdit_Click);
-            // 
+
             // btnUpdate
-            // 
-            this.btnUpdate.Location = new System.Drawing.Point(420, 350);
+            this.btnUpdate.Location = new System.Drawing.Point(420, 370);
             this.btnUpdate.Name = "btnUpdate";
             this.btnUpdate.Size = new System.Drawing.Size(100, 23);
             this.btnUpdate.TabIndex = 15;
             this.btnUpdate.Text = "Обновить";
             this.btnUpdate.Click += new System.EventHandler(this.btnUpdate_Click);
-            // 
+
             // btnAverageAge
-            // 
             this.btnAverageAge.Location = new System.Drawing.Point(6, 19);
             this.btnAverageAge.Name = "btnAverageAge";
             this.btnAverageAge.Size = new System.Drawing.Size(104, 23);
             this.btnAverageAge.TabIndex = 0;
             this.btnAverageAge.Text = "Средний возраст";
             this.btnAverageAge.Click += new System.EventHandler(this.btnAverageAge_Click);
-            // 
+
             // btnAverageWeight
-            // 
             this.btnAverageWeight.Location = new System.Drawing.Point(6, 48);
             this.btnAverageWeight.Name = "btnAverageWeight";
             this.btnAverageWeight.Size = new System.Drawing.Size(104, 23);
             this.btnAverageWeight.TabIndex = 1;
             this.btnAverageWeight.Text = "Средний вес";
             this.btnAverageWeight.Click += new System.EventHandler(this.btnAverageWeight_Click);
-            // 
+
             // btnAddRandom
-            // 
             this.btnAddRandom.Location = new System.Drawing.Point(116, 19);
             this.btnAddRandom.Name = "btnAddRandom";
             this.btnAddRandom.Size = new System.Drawing.Size(75, 52);
             this.btnAddRandom.TabIndex = 2;
             this.btnAddRandom.Text = "Случайный кролик";
             this.btnAddRandom.Click += new System.EventHandler(this.btnAddRandom_Click);
-            // 
+
             // label1
-            // 
-            this.label1.Location = new System.Drawing.Point(420, 20);
+            this.label1.Location = new System.Drawing.Point(420, 40);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(100, 23);
             this.label1.TabIndex = 6;
             this.label1.Text = "ID:";
-            // 
+
             // label2
-            // 
-            this.label2.Location = new System.Drawing.Point(420, 60);
+            this.label2.Location = new System.Drawing.Point(420, 80);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(100, 23);
             this.label2.TabIndex = 7;
             this.label2.Text = "Имя:";
-            // 
+
             // label3
-            // 
-            this.label3.Location = new System.Drawing.Point(420, 100);
+            this.label3.Location = new System.Drawing.Point(420, 120);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(100, 23);
             this.label3.TabIndex = 8;
             this.label3.Text = "Возраст:";
-            // 
+
             // label4
-            // 
-            this.label4.Location = new System.Drawing.Point(420, 140);
+            this.label4.Location = new System.Drawing.Point(420, 160);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(100, 23);
             this.label4.TabIndex = 9;
             this.label4.Text = "Вес:";
-            // 
+
             // label5
-            // 
-            this.label5.Location = new System.Drawing.Point(420, 180);
+            this.label5.Location = new System.Drawing.Point(420, 200);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(100, 23);
             this.label5.TabIndex = 10;
             this.label5.Text = "Порода:";
-            // 
+
             // groupBox1
-            // 
             this.groupBox1.Controls.Add(this.btnAverageAge);
             this.groupBox1.Controls.Add(this.btnAverageWeight);
             this.groupBox1.Controls.Add(this.btnAddRandom);
-            this.groupBox1.Location = new System.Drawing.Point(580, 12);
+            this.groupBox1.Location = new System.Drawing.Point(580, 40);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(200, 100);
             this.groupBox1.TabIndex = 17;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Статистика";
-            // 
+
             // btnClearFields
-            // 
-            this.btnClearFields.Location = new System.Drawing.Point(420, 380);
+            this.btnClearFields.Location = new System.Drawing.Point(420, 400);
             this.btnClearFields.Name = "btnClearFields";
             this.btnClearFields.Size = new System.Drawing.Size(100, 23);
             this.btnClearFields.TabIndex = 16;
             this.btnClearFields.Text = "Очистить поля";
             this.btnClearFields.Click += new System.EventHandler(this.btnClearFields_Click);
-            // 
+
             // groupBox2
-            // 
             this.groupBox2.Controls.Add(this.label6);
             this.groupBox2.Controls.Add(this.comboBoxFilterField);
             this.groupBox2.Controls.Add(this.radioAscending);
             this.groupBox2.Controls.Add(this.radioDescending);
             this.groupBox2.Controls.Add(this.btnApplyFilter);
-            this.groupBox2.Location = new System.Drawing.Point(580, 120);
+            this.groupBox2.Location = new System.Drawing.Point(580, 150);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(200, 150);
             this.groupBox2.TabIndex = 18;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Фильтрация";
-            // 
+
             // label6
-            // 
             this.label6.Location = new System.Drawing.Point(10, 20);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(100, 23);
             this.label6.TabIndex = 0;
             this.label6.Text = "Поле:";
-            // 
+
             // comboBoxFilterField
-            // 
             this.comboBoxFilterField.Location = new System.Drawing.Point(10, 40);
             this.comboBoxFilterField.Name = "comboBoxFilterField";
             this.comboBoxFilterField.Size = new System.Drawing.Size(180, 21);
             this.comboBoxFilterField.TabIndex = 1;
-            // 
+
             // radioAscending
-            // 
             this.radioAscending.Location = new System.Drawing.Point(10, 70);
             this.radioAscending.Name = "radioAscending";
             this.radioAscending.Size = new System.Drawing.Size(114, 24);
             this.radioAscending.TabIndex = 2;
             this.radioAscending.Text = "По возрастанию";
-            // 
+
             // radioDescending
-            // 
             this.radioDescending.Location = new System.Drawing.Point(10, 90);
             this.radioDescending.Name = "radioDescending";
             this.radioDescending.Size = new System.Drawing.Size(100, 24);
             this.radioDescending.TabIndex = 3;
             this.radioDescending.Text = "По убыванию";
-            // 
+
             // btnApplyFilter
-            // 
             this.btnApplyFilter.Location = new System.Drawing.Point(10, 120);
             this.btnApplyFilter.Name = "btnApplyFilter";
             this.btnApplyFilter.Size = new System.Drawing.Size(75, 23);
             this.btnApplyFilter.TabIndex = 4;
             this.btnApplyFilter.Text = "Применить фильтр";
             this.btnApplyFilter.Click += new System.EventHandler(this.btnApplyFilter_Click);
-            // 
+
             // btnSave
-            // 
-            this.btnSave.Location = new System.Drawing.Point(420, 409);
+            this.btnSave.Location = new System.Drawing.Point(420, 430);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(97, 23);
             this.btnSave.TabIndex = 19;
             this.btnSave.Text = "Сохранить";
             this.btnSave.UseVisualStyleBackColor = true;
             this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
-            // 
+
             // comboBoxBreed
-            // 
             this.comboBoxBreed.FormattingEnabled = true;
-            this.comboBoxBreed.Location = new System.Drawing.Point(420, 193);
+            this.comboBoxBreed.Location = new System.Drawing.Point(420, 213);
             this.comboBoxBreed.Name = "comboBoxBreed";
             this.comboBoxBreed.Size = new System.Drawing.Size(150, 21);
             this.comboBoxBreed.TabIndex = 20;
-            this.comboBoxBreed.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
-            // 
+            // Убрал обработчик SelectedIndexChanged
+
             // dataGridViewRabbits
-            // 
             this.dataGridViewRabbits.AllowUserToAddRows = false;
             this.dataGridViewRabbits.AllowUserToDeleteRows = false;
             this.dataGridViewRabbits.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
@@ -304,7 +272,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.dataGridViewRabbits.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dataGridViewRabbits.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridViewRabbits.Location = new System.Drawing.Point(12, 12);
+            this.dataGridViewRabbits.Location = new System.Drawing.Point(12, 40);
             this.dataGridViewRabbits.Name = "dataGridViewRabbits";
             this.dataGridViewRabbits.ReadOnly = true;
             this.dataGridViewRabbits.RowHeadersVisible = false;
@@ -312,11 +280,10 @@
             this.dataGridViewRabbits.Size = new System.Drawing.Size(400, 394);
             this.dataGridViewRabbits.TabIndex = 0;
             this.dataGridViewRabbits.SelectionChanged += new System.EventHandler(this.dataGridViewRabbits_SelectionChanged);
-            // 
+
             // Form1
-            // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
-            this.ClientSize = new System.Drawing.Size(800, 464);
+            this.ClientSize = new System.Drawing.Size(800, 484);
             this.Controls.Add(this.dataGridViewRabbits);
             this.Controls.Add(this.comboBoxBreed);
             this.Controls.Add(this.btnSave);
@@ -345,8 +312,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewRabbits)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
-
         }
+
         private System.Windows.Forms.TextBox txtId;
         private System.Windows.Forms.TextBox txtName;
         private System.Windows.Forms.TextBox txtAge;
@@ -377,6 +344,5 @@
         private System.Windows.Forms.DataGridView dataGridViewRabbits;
     }
 }
-
 
 #endregion

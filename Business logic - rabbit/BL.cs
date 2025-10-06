@@ -48,21 +48,13 @@ namespace Business_logic___rabbit
         /// <returns>Название технологии (Entity Framework или Dapper)</returns>
         public string GetCurrentTechnology() => _technology;
 
-        /// <summary>
-        /// Добавляет нового кролика в базу данных
-        /// </summary>
-        /// <param name="id">Уникальный идентификатор кролика</param>
-        /// <param name="name">Имя кролика</param>
-        /// <param name="age">Возраст кролика в годах</param>
-        /// <param name="weight">Вес кролика в кг</param>
-        /// <param name="breed">Порода кролика</param>
-        /// <returns>Результат операции: сообщение об успехе или ошибке</returns>
+        
         public string AddRabbit(int id, string name, int age, int weight, string breed)
         {
             try
             {
                 var existing = _repository.ReadById(id);
-                if (existing != null) return "такой id уже есть";
+                if (existing != null) return "Такой id уже есть";
 
                 var rabbit = new Rabbit { Id = id, Name = name, Age = age, Weight = weight, Breed = breed };
                 _repository.Add(rabbit);
@@ -74,11 +66,7 @@ namespace Business_logic___rabbit
             }
         }
 
-        /// <summary>
-        /// Удаляет кролика из базы данных по идентификатору
-        /// </summary>
-        /// <param name="id">Идентификатор кролика для удаления</param>
-        /// <returns>Результат операции: сообщение об успехе или ошибке</returns>
+        
         public string RemoveRabbit(int id)
         {
             try
@@ -182,12 +170,12 @@ namespace Business_logic___rabbit
                 string[] breeds = { "Беляк", "Русак", "Толай", "Маньжурский", "Оранжевый" };
 
                 string name = names[_rnd.Next(names.Length)];
-                int id = _rnd.Next(1, 1000);
+                int id = _rnd.Next(1, 9999);
 
                 int count = 0;
-                while (_repository.ReadById(id) != null && count < 1000)
+                while (_repository.ReadById(id) != null && count < 9999)
                 {
-                    id = _rnd.Next(1, 1000);
+                    id = _rnd.Next(1, 9999);
                     count++;
                 }
 
@@ -231,7 +219,7 @@ namespace Business_logic___rabbit
                     default: sortedRabbits = rabbits; break;
                 }
 
-                Console.WriteLine("=== ОТСОРТИРОВАННЫЙ СПИСОК ===");
+                Console.WriteLine("    ОТСОРТИРОВАННЫЙ СПИСОК   ");
                 foreach (var rabbit in sortedRabbits)
                 {
                     Console.WriteLine($"ID: {rabbit.Id} | Имя: {rabbit.Name} | Порода: {rabbit.Breed} | Возраст: {rabbit.Age} | Вес: {rabbit.Weight}");
@@ -241,11 +229,6 @@ namespace Business_logic___rabbit
             {
             }
         }
-
-        /// <summary>
-        /// Возвращает строковое представление всех кроликов в базе данных
-        /// </summary>
-        /// <returns>Форматированная строка со списком кроликов или сообщение об ошибке</returns>
         public string ShowAllRabbits()
         {
             try
@@ -255,7 +238,7 @@ namespace Business_logic___rabbit
                 if (rabbits == null || !rabbits.Any())
                     return "Список кроликов пуст";
 
-                string result = "=== СПИСОК ВСЕХ КРОЛИКОВ ===\n";
+                string result = "   СПИСОК ВСЕХ КРОЛИКОВ   \n";
                 foreach (var rabbit in rabbits)
                 {
                     result += $"ID: {rabbit.Id} | Имя: {rabbit.Name} | Порода: {rabbit.Breed} | Возраст: {rabbit.Age} | Вес: {rabbit.Weight}\n";

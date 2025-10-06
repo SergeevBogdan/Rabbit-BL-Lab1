@@ -10,76 +10,111 @@ using System.Windows.Forms;
 using System.Xml.Linq;
 using Business_logic___rabbit;
 
+
 namespace WF_Rabbit
 {
     public partial class Form1 : Form
     {
-        Logic logic = new Logic();
+        private Logic logic;
+        private bool useEntityFramework = true;
+        private ToolStripMenuItem technologyStatusItem;
 
         public Form1()
         {
             InitializeComponent();
+
+            // Сначала инициализируем логику
+            logic = new Logic(useEntityFramework);
+
+            // Потом создаем интерфейс
+            InitializeTechnologySelection();
             InitializeDataGridView();
-            RefreshDataGridView();
             InitializeBreedComboBox();
             InitializeFilterComboBox();
-
-            logic.SaveRabbitsToFile();
-            logic.LoadRabbitsFromFile();
             RefreshDataGridView();
+
+            // Показываем текущую технологию при запуске
+            UpdateTechnologyDisplay();
+        }
+
+        private void InitializeTechnologySelection()
+        {
+            // Создаем меню для выбора технологии
+            var menuStrip = new MenuStrip();
+
+            var technologyMenu = new ToolStripMenuItem("Технология данных");
+            var efItem = new ToolStripMenuItem("Entity Framework", null, (s, e) => SwitchTechnology(true));
+            var dapperItem = new ToolStripMenuItem("Dapper", null, (s, e) => SwitchTechnology(false));
+
+            // Создаем пустой элемент, заполним после инициализации logic
+            technologyStatusItem = new ToolStripMenuItem("Текущая: загрузка...");
+
+            var menuItems = new ToolStripItem[]
+            {
+                efItem,
+                dapperItem,
+                new ToolStripSeparator(),
+                technologyStatusItem
+            };
+
+            technologyMenu.DropDownItems.AddRange(menuItems);
+
+            menuStrip.Items.Add(technologyMenu);
+            this.MainMenuStrip = menuStrip;
+            this.Controls.Add(menuStrip);
+        }
+
+        private void UpdateTechnologyDisplay()
+        {
+            if (technologyStatusItem != null)
+            {
+                technologyStatusItem.Text = $"Текущая: {logic.GetCurrentTechnology()}";
+            }
+            this.Text = $"Кролики - {logic.GetCurrentTechnology()}";
+        }
+
+        private void SwitchTechnology(bool useEF)
+        {
+            try
+            {
+                useEntityFramework = useEF;
+
+                // Пересоздаем объект Logic с новой технологией
+                logic = new Logic(useEntityFramework);
+                RefreshDataGridView();
+
+                // Обновляем отображение
+                UpdateTechnologyDisplay();
+
+                MessageBox.Show($"Переключено на: {logic.GetCurrentTechnology()}", "Технология данных");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ошибка при переключении технологии: {ex.Message}", "Ошибка");
+            }
         }
 
         private void InitializeDataGridView()
         {
-            
             dataGridViewRabbits.Columns.Clear();
 
-            
-            dataGridViewRabbits.Columns.Add(new DataGridViewTextBoxColumn()
-            {
-                Name = "Id",
-                HeaderText = "ID",
-                SortMode = DataGridViewColumnSortMode.NotSortable 
-            });
+            dataGridViewRabbits.Columns.Add("Id", "ID");
+            dataGridViewRabbits.Columns.Add("Name", "Имя");
+            dataGridViewRabbits.Columns.Add("Age", "Возраст");
+            dataGridViewRabbits.Columns.Add("Weight", "Вес");
+            dataGridViewRabbits.Columns.Add("Breed", "Порода");
 
-            dataGridViewRabbits.Columns.Add(new DataGridViewTextBoxColumn()
-            {
-                Name = "Name",
-                HeaderText = "Имя",
-                SortMode = DataGridViewColumnSortMode.NotSortable
-            });
-
-            dataGridViewRabbits.Columns.Add(new DataGridViewTextBoxColumn()
-            {
-                Name = "Age",
-                HeaderText = "Возраст",
-                SortMode = DataGridViewColumnSortMode.NotSortable
-            });
-
-            dataGridViewRabbits.Columns.Add(new DataGridViewTextBoxColumn()
-            {
-                Name = "Weight",
-                HeaderText = "Вес",
-                SortMode = DataGridViewColumnSortMode.NotSortable
-            });
-
-            dataGridViewRabbits.Columns.Add(new DataGridViewTextBoxColumn()
-            {
-                Name = "Breed",
-                HeaderText = "Порода",
-                SortMode = DataGridViewColumnSortMode.NotSortable
-            });
-
-            
             dataGridViewRabbits.Columns["Id"].Width = 50;
             dataGridViewRabbits.Columns["Name"].Width = 100;
             dataGridViewRabbits.Columns["Age"].Width = 70;
             dataGridViewRabbits.Columns["Weight"].Width = 70;
             dataGridViewRabbits.Columns["Breed"].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
 
-        
-            dataGridViewRabbits.AllowUserToOrderColumns = false; 
-            dataGridViewRabbits.EnableHeadersVisualStyles = false; 
+            dataGridViewRabbits.AllowUserToAddRows = false;
+            dataGridViewRabbits.AllowUserToDeleteRows = false;
+            dataGridViewRabbits.ReadOnly = true;
+            dataGridViewRabbits.RowHeadersVisible = false;
+            dataGridViewRabbits.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
         }
 
         private void InitializeBreedComboBox()
@@ -87,7 +122,7 @@ namespace WF_Rabbit
             comboBoxBreed.Items.Clear();
             comboBoxBreed.Items.AddRange(new string[]
             {
-            "Беляк", "Русак", "Толай", "Маньжурский", "Оранжевый"
+                "Беляк", "Русак", "Толай", "Маньжурский", "Оранжевый"
             });
             comboBoxBreed.SelectedIndex = 0;
         }
@@ -95,8 +130,8 @@ namespace WF_Rabbit
         private void InitializeFilterComboBox()
         {
             comboBoxFilterField.Items.AddRange(new string[] {
-            "ID", "Имя", "Порода", "Возраст", "Вес"
-        });
+                "ID", "Имя", "Порода", "Возраст", "Вес"
+            });
             comboBoxFilterField.SelectedIndex = 0;
             radioAscending.Checked = true;
         }
@@ -104,45 +139,65 @@ namespace WF_Rabbit
         private void RefreshDataGridView()
         {
             dataGridViewRabbits.Rows.Clear();
-            string allRabbits = logic.ShowAllRabbits();
 
-            if (string.IsNullOrEmpty(allRabbits))
+            try
             {
-                return; 
-            }
+                string allRabbits = logic.ShowAllRabbits();
 
-            string[] rabbits = allRabbits.Split(new[] { "\n" }, StringSplitOptions.RemoveEmptyEntries);
-
-            foreach (string rabbit in rabbits)
-            {
-                var rabbitData = ParseRabbitString(rabbit);
-                if (rabbitData != null)
+                if (string.IsNullOrEmpty(allRabbits) || allRabbits == "Список кроликов пуст")
                 {
-                    dataGridViewRabbits.Rows.Add(
-                        rabbitData.Id,
-                        rabbitData.Name,
-                        rabbitData.Age,
-                        rabbitData.Weight,
-                        rabbitData.Breed
-                    );
+                    return;
                 }
+
+                string[] rabbits = allRabbits.Split(new[] { "\n" }, StringSplitOptions.RemoveEmptyEntries);
+
+                foreach (string rabbit in rabbits)
+                {
+                    // Пропускаем заголовок
+                    if (rabbit.Contains("СПИСОК") || rabbit.Contains("---"))
+                        continue;
+
+                    var rabbitData = ParseRabbitString(rabbit);
+                    if (rabbitData != null)
+                    {
+                        dataGridViewRabbits.Rows.Add(
+                            rabbitData.Id,
+                            rabbitData.Name,
+                            rabbitData.Age,
+                            rabbitData.Weight,
+                            rabbitData.Breed
+                        );
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ошибка при загрузке данных: {ex.Message}", "Ошибка");
             }
         }
 
-        private RabbitData ParseRabbitString(string rabbitString)
+        private Rabbit ParseRabbitString(string rabbitString)
         {
             try
             {
-                
-                var parts = rabbitString.Split(' ');
-                return new RabbitData
+                // Улучшенный парсинг для формата из ShowAllRabbits
+                if (rabbitString.Contains("ID:"))
                 {
-                    Id = int.Parse(parts[2]),
-                    Name = parts[4],
-                    Weight = int.Parse(parts[6]),
-                    Age = int.Parse(parts[8]),
-                    Breed = parts.Length > 10 ? parts[10] : ""
-                };
+                    var parts = rabbitString.Split(new[] { '|' }, StringSplitOptions.RemoveEmptyEntries);
+                    if (parts.Length >= 5)
+                    {
+                        return new Rabbit
+                        {
+                            Id = int.Parse(parts[0].Replace("ID:", "").Trim()),
+                            Name = parts[1].Replace("Имя:", "").Trim(),
+                            Breed = parts[2].Replace("Порода:", "").Trim(),
+                            Age = int.Parse(parts[3].Replace("Возраст:", "").Trim()),
+                            Weight = int.Parse(parts[4].Replace("Вес:", "").Trim())
+                        };
+                    }
+                }
+
+                return null;
             }
             catch
             {
@@ -239,7 +294,6 @@ namespace WF_Rabbit
                 var selectedRow = dataGridViewRabbits.SelectedRows[0];
                 int rabbitId = (int)selectedRow.Cells["Id"].Value;
 
-              
                 txtId.Text = rabbitId.ToString();
                 txtName.Text = selectedRow.Cells["Name"].Value.ToString();
                 txtAge.Text = selectedRow.Cells["Age"].Value.ToString();
@@ -327,13 +381,11 @@ namespace WF_Rabbit
 
         private void btnSave_Click(object sender, EventArgs e)
         {
-            logic.LoadRabbitsFromFile();
             RefreshDataGridView();
         }
 
         private void dataGridViewRabbits_SelectionChanged(object sender, EventArgs e)
         {
-            
             if (dataGridViewRabbits.SelectedRows.Count > 0)
             {
                 var selectedRow = dataGridViewRabbits.SelectedRows[0];
@@ -349,18 +401,6 @@ namespace WF_Rabbit
             }
         }
 
-        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            
-        }
-        public class RabbitData
-        {
-            public int Id { get; set; }
-            public string Name { get; set; }
-            public int Age { get; set; }
-            public int Weight { get; set; }
-            public string Breed { get; set; }
-        }
-
+        // Убрал обработчик comboBox1_SelectedIndexChanged так как он не нужен
     }
 }
