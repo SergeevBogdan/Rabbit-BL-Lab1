@@ -88,11 +88,10 @@ namespace Console_Rabbit
         static void AddRabbitMenu(Logic logic)
         {
             Console.Clear();
-            Console.WriteLine("=== СОЗДАНИЕ КРОЛИКА ===");
+            Console.WriteLine("    СОЗДАНИЕ КРОЛИКА    ");
 
             try
             {
-                // Показываем текущих кроликов для справки
                 string allRabbits = logic.ShowAllRabbits();
                 if (!allRabbits.Contains("пуст"))
                 {
@@ -101,10 +100,8 @@ namespace Console_Rabbit
                     Console.WriteLine();
                 }
 
-                // Ввод ID
                 int id = ReadValidNumber("Введите ID кролика (1-9999): ", 1, 9999);
 
-                // Проверяем, не существует ли уже кролик с таким ID
                 string existingRabbit = logic.ReadRabbit(id);
                 if (!existingRabbit.Contains("не найден"))
                 {
@@ -121,13 +118,10 @@ namespace Console_Rabbit
                     return;
                 }
 
-                // Ввод возраста
                 int age = ReadValidNumber("Введите возраст кролика (1-50): ", 1, 50);
 
-                // Ввод веса
                 int weight = ReadValidNumber("Введите вес кролика (1-100): ", 1, 100);
 
-                // Выбор породы
                 string[] breeds = logic.GetBreeds();
                 Console.WriteLine("\nДоступные породы:");
                 for (int i = 0; i < breeds.Length; i++)
@@ -137,7 +131,6 @@ namespace Console_Rabbit
                 int breedChoice = ReadValidNumber("Выберите породу (1-5): ", 1, breeds.Length);
                 string breed = breeds[breedChoice - 1];
 
-                // Подтверждение
                 Console.WriteLine($"\nПодтвердите данные:");
                 Console.WriteLine($"ID: {id}");
                 Console.WriteLine($"Имя: {name}");
@@ -153,14 +146,11 @@ namespace Console_Rabbit
                     return;
                 }
 
-                // Создание кролика
                 string result = logic.AddRabbit(id, name, age, weight, breed);
 
                 if (result.Contains("успешно"))
                 {
                     ShowSuccess(result);
-
-                    // Показываем обновленный список
                     Console.WriteLine("\nОбновленный список кроликов:");
                     Console.WriteLine(logic.ShowAllRabbits());
                 }
@@ -178,7 +168,7 @@ namespace Console_Rabbit
         static void RemoveRabbitMenu(Logic logic)
         {
             Console.Clear();
-            Console.WriteLine("=== УДАЛЕНИЕ КРОЛИКА ===");
+            Console.WriteLine("    УДАЛЕНИЕ КРОЛИКА    ");
 
             string allRabbits = logic.ShowAllRabbits();
             Console.WriteLine(allRabbits);
@@ -202,7 +192,7 @@ namespace Console_Rabbit
         static void ReadRabbitMenu(Logic logic)
         {
             Console.Clear();
-            Console.WriteLine("=== ПРОСМОТР КРОЛИКА ===");
+            Console.WriteLine("   ПРОСМОТР КРОЛИКА   ");
 
             try
             {
@@ -224,8 +214,6 @@ namespace Console_Rabbit
         {
             Console.Clear();
             Console.WriteLine("=== ИЗМЕНЕНИЕ ДАННЫХ КРОЛИКА ===");
-
-            // Показываем всех кроликов
             string allRabbits = logic.ShowAllRabbits();
             if (allRabbits.Contains("пуст"))
             {
@@ -239,10 +227,7 @@ namespace Console_Rabbit
 
             try
             {
-                // Выбор кролика для изменения
                 int id = ReadValidNumber("Введите ID кролика для изменения: ", 1, 9999);
-
-                // Получаем текущие данные кролика
                 string currentData = logic.ReadRabbit(id);
                 if (currentData.Contains("не найден"))
                 {
@@ -253,8 +238,6 @@ namespace Console_Rabbit
                 Console.WriteLine($"Текущие данные кролика:");
                 Console.WriteLine(currentData);
                 Console.WriteLine("\nВведите новые данные:");
-
-                // Ввод нового имени
                 Console.Write("Введите новое имя кролика: ");
                 string name = Console.ReadLine();
                 if (string.IsNullOrWhiteSpace(name))
@@ -263,14 +246,10 @@ namespace Console_Rabbit
                     return;
                 }
 
-                // Ввод нового возраста
                 int age = ReadValidNumber("Введите новый возраст кролика (1-50): ", 1, 50);
-
-                // Ввод нового веса
                 int weight = ReadValidNumber("Введите новый вес кролика (1-100): ", 1, 100);
-
-                // Выбор новой породы
                 string[] breeds = logic.GetBreeds();
+
                 Console.WriteLine("\nДоступные породы:");
                 for (int i = 0; i < breeds.Length; i++)
                 {
@@ -279,7 +258,6 @@ namespace Console_Rabbit
                 int breedChoice = ReadValidNumber("Выберите новую породу (1-5): ", 1, breeds.Length);
                 string breed = breeds[breedChoice - 1];
 
-                // Подтверждение изменений
                 Console.WriteLine($"\nПодтвердите изменения:");
                 Console.WriteLine($"ID: {id} (неизменяем)");
                 Console.WriteLine($"Новое имя: {name}");
@@ -295,16 +273,13 @@ namespace Console_Rabbit
                     return;
                 }
 
-                // Применение изменений
                 logic.ChangeStatRabbit(id, name, age, weight, breed);
                 ShowSuccess("Данные кролика успешно обновлены!");
 
-                // Показываем обновленные данные
                 Console.WriteLine("\nОбновленные данные:");
                 string updatedData = logic.ReadRabbit(id);
                 Console.WriteLine(updatedData);
 
-                // Показываем полный список
                 Console.WriteLine("\nОбновленный список всех кроликов:");
                 Console.WriteLine(logic.ShowAllRabbits());
             }
@@ -347,7 +322,7 @@ namespace Console_Rabbit
             }
             catch (Exception ex)
             {
-                ShowError($"Ошибка при создании: {ex.Message}");
+                ShowError(ex.Message);
             }
         }
 
@@ -363,7 +338,7 @@ namespace Console_Rabbit
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"❌ Ошибка: {ex.Message}");
+                Console.WriteLine(ex.Message);
             }
 
             WaitForContinue();
@@ -372,7 +347,7 @@ namespace Console_Rabbit
         static void SortRabbitsMenu(Logic logic)
         {
             Console.Clear();
-            Console.WriteLine("=== СОРТИРОВКА КРОЛИКОВ ===");
+            Console.WriteLine("    СОРТИРОВКА КРОЛИКОВ   ");
 
             try
             {
@@ -416,7 +391,7 @@ namespace Console_Rabbit
         static void ShowSuccess(string message)
         {
             Console.ForegroundColor = ConsoleColor.Green;
-            Console.WriteLine($"✅ {message}");
+            Console.WriteLine(message);
             Console.ResetColor();
             WaitForContinue();
         }
@@ -424,7 +399,7 @@ namespace Console_Rabbit
         static void ShowError(string message)
         {
             Console.ForegroundColor = ConsoleColor.Red;
-            Console.WriteLine($"❌ {message}");
+            Console.WriteLine(message);
             Console.ResetColor();
             WaitForContinue();
         }
@@ -432,7 +407,7 @@ namespace Console_Rabbit
         static void ShowInfo(string message)
         {
             Console.ForegroundColor = ConsoleColor.Cyan;
-            Console.WriteLine($"ℹ️ {message}");
+            Console.WriteLine(message);
             Console.ResetColor();
             WaitForContinue();
         }
@@ -442,21 +417,5 @@ namespace Console_Rabbit
             Console.WriteLine("\nНажмите любую клавишу для продолжения...");
             Console.ReadKey();
         }
-        static void TestSync(Logic logic)
-        {
-            Console.Clear();
-            Console.WriteLine("=== ТЕСТ СИНХРОНИЗАЦИИ ===");
-
-            // Показываем текущих кроликов
-            Console.WriteLine("Текущие кролики:");
-            Console.WriteLine(logic.ShowAllRabbits());
-
-            Console.WriteLine($"\nТехнология: {logic.GetCurrentTechnology()}");
-            Console.WriteLine("Перезапусти приложение и выбери другую технологию");
-            Console.WriteLine("Если кролики те же - синхронизация работает!");
-
-            WaitForContinue();
-        }
-
     }
 }

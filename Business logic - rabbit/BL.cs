@@ -4,48 +4,59 @@ using System.Linq;
 
 namespace Business_logic___rabbit
 {
+    /// <summary>
+    /// Основной класс бизнес-логики для управления кроликами
+    /// Обеспечивает работу с данными через репозиторий
+    /// Поддерживает Entity Framework и Dapper
+    /// </summary>
     public class Logic
     {
         private IRepository<Rabbit> _repository;
         private static Random _rnd = new Random();
         private readonly string _technology;
 
+        /// <summary>
+        /// Инициализирует новый экземпляр Logic с выбранной технологией доступа к данным
+        /// </summary>
+        /// <param name="useEntityFramework">true - использовать Entity Framework, false - использовать Dapper</param>
         public Logic(bool useEntityFramework = true)
         {
             if (useEntityFramework)
             {
                 try
                 {
-                    Console.WriteLine("🔄 Пробуем Entity Framework...");
                     var context = new RabbitDbContext();
                     _repository = new EntityRepository<Rabbit>(context);
                     _technology = "Entity Framework";
-                    Console.WriteLine("✅ Entity Framework готов");
-                    Console.WriteLine("Все хорошо");
-                    Console.ReadKey();
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine($"❌ EF ошибка: {ex.Message}");
-                    Console.WriteLine("🔄 Переключаемся на Dapper...");
                     _repository = new DapperRepository<Rabbit>();
                     _technology = "Dapper (автопереключение)";
-                    Console.WriteLine("Все ХУЕВО");
-                    Console.ReadKey();
                 }
             }
             else
             {
                 _repository = new DapperRepository<Rabbit>();
                 _technology = "Dapper";
-                Console.WriteLine("✅ Dapper готов");
-                Console.WriteLine("Все ОК");
-                Console.ReadKey();
             }
         }
 
+        /// <summary>
+        /// Возвращает название текущей используемой технологии доступа к данным
+        /// </summary>
+        /// <returns>Название технологии (Entity Framework или Dapper)</returns>
         public string GetCurrentTechnology() => _technology;
 
+        /// <summary>
+        /// Добавляет нового кролика в базу данных
+        /// </summary>
+        /// <param name="id">Уникальный идентификатор кролика</param>
+        /// <param name="name">Имя кролика</param>
+        /// <param name="age">Возраст кролика в годах</param>
+        /// <param name="weight">Вес кролика в кг</param>
+        /// <param name="breed">Порода кролика</param>
+        /// <returns>Результат операции: сообщение об успехе или ошибке</returns>
         public string AddRabbit(int id, string name, int age, int weight, string breed)
         {
             try
@@ -63,6 +74,11 @@ namespace Business_logic___rabbit
             }
         }
 
+        /// <summary>
+        /// Удаляет кролика из базы данных по идентификатору
+        /// </summary>
+        /// <param name="id">Идентификатор кролика для удаления</param>
+        /// <returns>Результат операции: сообщение об успехе или ошибке</returns>
         public string RemoveRabbit(int id)
         {
             try
@@ -78,6 +94,11 @@ namespace Business_logic___rabbit
             catch (Exception ex) { return $"Ошибка при удалении: {ex.Message}"; }
         }
 
+        /// <summary>
+        /// Получает информацию о кролике по идентификатору
+        /// </summary>
+        /// <param name="id">Идентификатор кролика</param>
+        /// <returns>Информация о кролике или сообщение об ошибке</returns>
         public string ReadRabbit(int id)
         {
             try
@@ -90,6 +111,14 @@ namespace Business_logic___rabbit
             catch (Exception ex) { return $"Ошибка при чтении: {ex.Message}"; }
         }
 
+        /// <summary>
+        /// Изменяет данные существующего кролика
+        /// </summary>
+        /// <param name="id">Идентификатор кролика</param>
+        /// <param name="name">Новое имя кролика</param>
+        /// <param name="age">Новый возраст кролика</param>
+        /// <param name="weight">Новый вес кролика</param>
+        /// <param name="breed">Новая порода кролика</param>
         public void ChangeStatRabbit(int id, string name, int age, int weight, string breed)
         {
             try
@@ -104,9 +133,13 @@ namespace Business_logic___rabbit
                     _repository.Update(rabbit);
                 }
             }
-            catch (Exception ex) { Console.WriteLine($"Ошибка при изменении: {ex.Message}"); }
+            catch (Exception ex) { }
         }
 
+        /// <summary>
+        /// Вычисляет средний возраст всех кроликов в базе данных
+        /// </summary>
+        /// <returns>Средний возраст кроликов или 0 если кроликов нет</returns>
         public double GetAverageAge()
         {
             try
@@ -116,11 +149,14 @@ namespace Business_logic___rabbit
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Ошибка при расчете среднего возраста: {ex.Message}");
                 return 0;
             }
         }
 
+        /// <summary>
+        /// Вычисляет средний вес всех кроликов в базе данных
+        /// </summary>
+        /// <returns>Средний вес кроликов или 0 если кроликов нет</returns>
         public double GetAverageWeight()
         {
             try
@@ -130,11 +166,14 @@ namespace Business_logic___rabbit
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Ошибка при расчете среднего веса: {ex.Message}");
                 return 0;
             }
         }
 
+        /// <summary>
+        /// Создает кролика со случайными параметрами
+        /// </summary>
+        /// <returns>Сообщение о результате создания кролика</returns>
         public string AddRandomRabbit()
         {
             try
@@ -170,6 +209,11 @@ namespace Business_logic___rabbit
             }
         }
 
+        /// <summary>
+        /// Сортирует и отображает список кроликов по выбранному полю
+        /// </summary>
+        /// <param name="sortField">Поле для сортировки: 1-ID, 2-Имя, 3-Порода, 4-Возраст, 5-Вес</param>
+        /// <param name="ascending">Направление сортировки: true-по возрастанию, false-по убыванию</param>
         public void SortRabbits(int sortField, bool ascending)
         {
             try
@@ -195,10 +239,13 @@ namespace Business_logic___rabbit
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Ошибка при сортировке: {ex.Message}");
             }
         }
 
+        /// <summary>
+        /// Возвращает строковое представление всех кроликов в базе данных
+        /// </summary>
+        /// <returns>Форматированная строка со списком кроликов или сообщение об ошибке</returns>
         public string ShowAllRabbits()
         {
             try
@@ -217,10 +264,14 @@ namespace Business_logic___rabbit
             }
             catch (Exception ex)
             {
-                return $"❌ Ошибка при получении списка кроликов: {ex.Message}";
+                return $"Ошибка при получении списка кроликов: {ex.Message}";
             }
         }
 
+        /// <summary>
+        /// Возвращает массив доступных пород кроликов
+        /// </summary>
+        /// <returns>Массив строк с названиями пород</returns>
         public string[] GetBreeds()
         {
             return new string[] { "Беляк", "Русак", "Толай", "Маньжурский", "Оранжевый" };
