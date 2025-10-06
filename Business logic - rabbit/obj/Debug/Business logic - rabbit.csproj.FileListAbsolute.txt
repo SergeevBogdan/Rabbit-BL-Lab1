@@ -60,3 +60,65 @@ C:\Users\AceR\Desktop\Rabbit-Lab - 4\Business logic - rabbit\obj\Debug\Business 
 C:\Users\AceR\Desktop\Rabbit-Lab - 4\Business logic - rabbit\obj\Debug\Business.E35980D8.Up2Date
 C:\Users\AceR\Desktop\Rabbit-Lab - 4\Business logic - rabbit\obj\Debug\Business logic - rabbit.dll
 C:\Users\AceR\Desktop\Rabbit-Lab - 4\Business logic - rabbit\obj\Debug\Business logic - rabbit.pdb
+C:\Users\User\source\repos\Rabbit-BL-Lab1\Business logic - rabbit\bin\Debug\Database1.mdf
+C:\Users\User\source\repos\Rabbit-BL-Lab1\Business logic - rabbit\bin\Debug\Database1_log.ldf
+C:\Users\User\source\repos\Rabbit-BL-Lab1\Business logic - rabbit\bin\Debug\Business logic - rabbit.dll.config
+C:\Users\User\source\repos\Rabbit-BL-Lab1\Business logic - rabbit\bin\Debug\Business logic - rabbit.dll
+C:\Users\User\source\repos\Rabbit-BL-Lab1\Business logic - rabbit\bin\Debug\Business logic - rabbit.pdb
+C:\Users\User\source\repos\Rabbit-BL-Lab1\Business logic - rabbit\bin\Debug\Dapper.dll
+C:\Users\User\source\repos\Rabbit-BL-Lab1\Business logic - rabbit\bin\Debug\EntityFramework.dll
+C:\Users\User\source\repos\Rabbit-BL-Lab1\Business logic - rabbit\bin\Debug\EntityFramework.SqlServer.dll
+C:\Users\User\source\repos\Rabbit-BL-Lab1\Business logic - rabbit\bin\Debug\Microsoft.Bcl.AsyncInterfaces.dll
+C:\Users\User\source\repos\Rabbit-BL-Lab1\Business logic - rabbit\bin\Debug\Microsoft.IdentityModel.Abstractions.dll
+C:\Users\User\source\repos\Rabbit-BL-Lab1\Business logic - rabbit\bin\Debug\Microsoft.IdentityModel.JsonWebTokens.dll
+C:\Users\User\source\repos\Rabbit-BL-Lab1\Business logic - rabbit\bin\Debug\Microsoft.IdentityModel.Logging.dll
+C:\Users\User\source\repos\Rabbit-BL-Lab1\Business logic - rabbit\bin\Debug\Microsoft.IdentityModel.Protocols.dll
+C:\Users\User\source\repos\Rabbit-BL-Lab1\Business logic - rabbit\bin\Debug\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
+C:\Users\User\source\repos\Rabbit-BL-Lab1\Business logic - rabbit\bin\Debug\Microsoft.IdentityModel.Tokens.dll
+C:\Users\User\source\repos\Rabbit-BL-Lab1\Business logic - rabbit\bin\Debug\System.Buffers.dll
+C:\Users\User\source\repos\Rabbit-BL-Lab1\Business logic - rabbit\bin\Debug\System.Configuration.ConfigurationManager.dll
+C:\Users\User\source\repos\Rabbit-BL-Lab1\Business logic - rabbit\bin\Debug\System.Data.SqlClient.dll
+C:\Users\User\source\repos\Rabbit-BL-Lab1\Business logic - rabbit\bin\Debug\System.Diagnostics.DiagnosticSource.dll
+C:\Users\User\source\repos\Rabbit-BL-Lab1\Business logic - rabbit\bin\Debug\System.IdentityModel.Tokens.Jwt.dll
+C:\Users\User\source\repos\Rabbit-BL-Lab1\Business logic - rabbit\bin\Debug\System.Memory.dll
+C:\Users\User\source\repos\Rabbit-BL-Lab1\Business logic - rabbit\bin\Debug\System.Numerics.Vectors.dll
+C:\Users\User\source\repos\Rabbit-BL-Lab1\Business logic - rabbit\bin\Debug\System.Runtime.CompilerServices.Unsafe.dll
+C:\Users\User\source\repos\Rabbit-BL-Lab1\Business logic - rabbit\bin\Debug\System.Security.AccessControl.dll
+C:\Users\User\source\repos\Rabbit-BL-Lab1\Business logic - rabbit\bin\Debug\System.Security.Cryptography.ProtectedData.dll
+C:\Users\User\source\repos\Rabbit-BL-Lab1\Business logic - rabbit\bin\Debug\System.Security.Permissions.dll
+C:\Users\User\source\repos\Rabbit-BL-Lab1\Business logic - rabbit\bin\Debug\System.Security.Principal.Windows.dll
+C:\Users\User\source\repos\Rabbit-BL-Lab1\Business logic - rabbit\bin\Debug\System.Text.Encodings.Web.dll
+C:\Users\User\source\repos\Rabbit-BL-Lab1\Business logic - rabbit\bin\Debug\System.Text.Json.dll
+C:\Users\User\source\repos\Rabbit-BL-Lab1\Business logic - rabbit\bin\Debug\System.Threading.Tasks.Extensions.dll
+C:\Users\User\source\repos\Rabbit-BL-Lab1\Business logic - rabbit\bin\Debug\System.ValueTuple.dll
+C:\Users\User\source\repos\Rabbit-BL-Lab1\Business logic - rabbit\bin\Debug\Dapper.xml
+C:\Users\User\source\repos\Rabbit-BL-Lab1\Business logic - rabbit\bin\Debug\EntityFramework.xml
+C:\Users\User\source\repos\Rabbit-BL-Lab1\Business logic - rabbit\bin\Debug\EntityFramework.SqlServer.xml
+C:\Users\User\source\repos\Rabbit-BL-Lab1\Business logic - rabbit\bin\Debug\Microsoft.Bcl.AsyncInterfaces.xml
+C:\Users\User\source\repos\Rabbit-BL-Lab1\Business logic - rabbit\bin\Debug\Microsoft.IdentityModel.Abstractions.xml
+C:\Users\User\source\repos\Rabbit-BL-Lab1\Business logic - rabbit\bin\Debug\Microsoft.IdentityModel.JsonWebTokens.xml
+C:\Users\User\source\repos\Rabbit-BL-Lab1\Business logic - rabbit\bin\Debug\Microsoft.IdentityModel.Logging.xml
+C:\Users\User\source\repos\Rabbit-BL-Lab1\Business logic - rabbit\bin\Debug\Microsoft.IdentityModel.Protocols.xml
+C:\Users\User\source\repos\Rabbit-BL-Lab1\Business logic - rabbit\bin\Debug\Microsoft.IdentityModel.Protocols.OpenIdConnect.xml
+C:\Users\User\source\repos\Rabbit-BL-Lab1\Business logic - rabbit\bin\Debug\Microsoft.IdentityModel.Tokens.xml
+C:\Users\User\source\repos\Rabbit-BL-Lab1\Business logic - rabbit\bin\Debug\System.Buffers.xml
+C:\Users\User\source\repos\Rabbit-BL-Lab1\Business logic - rabbit\bin\Debug\System.Configuration.ConfigurationManager.xml
+C:\Users\User\source\repos\Rabbit-BL-Lab1\Business logic - rabbit\bin\Debug\System.Data.SqlClient.xml
+C:\Users\User\source\repos\Rabbit-BL-Lab1\Business logic - rabbit\bin\Debug\System.Diagnostics.DiagnosticSource.xml
+C:\Users\User\source\repos\Rabbit-BL-Lab1\Business logic - rabbit\bin\Debug\System.IdentityModel.Tokens.Jwt.xml
+C:\Users\User\source\repos\Rabbit-BL-Lab1\Business logic - rabbit\bin\Debug\System.Memory.xml
+C:\Users\User\source\repos\Rabbit-BL-Lab1\Business logic - rabbit\bin\Debug\System.Numerics.Vectors.xml
+C:\Users\User\source\repos\Rabbit-BL-Lab1\Business logic - rabbit\bin\Debug\System.Runtime.CompilerServices.Unsafe.xml
+C:\Users\User\source\repos\Rabbit-BL-Lab1\Business logic - rabbit\bin\Debug\System.Security.AccessControl.xml
+C:\Users\User\source\repos\Rabbit-BL-Lab1\Business logic - rabbit\bin\Debug\System.Security.Cryptography.ProtectedData.xml
+C:\Users\User\source\repos\Rabbit-BL-Lab1\Business logic - rabbit\bin\Debug\System.Security.Permissions.xml
+C:\Users\User\source\repos\Rabbit-BL-Lab1\Business logic - rabbit\bin\Debug\System.Security.Principal.Windows.xml
+C:\Users\User\source\repos\Rabbit-BL-Lab1\Business logic - rabbit\bin\Debug\System.Text.Encodings.Web.xml
+C:\Users\User\source\repos\Rabbit-BL-Lab1\Business logic - rabbit\bin\Debug\System.Text.Json.xml
+C:\Users\User\source\repos\Rabbit-BL-Lab1\Business logic - rabbit\bin\Debug\System.Threading.Tasks.Extensions.xml
+C:\Users\User\source\repos\Rabbit-BL-Lab1\Business logic - rabbit\bin\Debug\System.ValueTuple.xml
+C:\Users\User\source\repos\Rabbit-BL-Lab1\Business logic - rabbit\obj\Debug\Business logic - rabbit.csproj.AssemblyReference.cache
+C:\Users\User\source\repos\Rabbit-BL-Lab1\Business logic - rabbit\obj\Debug\Business logic - rabbit.csproj.CoreCompileInputs.cache
+C:\Users\User\source\repos\Rabbit-BL-Lab1\Business logic - rabbit\obj\Debug\Business.E35980D8.Up2Date
+C:\Users\User\source\repos\Rabbit-BL-Lab1\Business logic - rabbit\obj\Debug\Business logic - rabbit.dll
+C:\Users\User\source\repos\Rabbit-BL-Lab1\Business logic - rabbit\obj\Debug\Business logic - rabbit.pdb

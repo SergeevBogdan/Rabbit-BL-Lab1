@@ -48,3 +48,20 @@ C:\Users\AceR\Desktop\Rabbit-Lab - 4\Console-Rabbit\bin\Debug\System.Security.Pe
 C:\Users\AceR\Desktop\Rabbit-Lab - 4\Console-Rabbit\bin\Debug\System.Security.Principal.Windows.xml
 C:\Users\AceR\Desktop\Rabbit-Lab - 4\Console-Rabbit\bin\Debug\EntityFramework.SqlServer.dll
 C:\Users\AceR\Desktop\Rabbit-Lab - 4\Console-Rabbit\bin\Debug\EntityFramework.SqlServer.xml
+C:\Users\User\source\repos\Rabbit-BL-Lab1\Console-Rabbit\bin\Debug\Database1.mdf
+C:\Users\User\source\repos\Rabbit-BL-Lab1\Console-Rabbit\bin\Debug\Database1_log.ldf
+C:\Users\User\source\repos\Rabbit-BL-Lab1\Console-Rabbit\bin\Debug\EntityFramework.dll
+C:\Users\User\source\repos\Rabbit-BL-Lab1\Console-Rabbit\bin\Debug\EntityFramework.SqlServer.dll
+C:\Users\User\source\repos\Rabbit-BL-Lab1\Console-Rabbit\bin\Debug\System.Configuration.ConfigurationManager.dll
+C:\Users\User\source\repos\Rabbit-BL-Lab1\Console-Rabbit\bin\Debug\System.Security.AccessControl.dll
+C:\Users\User\source\repos\Rabbit-BL-Lab1\Console-Rabbit\bin\Debug\System.Security.Permissions.dll
+C:\Users\User\source\repos\Rabbit-BL-Lab1\Console-Rabbit\bin\Debug\System.Security.Principal.Windows.dll
+C:\Users\User\source\repos\Rabbit-BL-Lab1\Console-Rabbit\bin\Debug\Dapper.dll
+C:\Users\User\source\repos\Rabbit-BL-Lab1\Console-Rabbit\bin\Debug\Business logic - rabbit.dll.config
+C:\Users\User\source\repos\Rabbit-BL-Lab1\Console-Rabbit\bin\Debug\EntityFramework.xml
+C:\Users\User\source\repos\Rabbit-BL-Lab1\Console-Rabbit\bin\Debug\EntityFramework.SqlServer.xml
+C:\Users\User\source\repos\Rabbit-BL-Lab1\Console-Rabbit\bin\Debug\System.Configuration.ConfigurationManager.xml
+C:\Users\User\source\repos\Rabbit-BL-Lab1\Console-Rabbit\bin\Debug\System.Security.AccessControl.xml
+C:\Users\User\source\repos\Rabbit-BL-Lab1\Console-Rabbit\bin\Debug\System.Security.Permissions.xml
+C:\Users\User\source\repos\Rabbit-BL-Lab1\Console-Rabbit\bin\Debug\System.Security.Principal.Windows.xml
+C:\Users\User\source\repos\Rabbit-BL-Lab1\Console-Rabbit\bin\Debug\Dapper.xml
