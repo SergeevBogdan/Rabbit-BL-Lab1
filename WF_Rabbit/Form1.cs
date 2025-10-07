@@ -348,12 +348,76 @@ namespace WF_Rabbit
 
         private void btnApplyFilter_Click(object sender, EventArgs e)
         {
-            int field = comboBoxFilterField.SelectedIndex + 1;
-            bool direction = radioAscending.Checked;
+            try
+            {
+                int field = comboBoxFilterField.SelectedIndex + 1;
+                bool direction = radioAscending.Checked;
+                string allRabbits = logic.ShowAllRabbits();
 
-            logic.SortRabbits(field, direction);
-            MessageBox.Show("Фильтр применен", "Успех");
-            RefreshDataGridView();
+                if (string.IsNullOrEmpty(allRabbits) || allRabbits == "Список кроликов пуст")
+                {
+                    MessageBox.Show("Нет данных для сортировки", "Информация");
+                    return;
+                }
+                List<Rabbit> rabbits = ParseAllRabbits(allRabbits);
+                var sortedRabbits = SortRabbitsLocally(rabbits, field, direction);
+                DisplaySortedData(sortedRabbits);
+                MessageBox.Show("Фильтр применен", "Успех");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ошибка при применении фильтра: {ex.Message}", "Ошибка");
+            }
+        }
+
+        private List<Rabbit> ParseAllRabbits(string allRabbits)
+        {
+            var rabbits = new List<Rabbit>();
+            string[] rabbitLines = allRabbits.Split(new[] { "\n" }, StringSplitOptions.RemoveEmptyEntries);
+
+            foreach (string rabbitLine in rabbitLines)
+            {
+                // Пропускаем заголовок
+                if (rabbitLine.Contains("СПИСОК") || rabbitLine.Contains("---"))
+                    continue;
+
+                var rabbitData = ParseRabbitString(rabbitLine);
+                if (rabbitData != null)
+                {
+                    rabbits.Add(rabbitData);
+                }
+            }
+
+            return rabbits;
+        }
+
+        private List<Rabbit> SortRabbitsLocally(List<Rabbit> rabbits, int sortField, bool ascending)
+        {
+            switch (sortField)
+            {
+                case 1: return ascending ? rabbits.OrderBy(r => r.Id).ToList() : rabbits.OrderByDescending(r => r.Id).ToList();
+                case 2: return ascending ? rabbits.OrderBy(r => r.Name).ToList() : rabbits.OrderByDescending(r => r.Name).ToList();
+                case 3: return ascending ? rabbits.OrderBy(r => r.Breed).ToList() : rabbits.OrderByDescending(r => r.Breed).ToList();
+                case 4: return ascending ? rabbits.OrderBy(r => r.Age).ToList() : rabbits.OrderByDescending(r => r.Age).ToList();
+                case 5: return ascending ? rabbits.OrderBy(r => r.Weight).ToList() : rabbits.OrderByDescending(r => r.Weight).ToList();
+                default: return rabbits;
+            }
+        }
+
+        private void DisplaySortedData(List<Rabbit> rabbits)
+        {
+            dataGridViewRabbits.Rows.Clear();
+
+            foreach (var rabbit in rabbits)
+            {
+                dataGridViewRabbits.Rows.Add(
+                    rabbit.Id,
+                    rabbit.Name,
+                    rabbit.Age,
+                    rabbit.Weight,
+                    rabbit.Breed
+                );
+            }
         }
 
         private void btnClearFields_Click(object sender, EventArgs e)
