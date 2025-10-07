@@ -377,7 +377,7 @@ namespace WF_Rabbit
 
             foreach (string rabbitLine in rabbitLines)
             {
-                // Пропускаем заголовок
+               
                 if (rabbitLine.Contains("СПИСОК") || rabbitLine.Contains("---"))
                     continue;
 

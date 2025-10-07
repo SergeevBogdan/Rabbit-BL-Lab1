@@ -9,7 +9,7 @@ namespace Console_Rabbit
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("   СИСТЕМА УПРАВЛЕНИЯ КРОЛИКАМИ   ");
+            Console.WriteLine("СИСТЕМА УПРАВЛЕНИЯ КРОЛИКАМИ");
 
             bool useEF = ChooseTechnology();
             var logic = new Logic(useEF);
@@ -51,7 +51,7 @@ namespace Console_Rabbit
 
         static void ShowMainMenu(string technology)
         {
-            Console.WriteLine($"   ГЛАВНОЕ МЕНЮ ({technology})   ");
+            Console.WriteLine($"ГЛАВНОЕ МЕНЮ ({technology})");
             Console.WriteLine("1. Создать кролика");
             Console.WriteLine("2. Удалить кролика");
             Console.WriteLine("3. Прочесть кролика");
@@ -88,7 +88,7 @@ namespace Console_Rabbit
         static void AddRabbitMenu(Logic logic)
         {
             Console.Clear();
-            Console.WriteLine("    СОЗДАНИЕ КРОЛИКА    ");
+            Console.WriteLine("СОЗДАНИЕ КРОЛИКА");
 
             try
             {
@@ -168,7 +168,7 @@ namespace Console_Rabbit
         static void RemoveRabbitMenu(Logic logic)
         {
             Console.Clear();
-            Console.WriteLine("    УДАЛЕНИЕ КРОЛИКА    ");
+            Console.WriteLine("УДАЛЕНИЕ КРОЛИКА");
 
             string allRabbits = logic.ShowAllRabbits();
             Console.WriteLine(allRabbits);
@@ -192,7 +192,7 @@ namespace Console_Rabbit
         static void ReadRabbitMenu(Logic logic)
         {
             Console.Clear();
-            Console.WriteLine("   ПРОСМОТР КРОЛИКА   ");
+            Console.WriteLine("ПРОСМОТР КРОЛИКА");
 
             try
             {
@@ -213,7 +213,7 @@ namespace Console_Rabbit
         static void UpdateRabbitMenu(Logic logic)
         {
             Console.Clear();
-            Console.WriteLine("   ИЗМЕНЕНИЕ ДАННЫХ КРОЛИКА   ");
+            Console.WriteLine("ИЗМЕНЕНИЕ ДАННЫХ КРОЛИКА");
             string allRabbits = logic.ShowAllRabbits();
             if (allRabbits.Contains("пуст"))
             {
@@ -292,7 +292,7 @@ namespace Console_Rabbit
         static void ShowAverageAge(Logic logic)
         {
             Console.Clear();
-            Console.WriteLine("   СРЕДНИЙ ВОЗРАСТ   ");
+            Console.WriteLine("СРЕДНИЙ ВОЗРАСТ");
 
             double averageAge = logic.GetAverageAge();
             ShowInfo($"Средний возраст всех кроликов: {averageAge:F2} лет");
@@ -301,7 +301,7 @@ namespace Console_Rabbit
         static void ShowAverageWeight(Logic logic)
         {
             Console.Clear();
-            Console.WriteLine("   СРЕДНИЙ ВЕС   ");
+            Console.WriteLine("СРЕДНИЙ ВЕС");
 
             double averageWeight = logic.GetAverageWeight();
             ShowInfo($"Средний вес всех кроликов: {averageWeight:F2} кг");
@@ -310,7 +310,7 @@ namespace Console_Rabbit
         static void AddRandomRabbitMenu(Logic logic)
         {
             Console.Clear();
-            Console.WriteLine("   СОЗДАНИЕ РАНДОМНОГО КРОЛИКА   ");
+            Console.WriteLine("СОЗДАНИЕ РАНДОМНОГО КРОЛИКА");
 
             try
             {
@@ -329,7 +329,7 @@ namespace Console_Rabbit
         static void ShowAllRabbitsMenu(Logic logic)
         {
             Console.Clear();
-            Console.WriteLine("   ВСЕ КРОЛИКИ   ");
+            Console.WriteLine("ВСЕ КРОЛИКИ");
 
             try
             {
@@ -347,7 +347,7 @@ namespace Console_Rabbit
         static void SortRabbitsMenu(Logic logic)
         {
             Console.Clear();
-            Console.WriteLine("    СОРТИРОВКА КРОЛИКОВ   ");
+            Console.WriteLine("СОРТИРОВКА КРОЛИКОВ");
 
             try
             {

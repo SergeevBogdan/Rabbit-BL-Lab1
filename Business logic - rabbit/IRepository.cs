@@ -8,7 +8,7 @@ namespace Business_logic___rabbit
 {
     public interface IRepository<T> where T : IDomainObject
     {
-        // <summary>
+        /// <summary>
         /// Добавляет новый доменный объект в хранилище данных
         /// </summary>
         /// <param name="entity">Доменный объект для добавления</param>

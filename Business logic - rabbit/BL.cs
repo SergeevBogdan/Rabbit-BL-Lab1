@@ -220,7 +220,7 @@ namespace Business_logic___rabbit
                     default: sortedRabbits = rabbits; break;
                 }
 
-                Console.WriteLine("    ОТСОРТИРОВАННЫЙ СПИСОК   ");
+                Console.WriteLine("ОТСОРТИРОВАННЫЙ СПИСОК");
                 foreach (var rabbit in sortedRabbits)
                 {
                     Console.WriteLine($"ID: {rabbit.Id} | Имя: {rabbit.Name} | Порода: {rabbit.Breed} | Возраст: {rabbit.Age} | Вес: {rabbit.Weight}");
@@ -239,7 +239,7 @@ namespace Business_logic___rabbit
                 if (rabbits == null || !rabbits.Any())
                     return "Список кроликов пуст";
 
-                string result = "   СПИСОК ВСЕХ КРОЛИКОВ   \n";
+                string result = "СПИСОК ВСЕХ КРОЛИКОВ\n";
                 foreach (var rabbit in rabbits)
                 {
                     result += $"ID: {rabbit.Id} | Имя: {rabbit.Name} | Порода: {rabbit.Breed} | Возраст: {rabbit.Age} | Вес: {rabbit.Weight}\n";

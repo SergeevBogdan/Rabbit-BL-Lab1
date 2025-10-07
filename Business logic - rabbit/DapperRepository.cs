@@ -5,7 +5,7 @@ using Dapper;
 
 namespace Business_logic___rabbit
 {
-    public class DapperRepository<T> : IRepository<T> where T : class, IDomainObject
+    public class DapperRepository<T> : IRepository<T> where T : Rabbit, IDomainObject
     {
         private readonly string _connectionString;
 
