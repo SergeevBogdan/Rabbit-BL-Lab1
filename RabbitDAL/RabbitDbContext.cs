@@ -17,7 +17,7 @@ namespace RabbitDAL
 
         public DbSet<Rabbit> Rabbits { get; set; }
 
-        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        protected override void OnModelCreating(DbModelBuilder modelBuilder) 
         {
             modelBuilder.Entity<Rabbit>().ToTable("Rabbits");
             modelBuilder.Entity<Rabbit>().HasKey(r => r.Id);

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace RabbitModel
 {
     public interface IDomainObject
-    {
+    { 
         int Id { get; set; }
     }
 }

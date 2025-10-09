@@ -42,4 +42,4 @@ namespace RabbitDAL
         /// <exception cref="System.Exception">Может выбрасывать исключения при ошибках доступа к данным</exception>
         void Update(T entity);
     }
-}
+} 

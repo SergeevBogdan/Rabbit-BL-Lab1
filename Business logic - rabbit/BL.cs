@@ -51,7 +51,7 @@ namespace Business_logic_rabbit
             catch (Exception ex)
             {
                 return $"Ошибка при добавлении: {ex.Message}";
-            }
+            } 
         }
 
         public string RemoveRabbit(int id)

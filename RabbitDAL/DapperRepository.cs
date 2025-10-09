@@ -50,7 +50,7 @@ namespace RabbitDAL
             }
         }
 
-        public void Delete(T entity)
+        public void Delete(T entity) 
         {
             using (var db = new SqlConnection(_connectionString))
             {

@@ -396,7 +396,7 @@ namespace Console_Rabbit
             WaitForContinue();
         }
 
-        static void ShowInfo(string message)
+        static void ShowInfo(string message) 
         {
             Console.WriteLine(message);
             WaitForContinue();
