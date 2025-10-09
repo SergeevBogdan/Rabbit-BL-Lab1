@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Business_logic___rabbit
+namespace Rabbit.Entities
 {
-    public class Rabbit : IDomainObject
+    public class RabbitModel : IDomainObject
     {
         public int Id { get; set; }
         public string Name { get; set; }

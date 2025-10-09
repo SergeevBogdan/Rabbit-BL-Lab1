@@ -1,6 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Rabbit.Entities;
+using Rabbit.DataAccess;
+
+
 
 namespace Business_logic___rabbit
 {
@@ -11,14 +15,10 @@ namespace Business_logic___rabbit
     /// </summary>
     public class Logic
     {
-        private IRepository<Rabbit> _repository;
+        private IRepository<RabbitModel> _repository;  // ← RabbitModel вместо Rabbit
         private static Random _rnd = new Random();
         private readonly string _technology;
 
-        /// <summary>
-        /// Инициализирует новый экземпляр Logic с выбранной технологией доступа к данным
-        /// </summary>
-        /// <param name="useEntityFramework">true - использовать Entity Framework, false - использовать Dapper</param>
         public Logic(bool useEntityFramework = true)
         {
             if (useEntityFramework)
@@ -27,29 +27,24 @@ namespace Business_logic___rabbit
                 {
                     var ensureDLLIsCopied = System.Data.Entity.SqlServer.SqlProviderServices.Instance;
                     var context = new RabbitDbContext();
-                    _repository = new EntityRepository<Rabbit>(context);
+                    _repository = new EntityRepository<RabbitModel>(context);  // ← RabbitModel
                     _technology = "Entity Framework";
                 }
                 catch (Exception ex)
                 {
-                    _repository = new DapperRepository<Rabbit>();
+                    _repository = new DapperRepository();  // ← RabbitModel
                     _technology = "Dapper (автопереключение)";
                 }
             }
             else
             {
-                _repository = new DapperRepository<Rabbit>();
+                _repository = new DapperRepository();  // ← RabbitModel
                 _technology = "Dapper";
             }
         }
 
-        /// <summary>
-        /// Возвращает название текущей используемой технологии доступа к данным
-        /// </summary>
-        /// <returns>Название технологии (Entity Framework или Dapper)</returns>
         public string GetCurrentTechnology() => _technology;
 
-        
         public string AddRabbit(int id, string name, int age, int weight, string breed)
         {
             try
@@ -57,7 +52,7 @@ namespace Business_logic___rabbit
                 var existing = _repository.ReadById(id);
                 if (existing != null) return "Такой id уже есть";
 
-                var rabbit = new Rabbit { Id = id, Name = name, Age = age, Weight = weight, Breed = breed };
+                var rabbit = new RabbitModel { Id = id, Name = name, Age = age, Weight = weight, Breed = breed };  // ← RabbitModel
                 _repository.Add(rabbit);
                 return "Кролик успешно добавлен";
             }
@@ -67,7 +62,6 @@ namespace Business_logic___rabbit
             }
         }
 
-        
         public string RemoveRabbit(int id)
         {
             try
@@ -83,11 +77,6 @@ namespace Business_logic___rabbit
             catch (Exception ex) { return $"Ошибка при удалении: {ex.Message}"; }
         }
 
-        /// <summary>
-        /// Получает информацию о кролике по идентификатору
-        /// </summary>
-        /// <param name="id">Идентификатор кролика</param>
-        /// <returns>Информация о кролике или сообщение об ошибке</returns>
         public string ReadRabbit(int id)
         {
             try
@@ -100,14 +89,6 @@ namespace Business_logic___rabbit
             catch (Exception ex) { return $"Ошибка при чтении: {ex.Message}"; }
         }
 
-        /// <summary>
-        /// Изменяет данные существующего кролика
-        /// </summary>
-        /// <param name="id">Идентификатор кролика</param>
-        /// <param name="name">Новое имя кролика</param>
-        /// <param name="age">Новый возраст кролика</param>
-        /// <param name="weight">Новый вес кролика</param>
-        /// <param name="breed">Новая порода кролика</param>
         public void ChangeStatRabbit(int id, string name, int age, int weight, string breed)
         {
             try
@@ -125,10 +106,6 @@ namespace Business_logic___rabbit
             catch (Exception ex) { }
         }
 
-        /// <summary>
-        /// Вычисляет средний возраст всех кроликов в базе данных
-        /// </summary>
-        /// <returns>Средний возраст кроликов или 0 если кроликов нет</returns>
         public double GetAverageAge()
         {
             try
@@ -142,10 +119,6 @@ namespace Business_logic___rabbit
             }
         }
 
-        /// <summary>
-        /// Вычисляет средний вес всех кроликов в базе данных
-        /// </summary>
-        /// <returns>Средний вес кроликов или 0 если кроликов нет</returns>
         public double GetAverageWeight()
         {
             try
@@ -159,10 +132,6 @@ namespace Business_logic___rabbit
             }
         }
 
-        /// <summary>
-        /// Создает кролика со случайными параметрами
-        /// </summary>
-        /// <returns>Сообщение о результате создания кролика</returns>
         public string AddRandomRabbit()
         {
             try
@@ -180,7 +149,7 @@ namespace Business_logic___rabbit
                     count++;
                 }
 
-                var randomRabbit = new Rabbit
+                var randomRabbit = new RabbitModel  // ← RabbitModel
                 {
                     Id = id,
                     Name = name,
@@ -198,17 +167,12 @@ namespace Business_logic___rabbit
             }
         }
 
-        /// <summary>
-        /// Сортирует и отображает список кроликов по выбранному полю
-        /// </summary>
-        /// <param name="sortField">Поле для сортировки: 1-ID, 2-Имя, 3-Порода, 4-Возраст, 5-Вес</param>
-        /// <param name="ascending">Направление сортировки: true-по возрастанию, false-по убыванию</param>
         public void SortRabbits(int sortField, bool ascending)
         {
             try
             {
                 var rabbits = _repository.ReadAll().ToList();
-                List<Rabbit> sortedRabbits;
+                List<RabbitModel> sortedRabbits;  // ← RabbitModel
 
                 switch (sortField)
                 {
@@ -230,6 +194,7 @@ namespace Business_logic___rabbit
             {
             }
         }
+
         public string ShowAllRabbits()
         {
             try
@@ -252,10 +217,6 @@ namespace Business_logic___rabbit
             }
         }
 
-        /// <summary>
-        /// Возвращает массив доступных пород кроликов
-        /// </summary>
-        /// <returns>Массив строк с названиями пород</returns>
         public string[] GetBreeds()
         {
             return new string[] { "Беляк", "Русак", "Толай", "Маньжурский", "Оранжевый" };

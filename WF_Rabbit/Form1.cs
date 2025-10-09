@@ -11,6 +11,7 @@ using System.Xml.Linq;
 using Business_logic___rabbit;
 
 
+
 namespace WF_Rabbit
 {
     public partial class Form1 : Form
@@ -404,7 +405,7 @@ namespace WF_Rabbit
             }
         }
 
-        private void DisplaySortedData(List<Rabbit> rabbits)
+        private void DisplaySortedData(List<Rabb1itModel> rabbits)
         {
             dataGridViewRabbits.Rows.Clear();
 

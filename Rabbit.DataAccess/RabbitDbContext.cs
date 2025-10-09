@@ -1,6 +1,7 @@
 ﻿using System.Data.Entity;
+using Rabbit.Entities;
 
-namespace Business_logic___rabbit
+namespace Rabbit.DataAccess
 {
     public class RabbitDbContext : DbContext
     {
@@ -15,13 +16,13 @@ namespace Business_logic___rabbit
             return @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\User\source\repos\Rabbit-BL-Lab1\Business logic - rabbit\Database1.mdf;Integrated Security=True";
         }
 
-        public DbSet<Rabbit> Rabbits { get; set; }
+        public DbSet<RabbitModel> Rabbits { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Rabbit>().ToTable("Rabbits");
-            modelBuilder.Entity<Rabbit>().HasKey(r => r.Id);
-            modelBuilder.Entity<Rabbit>().Property(r => r.Id)
+            modelBuilder.Entity<RabbitModel>().ToTable("Rabbits");
+            modelBuilder.Entity<RabbitModel>().HasKey(r => r.Id);
+            modelBuilder.Entity<RabbitModel>().Property(r => r.Id)
                 .HasDatabaseGeneratedOption(System.ComponentModel.DataAnnotations.Schema.DatabaseGeneratedOption.None);
         }
     }

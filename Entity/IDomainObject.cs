@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Business_logic___rabbit
+namespace Rabbit.Entities
 {
     public interface IDomainObject
     {

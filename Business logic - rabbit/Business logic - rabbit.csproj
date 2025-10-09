@@ -255,13 +255,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BL.cs" />
-    <Compile Include="DapperRepository.cs" />
-    <Compile Include="EntityRepository.cs" />
-    <Compile Include="IDomainObject.cs" />
-    <Compile Include="IRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Rabbit.cs" />
-    <Compile Include="RabbitDbContext.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -287,6 +281,16 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <DependentUpon>Database1.mdf</DependentUpon>
     </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DataAccess\DataAccess.csproj">
+      <Project>{9d40d79d-31bd-4068-82b7-ffea4f3c936e}</Project>
+      <Name>DataAccess</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Entity\Rabbit.Entities.csproj">
+      <Project>{fdf01eeb-ff28-4e6d-8970-4c510b838039}</Project>
+      <Name>Rabbit.Entities</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

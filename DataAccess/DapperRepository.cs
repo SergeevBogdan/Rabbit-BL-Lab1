@@ -1,17 +1,18 @@
-﻿using System.Collections.Generic;
+﻿
+using Dapper;
+using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
-using Dapper;
+using Rabbit.Entities;
 
-namespace Business_logic___rabbit
+namespace Rabbit.DataAccess
 {
-    public class DapperRepository<T> : IRepository<T> where T : Rabbit, IDomainObject
+    public class DapperRepository : IRepository<RabbitModel>  // ← RabbitModel вместо Rabbit
     {
         private readonly string _connectionString;
 
         public DapperRepository()
         {
-            //_connectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\AceR\Desktop\Rabbit-Lab - 4\Business logic - rabbit\Database1.mdf;Integrated Security=True";
             _connectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\User\source\repos\Rabbit-BL-Lab1\Business logic - rabbit\Database1.mdf;Integrated Security=True";
             EnsureTableExists();
         }
@@ -38,18 +39,17 @@ namespace Business_logic___rabbit
             }
         }
 
-        public void Add(T entity)
+        public void Add(RabbitModel entity)  // ← RabbitModel
         {
             using (var db = new SqlConnection(_connectionString))
             {
-                var rabbit = entity as Rabbit;
                 db.Execute(
                     "INSERT INTO Rabbits (Id, Name, Breed, Age, Weight) VALUES (@Id, @Name, @Breed, @Age, @Weight)",
-                    new { rabbit.Id, rabbit.Name, rabbit.Breed, rabbit.Age, rabbit.Weight });
+                    new { entity.Id, entity.Name, entity.Breed, entity.Age, entity.Weight });
             }
         }
 
-        public void Delete(T entity)
+        public void Delete(RabbitModel entity)  // ← RabbitModel
         {
             using (var db = new SqlConnection(_connectionString))
             {
@@ -57,30 +57,29 @@ namespace Business_logic___rabbit
             }
         }
 
-        public IEnumerable<T> ReadAll()
+        public IEnumerable<RabbitModel> ReadAll()  // ← RabbitModel
         {
             using (var db = new SqlConnection(_connectionString))
             {
-                return db.Query<Rabbit>("SELECT * FROM Rabbits").ToList() as IEnumerable<T>;
+                return db.Query<RabbitModel>("SELECT * FROM Rabbits").ToList();
             }
         }
 
-        public T ReadById(int id)
+        public RabbitModel ReadById(int id)  // ← RabbitModel
         {
             using (var db = new SqlConnection(_connectionString))
             {
-                return db.Query<Rabbit>("SELECT * FROM Rabbits WHERE Id = @Id", new { Id = id }).FirstOrDefault() as T;
+                return db.Query<RabbitModel>("SELECT * FROM Rabbits WHERE Id = @Id", new { Id = id }).FirstOrDefault();
             }
         }
 
-        public void Update(T entity)
+        public void Update(RabbitModel entity)  // ← RabbitModel
         {
             using (var db = new SqlConnection(_connectionString))
             {
-                var rabbit = entity as Rabbit;
                 db.Execute(
                     "UPDATE Rabbits SET Name = @Name, Breed = @Breed, Age = @Age, Weight = @Weight WHERE Id = @Id",
-                    new { rabbit.Id, rabbit.Name, rabbit.Breed, rabbit.Age, rabbit.Weight });
+                    new { entity.Id, entity.Name, entity.Breed, entity.Age, entity.Weight });
             }
         }
     }

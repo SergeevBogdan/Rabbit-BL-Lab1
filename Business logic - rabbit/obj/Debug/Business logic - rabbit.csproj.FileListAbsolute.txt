@@ -172,3 +172,8 @@ C:\Users\User\source\repos\Rabbit-BL-Lab1\Business logic - rabbit\bin\Debug\pt-B
 C:\Users\User\source\repos\Rabbit-BL-Lab1\Business logic - rabbit\bin\Debug\ru\Microsoft.Data.SqlClient.resources.dll
 C:\Users\User\source\repos\Rabbit-BL-Lab1\Business logic - rabbit\bin\Debug\zh-Hans\Microsoft.Data.SqlClient.resources.dll
 C:\Users\User\source\repos\Rabbit-BL-Lab1\Business logic - rabbit\bin\Debug\zh-Hant\Microsoft.Data.SqlClient.resources.dll
+C:\Users\User\Source\Repos\Rabbit-BL-Lab1\Business logic - rabbit\bin\Debug\DataAccess.dll
+C:\Users\User\Source\Repos\Rabbit-BL-Lab1\Business logic - rabbit\bin\Debug\Entity.dll
+C:\Users\User\Source\Repos\Rabbit-BL-Lab1\Business logic - rabbit\bin\Debug\DataAccess.pdb
+C:\Users\User\Source\Repos\Rabbit-BL-Lab1\Business logic - rabbit\bin\Debug\DataAccess.dll.config
+C:\Users\User\Source\Repos\Rabbit-BL-Lab1\Business logic - rabbit\bin\Debug\Entity.pdb

@@ -1,7 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Rabbit.Entities;
 
-namespace Business_logic___rabbit
+
+namespace Rabbit.DataAccess
 {
     public class EntityRepository<T> : IRepository<T> where T : class, IDomainObject
     {
