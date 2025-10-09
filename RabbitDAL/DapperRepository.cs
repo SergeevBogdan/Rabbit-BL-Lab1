@@ -1,9 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
 using Dapper;
+using RabbitModel;
 
-namespace Business_logic___rabbit
+namespace RabbitDAL
 {
     public class DapperRepository<T> : IRepository<T> where T : class, IDomainObject
     {
@@ -11,7 +13,7 @@ namespace Business_logic___rabbit
 
         public DapperRepository()
         {
-            _connectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\AceR\Desktop\Rabbit-Lab - 4\Business logic - rabbit\Database1.mdf;Integrated Security=True";
+            _connectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\AceR\Desktop\Rabbit-Lab - 4\RabbitDAL\Database1.mdf;Integrated Security=True";
             EnsureTableExists();
         }
 

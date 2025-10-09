@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml.Linq;
-using Business_logic___rabbit;
+using Business_logic_rabbit;
 
 namespace WF_Rabbit
 {

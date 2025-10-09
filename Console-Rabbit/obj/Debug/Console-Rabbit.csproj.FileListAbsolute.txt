@@ -48,3 +48,8 @@ C:\Users\AceR\Desktop\Rabbit-Lab - 4\Console-Rabbit\bin\Debug\System.Security.Pe
 C:\Users\AceR\Desktop\Rabbit-Lab - 4\Console-Rabbit\bin\Debug\System.Security.Principal.Windows.xml
 C:\Users\AceR\Desktop\Rabbit-Lab - 4\Console-Rabbit\bin\Debug\EntityFramework.SqlServer.dll
 C:\Users\AceR\Desktop\Rabbit-Lab - 4\Console-Rabbit\bin\Debug\EntityFramework.SqlServer.xml
+C:\Users\AceR\Desktop\Rabbit-Lab - 4\Console-Rabbit\bin\Debug\RabbitDAL.dll
+C:\Users\AceR\Desktop\Rabbit-Lab - 4\Console-Rabbit\bin\Debug\RabbitModel.dll
+C:\Users\AceR\Desktop\Rabbit-Lab - 4\Console-Rabbit\bin\Debug\RabbitDAL.pdb
+C:\Users\AceR\Desktop\Rabbit-Lab - 4\Console-Rabbit\bin\Debug\RabbitDAL.dll.config
+C:\Users\AceR\Desktop\Rabbit-Lab - 4\Console-Rabbit\bin\Debug\RabbitModel.pdb

@@ -14,7 +14,6 @@ C:\Users\AceR\Desktop\Rabbit-Lab - 4\Business logic - rabbit\bin\Debug\Microsoft
 C:\Users\AceR\Desktop\Rabbit-Lab - 4\Business logic - rabbit\bin\Debug\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
 C:\Users\AceR\Desktop\Rabbit-Lab - 4\Business logic - rabbit\bin\Debug\Microsoft.IdentityModel.Tokens.dll
 C:\Users\AceR\Desktop\Rabbit-Lab - 4\Business logic - rabbit\bin\Debug\System.Buffers.dll
-C:\Users\AceR\Desktop\Rabbit-Lab - 4\Business logic - rabbit\bin\Debug\System.Configuration.ConfigurationManager.dll
 C:\Users\AceR\Desktop\Rabbit-Lab - 4\Business logic - rabbit\bin\Debug\System.Data.SqlClient.dll
 C:\Users\AceR\Desktop\Rabbit-Lab - 4\Business logic - rabbit\bin\Debug\System.Diagnostics.DiagnosticSource.dll
 C:\Users\AceR\Desktop\Rabbit-Lab - 4\Business logic - rabbit\bin\Debug\System.IdentityModel.Tokens.Jwt.dll
@@ -60,3 +59,8 @@ C:\Users\AceR\Desktop\Rabbit-Lab - 4\Business logic - rabbit\obj\Debug\Business 
 C:\Users\AceR\Desktop\Rabbit-Lab - 4\Business logic - rabbit\obj\Debug\Business.E35980D8.Up2Date
 C:\Users\AceR\Desktop\Rabbit-Lab - 4\Business logic - rabbit\obj\Debug\Business logic - rabbit.dll
 C:\Users\AceR\Desktop\Rabbit-Lab - 4\Business logic - rabbit\obj\Debug\Business logic - rabbit.pdb
+C:\Users\AceR\Desktop\Rabbit-Lab - 4\Business logic - rabbit\bin\Debug\RabbitDAL.dll
+C:\Users\AceR\Desktop\Rabbit-Lab - 4\Business logic - rabbit\bin\Debug\RabbitModel.dll
+C:\Users\AceR\Desktop\Rabbit-Lab - 4\Business logic - rabbit\bin\Debug\RabbitDAL.pdb
+C:\Users\AceR\Desktop\Rabbit-Lab - 4\Business logic - rabbit\bin\Debug\RabbitDAL.dll.config
+C:\Users\AceR\Desktop\Rabbit-Lab - 4\Business logic - rabbit\bin\Debug\RabbitModel.pdb

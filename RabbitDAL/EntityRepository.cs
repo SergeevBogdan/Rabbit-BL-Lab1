@@ -1,7 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
+using RabbitModel;
 
-namespace Business_logic___rabbit
+namespace RabbitDAL
 {
     public class EntityRepository<T> : IRepository<T> where T : class, IDomainObject
     {

@@ -190,13 +190,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BL.cs" />
-    <Compile Include="DapperRepository.cs" />
-    <Compile Include="EntityRepository.cs" />
-    <Compile Include="IDomainObject.cs" />
-    <Compile Include="IRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Rabbit.cs" />
-    <Compile Include="RabbitDbContext.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -215,13 +209,14 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Database1.mdf">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Database1_log.ldf">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      <DependentUpon>Database1.mdf</DependentUpon>
-    </Content>
+    <ProjectReference Include="..\RabbitDAL\RabbitDAL.csproj">
+      <Project>{0e40ba35-d878-4d68-8ab9-a2bf73ecd2dc}</Project>
+      <Name>RabbitDAL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\RabbitModel\RabbitModel.csproj">
+      <Project>{2cbba9c2-8061-4b8c-9f55-e593cbfb4b87}</Project>
+      <Name>RabbitModel</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

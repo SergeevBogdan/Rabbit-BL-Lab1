@@ -9,6 +9,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Console-Rabbit", "Console-R
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WF_Rabbit", "WF_Rabbit\WF_Rabbit.csproj", "{CAC10E00-4675-4F4E-9ECE-6597126A87E5}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RabbitModel", "RabbitModel\RabbitModel.csproj", "{2CBBA9C2-8061-4B8C-9F55-E593CBFB4B87}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RabbitDAL", "RabbitDAL\RabbitDAL.csproj", "{0E40BA35-D878-4D68-8AB9-A2BF73ECD2DC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +31,14 @@ Global
 		{CAC10E00-4675-4F4E-9ECE-6597126A87E5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CAC10E00-4675-4F4E-9ECE-6597126A87E5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CAC10E00-4675-4F4E-9ECE-6597126A87E5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2CBBA9C2-8061-4B8C-9F55-E593CBFB4B87}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2CBBA9C2-8061-4B8C-9F55-E593CBFB4B87}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2CBBA9C2-8061-4B8C-9F55-E593CBFB4B87}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2CBBA9C2-8061-4B8C-9F55-E593CBFB4B87}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0E40BA35-D878-4D68-8AB9-A2BF73ECD2DC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0E40BA35-D878-4D68-8AB9-A2BF73ECD2DC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0E40BA35-D878-4D68-8AB9-A2BF73ECD2DC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0E40BA35-D878-4D68-8AB9-A2BF73ECD2DC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
