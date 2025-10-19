@@ -53,3 +53,5 @@ C:\Users\AceR\Desktop\Rabbit-Lab - 4\Console-Rabbit\bin\Debug\RabbitModel.dll
 C:\Users\AceR\Desktop\Rabbit-Lab - 4\Console-Rabbit\bin\Debug\RabbitDAL.pdb
 C:\Users\AceR\Desktop\Rabbit-Lab - 4\Console-Rabbit\bin\Debug\RabbitDAL.dll.config
 C:\Users\AceR\Desktop\Rabbit-Lab - 4\Console-Rabbit\bin\Debug\RabbitModel.pdb
+C:\Users\AceR\Desktop\Rabbit-Lab - 4\Console-Rabbit\bin\Debug\Ninject.dll
+C:\Users\AceR\Desktop\Rabbit-Lab - 4\Console-Rabbit\bin\Debug\Ninject.xml

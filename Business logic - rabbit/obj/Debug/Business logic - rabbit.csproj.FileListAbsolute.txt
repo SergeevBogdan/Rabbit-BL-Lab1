@@ -64,3 +64,5 @@ C:\Users\AceR\Desktop\Rabbit-Lab - 4\Business logic - rabbit\bin\Debug\RabbitMod
 C:\Users\AceR\Desktop\Rabbit-Lab - 4\Business logic - rabbit\bin\Debug\RabbitDAL.pdb
 C:\Users\AceR\Desktop\Rabbit-Lab - 4\Business logic - rabbit\bin\Debug\RabbitDAL.dll.config
 C:\Users\AceR\Desktop\Rabbit-Lab - 4\Business logic - rabbit\bin\Debug\RabbitModel.pdb
+C:\Users\AceR\Desktop\Rabbit-Lab - 4\Business logic - rabbit\bin\Debug\Ninject.dll
+C:\Users\AceR\Desktop\Rabbit-Lab - 4\Business logic - rabbit\bin\Debug\Ninject.xml

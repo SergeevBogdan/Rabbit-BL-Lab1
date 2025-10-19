@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
 using Dapper;
+using RabbitDAL.RabbitDAL;
 using RabbitModel;
 
 namespace RabbitDAL
 {
-    public class DapperRepository<T> : IRepository<T> where T : class, IDomainObject
+    public class DapperRepository : IRepository
     {
         private readonly string _connectionString;
 
@@ -23,7 +24,7 @@ namespace RabbitDAL
             {
                 db.Open();
                 var tableExists = db.ExecuteScalar<int>(
-                    "SELECT COUNT(*) FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = 'Rabbits'");
+                    "SELECT COUNT(*) FROM INFORMATION_SCMA.TABLES WHERE TABLE_NAME = 'Rabbits'");
 
                 if (tableExists == 0)
                 {
@@ -39,46 +40,44 @@ namespace RabbitDAL
             }
         }
 
-        public void Add(T entity)
+        public void Add(Rabbit rabbit)
         {
             using (var db = new SqlConnection(_connectionString))
             {
-                var rabbit = entity as Rabbit;
                 db.Execute(
                     "INSERT INTO Rabbits (Id, Name, Breed, Age, Weight) VALUES (@Id, @Name, @Breed, @Age, @Weight)",
                     new { rabbit.Id, rabbit.Name, rabbit.Breed, rabbit.Age, rabbit.Weight });
             }
         }
 
-        public void Delete(T entity) 
+        public void Delete(Rabbit rabbit)
         {
             using (var db = new SqlConnection(_connectionString))
             {
-                db.Execute("DELETE FROM Rabbits WHERE Id = @Id", new { entity.Id });
+                db.Execute("DELETE FROM Rabbits WHERE Id = @Id", new { rabbit.Id });
             }
         }
 
-        public IEnumerable<T> ReadAll()
+        public IEnumerable<Rabbit> ReadAll()
         {
             using (var db = new SqlConnection(_connectionString))
             {
-                return db.Query<Rabbit>("SELECT * FROM Rabbits").ToList() as IEnumerable<T>;
+                return db.Query<Rabbit>("SELECT * FROM Rabbits").ToList();
             }
         }
 
-        public T ReadById(int id)
+        public Rabbit ReadById(int id)
         {
             using (var db = new SqlConnection(_connectionString))
             {
-                return db.Query<Rabbit>("SELECT * FROM Rabbits WHERE Id = @Id", new { Id = id }).FirstOrDefault() as T;
+                return db.Query<Rabbit>("SELECT * FROM Rabbits WHERE Id = @Id", new { Id = id }).FirstOrDefault();
             }
         }
 
-        public void Update(T entity)
+        public void Update(Rabbit rabbit)
         {
             using (var db = new SqlConnection(_connectionString))
             {
-                var rabbit = entity as Rabbit;
                 db.Execute(
                     "UPDATE Rabbits SET Name = @Name, Breed = @Breed, Age = @Age, Weight = @Weight WHERE Id = @Id",
                     new { rabbit.Id, rabbit.Name, rabbit.Breed, rabbit.Age, rabbit.Weight });
