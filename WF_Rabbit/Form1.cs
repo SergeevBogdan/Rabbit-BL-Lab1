@@ -13,42 +13,20 @@ namespace WF_Rabbit
 {
     public partial class Form1 : Form
     {
-        private IRabbitAdder _adder;
-        private IRabbitRemover _remover;
-        private IRabbitReader _reader;
-        private IRabbitUpdater _updater;
-        private IRabbitAgeCalculator _ageCalculator;
-        private IRabbitWeightCalculator _weightCalculator;
-        private IRabbitRandomCreator _randomCreator;
-        private IRabbitDisplayer _displayer;
-        private IRabbitBreedProvider _breedProvider;
-
+        private Logic logic;
         private bool useEntityFramework = true;
         private ToolStripMenuItem technologyStatusItem;
 
         public Form1()
         {
             InitializeComponent();
-            InitializeServices(useEntityFramework);
+            logic = new Logic(useEntityFramework);
             InitializeTechnologySelection();
             InitializeDataGridView();
             InitializeBreedComboBox();
             InitializeFilterComboBox();
             RefreshDataGridView();
             UpdateTechnologyDisplay();
-        }
-
-        private void InitializeServices(bool useEntityFramework)
-        {
-            _adder = LogicFactory.CreateRabbitAdder(useEntityFramework);
-            _remover = LogicFactory.CreateRabbitRemover(useEntityFramework);
-            _reader = LogicFactory.CreateRabbitReader(useEntityFramework);
-            _updater = LogicFactory.CreateRabbitUpdater(useEntityFramework);
-            _ageCalculator = LogicFactory.CreateRabbitAgeCalculator(useEntityFramework);
-            _weightCalculator = LogicFactory.CreateRabbitWeightCalculator(useEntityFramework);
-            _randomCreator = LogicFactory.CreateRabbitRandomCreator(useEntityFramework);
-            _displayer = LogicFactory.CreateRabbitDisplayer(useEntityFramework);
-            _breedProvider = LogicFactory.CreateRabbitBreedProvider(useEntityFramework);
         }
 
         private void InitializeTechnologySelection()
@@ -79,10 +57,9 @@ namespace WF_Rabbit
         {
             if (technologyStatusItem != null)
             {
-                string technology = useEntityFramework ? "Entity Framework" : "Dapper";
-                technologyStatusItem.Text = $"Текущая: {technology}";
+                technologyStatusItem.Text = $"Текущая: {logic.GetCurrentTechnology()}";
             }
-            this.Text = $"Кролики - {(useEntityFramework ? "Entity Framework" : "Dapper")} с DI";
+            this.Text = $"Кролики - {logic.GetCurrentTechnology()}";
         }
 
         private void SwitchTechnology(bool useEF)
@@ -90,10 +67,10 @@ namespace WF_Rabbit
             try
             {
                 useEntityFramework = useEF;
-                InitializeServices(useEntityFramework);
+                logic = new Logic(useEntityFramework);
                 RefreshDataGridView();
                 UpdateTechnologyDisplay();
-                MessageBox.Show($"Переключено на: {(useEntityFramework ? "Entity Framework" : "Dapper")} с DI", "Технология данных");
+                MessageBox.Show($"Переключено на: {logic.GetCurrentTechnology()}", "Технология данных");
             }
             catch (Exception ex)
             {
@@ -149,7 +126,7 @@ namespace WF_Rabbit
 
             try
             {
-                string allRabbits = _displayer.ShowAllRabbits();
+                string allRabbits = logic.ShowAllRabbits();
 
                 if (string.IsNullOrEmpty(allRabbits) || allRabbits == "Список кроликов пуст")
                 {
@@ -182,6 +159,7 @@ namespace WF_Rabbit
             }
         }
 
+        // Вспомогательный класс для парсинга данных кролика
         private class RabbitData
         {
             public int Id { get; set; }
@@ -246,7 +224,7 @@ namespace WF_Rabbit
                 int weight = int.Parse(txtWeight.Text);
                 string breed = comboBoxBreed.SelectedItem.ToString();
 
-                string result = _adder.AddRabbit(id, name, age, weight, breed);
+                string result = logic.AddRabbit(id, name, age, weight, breed);
                 if (result == "Кролик успешно добавлен")
                 {
                     MessageBox.Show(result, "Успех");
@@ -262,10 +240,6 @@ namespace WF_Rabbit
             {
                 MessageBox.Show("Пожалуйста, введите корректные числовые значения для ID, возраста и веса", "Ошибка");
             }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Ошибка: {ex.Message}", "Ошибка");
-            }
         }
 
         private void btnRemove_Click(object sender, EventArgs e)
@@ -279,16 +253,9 @@ namespace WF_Rabbit
 
                 if (result == DialogResult.Yes)
                 {
-                    try
-                    {
-                        string message = _remover.RemoveRabbit(rabbitId);
-                        MessageBox.Show(message);
-                        RefreshDataGridView();
-                    }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show($"Ошибка при удалении: {ex.Message}", "Ошибка");
-                    }
+                    string message = logic.RemoveRabbit(rabbitId);
+                    MessageBox.Show(message);
+                    RefreshDataGridView();
                 }
             }
             else
@@ -302,15 +269,8 @@ namespace WF_Rabbit
             if (dataGridViewRabbits.SelectedRows.Count > 0)
             {
                 int rabbitId = (int)dataGridViewRabbits.SelectedRows[0].Cells["Id"].Value;
-                try
-                {
-                    string rabbitInfo = _reader.ReadRabbit(rabbitId);
-                    MessageBox.Show(rabbitInfo, "Информация о кролике");
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show($"Ошибка при чтении: {ex.Message}", "Ошибка");
-                }
+                string rabbitInfo = logic.ReadRabbit(rabbitId);
+                MessageBox.Show(rabbitInfo, "Информация о кролике");
             }
             else
             {
@@ -364,7 +324,7 @@ namespace WF_Rabbit
                 int weight = int.Parse(txtWeight.Text);
                 string breed = comboBoxBreed.SelectedItem?.ToString() ?? "";
 
-                _updater.ChangeStatRabbit(id, name, age, weight, breed);
+                logic.ChangeStatRabbit(id, name, age, weight, breed);
                 MessageBox.Show("Данные кролика обновлены", "Успех");
                 ClearInputFields();
                 RefreshDataGridView();
@@ -373,50 +333,25 @@ namespace WF_Rabbit
             {
                 MessageBox.Show("Пожалуйста, введите корректные числовые значения для возраста и веса", "Ошибка");
             }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Ошибка: {ex.Message}", "Ошибка");
-            }
         }
 
         private void btnAverageAge_Click(object sender, EventArgs e)
         {
-            try
-            {
-                double averageAge = _ageCalculator.GetAverageAge();
-                MessageBox.Show($"Средний возраст кроликов: {averageAge:F2}", "Статистика");
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Ошибка: {ex.Message}", "Ошибка");
-            }
+            double averageAge = logic.GetAverageAge();
+            MessageBox.Show($"Средний возраст кроликов: {averageAge:F2}", "Статистика");
         }
 
         private void btnAverageWeight_Click(object sender, EventArgs e)
         {
-            try
-            {
-                double averageWeight = _weightCalculator.GetAverageWeight();
-                MessageBox.Show($"Средний вес кроликов: {averageWeight:F2}", "Статистика");
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Ошибка: {ex.Message}", "Ошибка");
-            }
+            double averageWeight = logic.GetAverageWeight();
+            MessageBox.Show($"Средний вес кроликов: {averageWeight:F2}", "Статистика");
         }
 
         private void btnAddRandom_Click(object sender, EventArgs e)
         {
-            try
-            {
-                string message = _randomCreator.AddRandomRabbit();
-                MessageBox.Show(message);
-                RefreshDataGridView();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Ошибка: {ex.Message}", "Ошибка");
-            }
+            string message = logic.AddRandomRabbit();
+            MessageBox.Show(message);
+            RefreshDataGridView();
         }
 
         private void btnApplyFilter_Click(object sender, EventArgs e)
@@ -425,7 +360,7 @@ namespace WF_Rabbit
             {
                 int field = comboBoxFilterField.SelectedIndex + 1;
                 bool direction = radioAscending.Checked;
-                string allRabbits = _displayer.ShowAllRabbits();
+                string allRabbits = logic.ShowAllRabbits();
 
                 if (string.IsNullOrEmpty(allRabbits) || allRabbits == "Список кроликов пуст")
                 {

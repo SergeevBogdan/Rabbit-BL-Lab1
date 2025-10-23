@@ -2,11 +2,14 @@
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
-using RabbitDAL.RabbitDAL;
+using RabbitDAL;
 using RabbitModel;
 
 namespace RabbitDAL
 {
+    /// <summary>
+    /// Реализация репозитория с использованием Entity Framework
+    /// </summary>
     public class EntityRepository : IRepository
     {
         private readonly RabbitDbContext _context;
@@ -24,7 +27,6 @@ namespace RabbitDAL
 
         public void Delete(Rabbit rabbit)
         {
-            // ИСПРАВЛЕНИЕ: сначала находим объект в контексте
             var existing = _context.Rabbits.Find(rabbit.Id);
             if (existing != null)
             {

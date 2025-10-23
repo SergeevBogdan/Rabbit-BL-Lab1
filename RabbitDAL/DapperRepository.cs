@@ -3,11 +3,14 @@ using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
 using Dapper;
-using RabbitDAL.RabbitDAL;
+using RabbitDAL;
 using RabbitModel;
 
 namespace RabbitDAL
 {
+    /// <summary>
+    /// Реализация репозитория с использованием Dapper
+    /// </summary>
     public class DapperRepository : IRepository
     {
         private readonly string _connectionString;
@@ -23,8 +26,9 @@ namespace RabbitDAL
             using (var db = new SqlConnection(_connectionString))
             {
                 db.Open();
+
                 var tableExists = db.ExecuteScalar<int>(
-                    "SELECT COUNT(*) FROM INFORMATION_SCMA.TABLES WHERE TABLE_NAME = 'Rabbits'");
+                    "SELECT COUNT(*) FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = 'Rabbits'");
 
                 if (tableExists == 0)
                 {
