@@ -15,124 +15,107 @@ namespace Business_logic___rabbit
 
     /// <summary>
     /// Основной класс бизнес-логики для управления кроликами
-    /// Внутренняя реализация соответствует SOLID принципам
-    /// Внешний интерфейс остается неизменным для обратной совместимости
+    /// Полностью соответствует SOLID принципам и DI
     /// </summary>
     public class Logic
     {
         private readonly IRepository _repository;
-        private static Random _rnd = new Random();
+        private readonly IRabbitAdder _adder;
+        private readonly IRabbitRemover _remover;
+        private readonly IRabbitReader _reader;
+        private readonly IRabbitUpdater _updater;
+        private readonly IRabbitAgeCalculator _ageCalculator;
+        private readonly IRabbitWeightCalculator _weightCalculator;
+        private readonly IRabbitSorter _sorter;
+        private readonly IRabbitRandomCreator _randomCreator;
+        private readonly IRabbitDisplayer _displayer;
+        private readonly IRabbitBreedProvider _breedProvider;
         private readonly string _technology;
 
         /// <summary>
-        /// Конструктор для обратной совместимости
-        /// Внутри использует SOLID-архитектуру с DI
+        /// Основной конструктор для DI - получает ВСЕ зависимости через Ninject
         /// </summary>
-        public Logic(bool useEntityFramework = true)
-        {
-            if (useEntityFramework)
-            {
-                try
-                {
-                    var ensureDLLIsCopied = System.Data.Entity.SqlServer.SqlProviderServices.Instance;
-                    var context = new RabbitDbContext();
-                    _repository = new EntityRepository(context);
-                    _technology = "Entity Framework";
-                }
-                catch (Exception ex)
-                {
-                    _repository = new DapperRepository();
-                    _technology = "Dapper (автопереключение)";
-                }
-            }
-            else
-            {
-                _repository = new DapperRepository();
-                _technology = "Dapper";
-            }
-        }
-
-        /// <summary>
-        /// Конструктор с внедрением зависимости для тестирования
-        /// </summary>
-        internal Logic(IRepository repository)
+        public Logic(
+            IRepository repository,
+            IRabbitAdder adder,
+            IRabbitRemover remover,
+            IRabbitReader reader,
+            IRabbitUpdater updater,
+            IRabbitAgeCalculator ageCalculator,
+            IRabbitWeightCalculator weightCalculator,
+            IRabbitSorter sorter,
+            IRabbitRandomCreator randomCreator,
+            IRabbitDisplayer displayer,
+            IRabbitBreedProvider breedProvider)
         {
             _repository = repository;
-            _technology = "Test Repository";
+            _adder = adder;
+            _remover = remover;
+            _reader = reader;
+            _updater = updater;
+            _ageCalculator = ageCalculator;
+            _weightCalculator = weightCalculator;
+            _sorter = sorter;
+            _randomCreator = randomCreator;
+            _displayer = displayer;
+            _breedProvider = breedProvider;
+
+            _technology = repository is EntityRepository ? "Entity Framework" :
+                         repository is DapperRepository ? "Dapper" : "Test Repository";
         }
 
         public string GetCurrentTechnology() => _technology;
 
         public string AddRabbit(int id, string name, int age, int weight, string breed)
         {
-            var adder = new RabbitAdder(_repository);
-            return adder.AddRabbit(id, name, age, weight, breed);
+            return _adder.AddRabbit(id, name, age, weight, breed);
         }
 
         public string RemoveRabbit(int id)
         {
-            var remover = new RabbitRemover(_repository);
-            return remover.RemoveRabbit(id);
+            return _remover.RemoveRabbit(id);
         }
 
         public string ReadRabbit(int id)
         {
-            var reader = new RabbitReader(_repository);
-            return reader.ReadRabbit(id);
+            return _reader.ReadRabbit(id);
         }
 
         public void ChangeStatRabbit(int id, string name, int age, int weight, string breed)
         {
-            var updater = new RabbitUpdater(_repository);
-            updater.ChangeStatRabbit(id, name, age, weight, breed);
+            _updater.ChangeStatRabbit(id, name, age, weight, breed);
         }
 
         public double GetAverageAge()
         {
-            var calculator = new RabbitAgeCalculator(_repository);
-            return calculator.GetAverageAge();
+            return _ageCalculator.GetAverageAge();
         }
 
         public double GetAverageWeight()
         {
-            var calculator = new RabbitWeightCalculator(_repository);
-            return calculator.GetAverageWeight();
+            return _weightCalculator.GetAverageWeight();
         }
 
         public void SortRabbits(int sortField, bool ascending)
         {
-            var sorter = new RabbitSorter(_repository);
-            sorter.SortRabbits(sortField, ascending);
+            _sorter.SortRabbits(sortField, ascending);
         }
 
         public string AddRandomRabbit()
         {
-            var creator = new RabbitRandomCreator(_repository);
-            return creator.AddRandomRabbit();
+            return _randomCreator.AddRandomRabbit();
         }
 
         public string ShowAllRabbits()
         {
-            var displayer = new RabbitDisplayer(_repository);
-            return displayer.ShowAllRabbits();
+            return _displayer.ShowAllRabbits();
         }
 
         public string[] GetBreeds()
         {
-            var provider = new RabbitBreedProvider();
-            return provider.GetBreeds();
+            return _breedProvider.GetBreeds();
         }
-
-
-
     }
-
-
-
-
-
-
-
 
     /// <summary>
     /// Сервис для добавления кроликов в базу данных
@@ -163,17 +146,6 @@ namespace Business_logic___rabbit
             return "Кролик успешно добавлен";
         }
     }
-
-
-
-
-
-
-
-
-
-
-
 
     /// <summary>
     /// Сервис для удаления кроликов из базы данных
@@ -212,13 +184,6 @@ namespace Business_logic___rabbit
             return "Кролик не найден";
         }
     }
-
-
-
-
-
-
-
 
     /// <summary>
     /// Сервис для чтения информации о кроликах
@@ -277,9 +242,6 @@ namespace Business_logic___rabbit
         }
     }
 
-
-
-
     /// <summary>
     /// Сервис для вычисления среднего возраста кроликов
     /// Выполняет статистические расчеты
@@ -299,9 +261,6 @@ namespace Business_logic___rabbit
             return rabbits.Count != 0 ? rabbits.Average(r => r.Age) : 0;
         }
     }
-
-
-
 
     /// <summary>
     /// Сервис для вычисления среднего веса кроликов
@@ -431,7 +390,6 @@ namespace Business_logic___rabbit
         }
     }
 
-
     /// <summary>
     /// Сервис для предоставления списка доступных пород кроликов
     /// Содержит фиксированный набор пород
@@ -443,10 +401,6 @@ namespace Business_logic___rabbit
             return new string[] { "Беляк", "Русак", "Толай", "Маньжурский", "Оранжевый" };
         }
     }
-
-
-
-
 
 
 }

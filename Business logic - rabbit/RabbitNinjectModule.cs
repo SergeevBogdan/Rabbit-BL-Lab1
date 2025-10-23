@@ -10,9 +10,9 @@ using RabbitDAL;
 
 namespace Business_logic___rabbit
 {
-
     /// <summary>
     /// Модуль конфигурации Ninject для управления зависимостями
+    /// Полностью настраивает все зависимости системы
     /// </summary>
     public class RabbitNinjectModule : NinjectModule
     {
@@ -25,7 +25,6 @@ namespace Business_logic___rabbit
 
         public override void Load()
         {
-            // Биндим единый репозиторий
             if (_useEntityFramework)
             {
                 Bind<IRepository>().To<EntityRepository>().InSingletonScope();
@@ -35,19 +34,17 @@ namespace Business_logic___rabbit
                 Bind<IRepository>().To<DapperRepository>().InSingletonScope();
             }
 
-            // Биндим все сервисы
-            Bind<IRabbitAdder>().To<RabbitAdder>().InSingletonScope();
-            Bind<IRabbitRemover>().To<RabbitRemover>().InSingletonScope();
-            Bind<IRabbitReader>().To<RabbitReader>().InSingletonScope();
-            Bind<IRabbitUpdater>().To<RabbitUpdater>().InSingletonScope();
-            Bind<IRabbitAgeCalculator>().To<RabbitAgeCalculator>().InSingletonScope();
-            Bind<IRabbitWeightCalculator>().To<RabbitWeightCalculator>().InSingletonScope();
-            Bind<IRabbitSorter>().To<RabbitSorter>().InSingletonScope();
-            Bind<IRabbitRandomCreator>().To<RabbitRandomCreator>().InSingletonScope();
-            Bind<IRabbitDisplayer>().To<RabbitDisplayer>().InSingletonScope();
-            Bind<IRabbitBreedProvider>().To<RabbitBreedProvider>().InSingletonScope();
+            Bind<IRabbitAdder>().To<RabbitAdder>();
+            Bind<IRabbitRemover>().To<RabbitRemover>();
+            Bind<IRabbitReader>().To<RabbitReader>();
+            Bind<IRabbitUpdater>().To<RabbitUpdater>();
+            Bind<IRabbitAgeCalculator>().To<RabbitAgeCalculator>();
+            Bind<IRabbitWeightCalculator>().To<RabbitWeightCalculator>();
+            Bind<IRabbitSorter>().To<RabbitSorter>();
+            Bind<IRabbitRandomCreator>().To<RabbitRandomCreator>();
+            Bind<IRabbitDisplayer>().To<RabbitDisplayer>();
+            Bind<IRabbitBreedProvider>().To<RabbitBreedProvider>();
 
-            // Биндим композитный сервис
             Bind<Logic>().ToSelf().InSingletonScope();
         }
     }

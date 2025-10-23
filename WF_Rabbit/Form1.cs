@@ -14,13 +14,14 @@ namespace WF_Rabbit
     public partial class Form1 : Form
     {
         private Logic logic;
-        private bool useEntityFramework = true;
+        private bool useEF = true; // ДОБАВИТЬ эту строку - объявление переменной
         private ToolStripMenuItem technologyStatusItem;
 
         public Form1()
         {
             InitializeComponent();
-            logic = new Logic(useEntityFramework);
+
+            logic = LogicFactory.CreateLogic(useEF); // Теперь useEF существует
             InitializeTechnologySelection();
             InitializeDataGridView();
             InitializeBreedComboBox();
@@ -62,12 +63,13 @@ namespace WF_Rabbit
             this.Text = $"Кролики - {logic.GetCurrentTechnology()}";
         }
 
+
         private void SwitchTechnology(bool useEF)
         {
             try
             {
-                useEntityFramework = useEF;
-                logic = new Logic(useEntityFramework);
+                this.useEF = useEF; // Обновляем поле класса
+                logic = LogicFactory.CreateLogic(this.useEF);
                 RefreshDataGridView();
                 UpdateTechnologyDisplay();
                 MessageBox.Show($"Переключено на: {logic.GetCurrentTechnology()}", "Технология данных");

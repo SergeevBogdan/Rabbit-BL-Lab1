@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Business_logic___rabbit;
 
+
 namespace Console_Rabbit
 {
     class Program
@@ -11,10 +12,10 @@ namespace Console_Rabbit
             Console.WriteLine("СИСТЕМА УПРАВЛЕНИЯ КРОЛИКАМИ");
 
             bool useEF = ChooseTechnology();
-            var logic = new Logic(useEF);
+            // Используем фабрику вместо прямого создания
+            var logic = LogicFactory.CreateLogic(useEF);
 
             Console.WriteLine("Используется: " + logic.GetCurrentTechnology());
-
             RunMainMenu(logic);
         }
 
