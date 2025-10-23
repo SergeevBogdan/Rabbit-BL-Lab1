@@ -160,8 +160,6 @@ namespace WF_Rabbit
                 MessageBox.Show($"Ошибка при загрузке данных: {ex.Message}", "Ошибка");
             }
         }
-
-        // Вспомогательный класс для парсинга данных кролика
         private class RabbitData
         {
             public int Id { get; set; }

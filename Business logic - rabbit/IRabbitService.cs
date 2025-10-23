@@ -5,9 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Ninject.Modules;
 namespace Business_logic___rabbit
-{
-    // КАЖДЫЙ интерфейс = ОДНА ответственность
-
+{ 
     public interface IRabbitAdder
     {
         string AddRabbit(int id, string name, int age, int weight, string breed);

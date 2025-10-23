@@ -135,14 +135,7 @@ namespace Console_Rabbit
                 Console.WriteLine("Возраст: " + age + " лет");
                 Console.WriteLine("Вес: " + weight + " кг");
                 Console.WriteLine("Порода: " + breed);
-                Console.Write("Добавить кролика? (y/n): ");
-
-                string confirm = Console.ReadLine();
-                if (confirm?.ToLower() != "y")
-                {
-                    ShowInfo("Создание отменено");
-                    return;
-                }
+                
 
                 string result = logic.AddRabbit(id, name, age, weight, breed);
 
@@ -264,14 +257,7 @@ namespace Console_Rabbit
                 Console.WriteLine("Новый возраст: " + age + " лет");
                 Console.WriteLine("Новый вес: " + weight + " кг");
                 Console.WriteLine("Новая порода: " + breed);
-                Console.Write("Сохранить изменения? (y/n): ");
-
-                string confirm = Console.ReadLine();
-                if (confirm?.ToLower() != "y")
-                {
-                    ShowInfo("Изменения отменены");
-                    return;
-                }
+                
 
                 logic.ChangeStatRabbit(id, name, age, weight, breed);
                 ShowSuccess("Данные кролика успешно обновлены!");
@@ -389,25 +375,19 @@ namespace Console_Rabbit
 
         static void ShowSuccess(string message)
         {
-            Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine(message);
-            Console.ResetColor();
             WaitForContinue();
         }
 
         static void ShowError(string message)
         {
-            Console.ForegroundColor = ConsoleColor.Red;
             Console.WriteLine(message);
-            Console.ResetColor();
             WaitForContinue();
         }
 
         static void ShowInfo(string message)
         {
-            Console.ForegroundColor = ConsoleColor.Yellow;
             Console.WriteLine(message);
-            Console.ResetColor();
             WaitForContinue();
         }
 

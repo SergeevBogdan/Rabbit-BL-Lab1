@@ -12,7 +12,7 @@ namespace RabbitDAL
 
         private static string GetConnectionString()
         {
-            return @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\AceR\Desktop\Rabbit-Lab - 4\RabbitDAL\Database1.mdf;Integrated Security=True";
+            return @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\User\source\repos\Rabbit-BL-Lab1\RabbitDAL\Database1.mdf;Integrated Security=True";
         }
 
         public DbSet<Rabbit> Rabbits { get; set; }
