@@ -14,14 +14,14 @@ namespace WF_Rabbit
     public partial class Form1 : Form
     {
         private Logic logic;
-        private bool useEF = true; // ДОБАВИТЬ эту строку - объявление переменной
+        private bool useEF = true; 
         private ToolStripMenuItem technologyStatusItem;
 
         public Form1()
         {
             InitializeComponent();
 
-            logic = LogicFactory.CreateLogic(useEF); // Теперь useEF существует
+            logic = LogicFactory.CreateLogic(useEF);
             InitializeTechnologySelection();
             InitializeDataGridView();
             InitializeBreedComboBox();
@@ -68,7 +68,7 @@ namespace WF_Rabbit
         {
             try
             {
-                this.useEF = useEF; // Обновляем поле класса
+                this.useEF = useEF;
                 logic = LogicFactory.CreateLogic(this.useEF);
                 RefreshDataGridView();
                 UpdateTechnologyDisplay();
@@ -161,7 +161,6 @@ namespace WF_Rabbit
             }
         }
 
-        // Вспомогательный класс для парсинга данных кролика
         private class RabbitData
         {
             public int Id { get; set; }
