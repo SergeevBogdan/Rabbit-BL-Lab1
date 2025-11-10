@@ -82,9 +82,7 @@ namespace Business_logic___rabbit
         /// </summary>
         private void ConfigureMainLogic()
         {
-            
             Bind<ILogic>().To<Logic>().InSingletonScope();
-            //Bind<Logic>().ToSelf().InSingletonScope();
         }
     }
 }
