@@ -17,7 +17,7 @@ namespace RabbitDAL
 
         public DapperRepository()
         {
-            _connectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\AceR\Desktop\Rabbit-Lab - 4\RabbitDAL\Database1.mdf;Integrated Security=True";
+            _connectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\User\OneDrive\Рабочий стол\Rabbit-Lab - 4\RabbitDAL\Database1.mdf;Integrated Security=True";
             EnsureTableExists();
         }
 

@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{C38DFA05-B409-45DB-B7C3-5D5DC5BEE5BF}</ProjectGuid>
+    <ProjectGuid>{C3A5161F-D074-4FE6-B6D6-F4206E3357C5}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>RabbitPresenter</RootNamespace>
-    <AssemblyName>RabbitPresenter</AssemblyName>
+    <RootNamespace>RabbitSharedMVP</RootNamespace>
+    <AssemblyName>RabbitSharedMVP</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
@@ -41,22 +41,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Presenter.cs" />
+    <Compile Include="IModel.cs" />
+    <Compile Include="IViewMVP.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\BusinessLogicMVP\BusinessLogicMVP.csproj">
-      <Project>{bb02b435-c75f-4b82-96eb-3ca736366061}</Project>
-      <Name>BusinessLogicMVP</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\RabbitDAL\RabbitDAL.csproj">
-      <Project>{0e40ba35-d878-4d68-8ab9-a2bf73ecd2dc}</Project>
-      <Name>RabbitDAL</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\RabbitSharedMVP\RabbitSharedMVP.csproj">
-      <Project>{c3a5161f-d074-4fe6-b6d6-f4206e3357c5}</Project>
-      <Name>RabbitSharedMVP</Name>
-    </ProjectReference>
+    <Compile Include="RabbitDTO.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

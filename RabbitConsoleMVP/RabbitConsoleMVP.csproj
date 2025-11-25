@@ -43,7 +43,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ConsoleView.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -51,17 +50,17 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Business logic - rabbit\Business logic - rabbit.csproj">
-      <Project>{6e2186b9-c59d-4f20-9acd-67d05ef29aa2}</Project>
-      <Name>Business logic - rabbit</Name>
+    <ProjectReference Include="..\BusinessLogicMVP\BusinessLogicMVP.csproj">
+      <Project>{bb02b435-c75f-4b82-96eb-3ca736366061}</Project>
+      <Name>BusinessLogicMVP</Name>
     </ProjectReference>
     <ProjectReference Include="..\RabbitPresenter\RabbitPresenter.csproj">
       <Project>{c38dfa05-b409-45db-b7c3-5d5dc5bee5bf}</Project>
       <Name>RabbitPresenter</Name>
     </ProjectReference>
-    <ProjectReference Include="..\RabbitShared\RabbitShared.csproj">
-      <Project>{efd9ffb6-adfa-45cc-b11d-8ff013137f6b}</Project>
-      <Name>RabbitShared</Name>
+    <ProjectReference Include="..\RabbitSharedMVP\RabbitSharedMVP.csproj">
+      <Project>{c3a5161f-d074-4fe6-b6d6-f4206e3357c5}</Project>
+      <Name>RabbitSharedMVP</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

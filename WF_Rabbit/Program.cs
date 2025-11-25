@@ -13,8 +13,6 @@ namespace WF_Rabbit
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-
-            // Определяем технологию из аргументов
             bool useEF = args.Length == 0 || args[0].ToLower() != "dapper";
             Application.Run(new Form1(useEF));
         }

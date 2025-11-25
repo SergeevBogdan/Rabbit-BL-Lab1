@@ -2,8 +2,8 @@
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using Console_Rabbit;      // Для MVVM Console
-using RabbitConsoleMVP;    // Для MVP Console ← ДОБАВЬТЕ!
+using Console_Rabbit;      
+using RabbitConsoleMVP;    
 
 namespace RabbitStarter
 {
@@ -52,7 +52,6 @@ namespace RabbitStarter
             }
             else
             {
-                // ЗАПУСК MVP CONSOLE НАПРЯМУЮ!
                 LaunchMVPConsoleDirectly(useEF);
             }
         }
@@ -68,7 +67,6 @@ namespace RabbitStarter
             }
             else
             {
-                // ЗАПУСК MVVM CONSOLE НАПРЯМУЮ!
                 LaunchMVVMConsoleDirectly(useEF);
             }
         }
@@ -111,13 +109,13 @@ namespace RabbitStarter
 
                 if (exePath == null)
                 {
-                    Console.WriteLine($"Файл {exeName} не найден! Соберите проект.");
+                    Console.WriteLine($"Файл {exeName} не найден, соберите проект.");
                     WaitForContinue();
                     return;
                 }
 
                 Process.Start(exePath, args);
-                Console.WriteLine($"✅ {appType} запущено!");
+                Console.WriteLine($" {appType} запущено");
             }
             catch (Exception ex)
             {

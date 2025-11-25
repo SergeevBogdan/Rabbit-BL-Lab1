@@ -1,4 +1,8 @@
-﻿using System;
+﻿using BusinessLogicMVP;
+using RabbitPresenter;
+using RabbitSharedMVP;
+using RabbitView;
+using System;
 using System.Windows.Forms;
 
 namespace RabbitView
@@ -10,10 +14,9 @@ namespace RabbitView
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-
-            // Определяем технологию из аргументов
             bool useEF = args.Length == 0 || args[0].ToLower() != "dapper";
-            Application.Run(new MainForm(useEF));
+            var model = ModelFactory.CreateModel(useEF);
+            Application.Run(new MainForm(model));
         }
     }
 }

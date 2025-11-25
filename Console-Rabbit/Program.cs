@@ -5,17 +5,14 @@ using Business_logic___rabbit;
 
 namespace Console_Rabbit
 {
-    public class Program  // ← Сделать класс PUBLIC
+    public class Program  
     {
         [STAThread]
-        public static void Main(string[] args)  // ← Сделать метод PUBLIC
+        public static void Main(string[] args)  
         {
-            // Определяем технологию из аргументов
             bool useEF = args.Length == 0 || args[0].ToLower() != "dapper";
-
             Console.WriteLine($"=== MVVM CONSOLE ({GetTechName(useEF)}) ===");
             Console.WriteLine("СИСТЕМА УПРАВЛЕНИЯ КРОЛИКАМИ");
-
             var logic = LogicFactory.CreateLogic(useEF);
             RunMainMenu(logic);
         }

@@ -1,32 +1,69 @@
 ﻿using System;
-using Business_logic___rabbit;
-using RabbitShared;
+using System.Collections.Generic;
+using System.Linq;
+using BusinessLogicMVP;
+using RabbitSharedMVP;
 
 namespace RabbitPresenter
 {
+    /// <summary>
+    /// Представляет презентер в архитектуре MVP, координирующий взаимодействие между View и Model.
+    /// Реализует паттерн Наблюдатель для обработки событий от View и уведомлений от Model.
+    /// </summary>
+    public interface IPresenter
+    {
+        /// <summary>
+        /// Инициализирует презентер и загружает начальные данные в View
+        /// </summary>
+        void Initialize();
+
+        /// <summary>
+        /// Возвращает список доступных пород кроликов
+        /// </summary>
+        /// <returns>Массив строк с названиями пород</returns>
+        string[] GetBreeds();
+
+        /// <summary>
+        /// Обновляет список кроликов в View
+        /// </summary>
+        void RefreshRabbitsList();
+    }
+
+    /// <summary>
+    /// Реализация презентера для системы управления кроликами.
+    /// Координирует поток данных между View (пользовательский интерфейс) и Model (бизнес-логика).
+    /// Подписывается на события View и Model, преобразует DTO между слоями.
+    /// </summary>
+    /// <remarks>
+    /// Responsibilities:
+    /// - Обработка пользовательских действий из View
+    /// - Вызов соответствующих методов Model
+    /// - Преобразование данных между DTO и Domain Model
+    /// - Обновление View в ответ на изменения в Model
+    /// - Управление жизненным циклом данных
+    /// </remarks>
     public class Presenter : IPresenter
     {
         private readonly IView _view;
-        private readonly ILogic _logic;
+        private readonly IModel _model;
 
-        public Presenter(IView view, ILogic logic)
+        /// <summary>
+        /// Инициализирует новый экземпляр презентера с указанными View и Model
+        /// </summary>
+        /// <param name="view">Реализация интерфейса View для отображения данных</param>
+        /// <param name="model">Реализация интерфейса Model для доступа к бизнес-логике</param>
+        /// <exception cref="ArgumentNullException">Выбрасывается если view или model равны null</exception>
+        public Presenter(IView view, IModel model)
         {
-            _view = view;
-            _logic = logic;
+            _view = view ?? throw new ArgumentNullException(nameof(view));
+            _model = model ?? throw new ArgumentNullException(nameof(model));
             SubscribeToViewEvents();
+            SubscribeToModelEvents();
         }
 
-        public void Initialize()
-        {
-            // Initial setup
-            RefreshRabbitsList();
-        }
-
-        public string[] GetBreeds()
-        {
-            return _logic.GetBreeds();
-        }
-
+        /// <summary>
+        /// Подписывается на все события View для обработки пользовательских действий
+        /// </summary>
         private void SubscribeToViewEvents()
         {
             _view.AddRabbitRequested += OnAddRabbit;
@@ -40,131 +77,171 @@ namespace RabbitPresenter
             _view.SortRabbitsRequested += OnSortRabbits;
         }
 
-        private void OnAddRabbit(int id, string name, int age, int weight, string breed)
+        /// <summary>
+        /// Подписывается на события Model для получения уведомлений об изменениях данных
+        /// </summary>
+        private void SubscribeToModelEvents()
         {
-            try
-            {
-                var result = _logic.AddRabbit(id, name, age, weight, breed);
-                _view.DisplayMessage(result);
-                RefreshRabbitsList();
-            }
-            catch (Exception ex)
-            {
-                _view.DisplayMessage($"Ошибка: {ex.Message}");
-            }
+            _model.DataChanged += OnDataChanged;
+            _model.RabbitsListChanged += OnRabbitsListChanged;
         }
 
+        /// <summary>
+        /// Обрабатывает запрос на добавление нового кролика
+        /// </summary>
+        /// <param name="rabbitDto">DTO с данными нового кролика</param>
+        private void OnAddRabbit(RabbitDTO rabbitDto)
+        {
+            var result = _model.AddRabbit(rabbitDto);
+            _view.DisplayMessage(result);
+        }
+
+        /// <summary>
+        /// Обрабатывает запрос на удаление кролика по идентификатору
+        /// </summary>
+        /// <param name="id">Идентификатор кролика для удаления</param>
         private void OnRemoveRabbit(int id)
         {
-            try
-            {
-                var result = _logic.RemoveRabbit(id);
-                _view.DisplayMessage(result);
-                RefreshRabbitsList();
-            }
-            catch (Exception ex)
-            {
-                _view.DisplayMessage($"Ошибка: {ex.Message}");
-            }
+            var result = _model.RemoveRabbit(id);
+            _view.DisplayMessage(result);
         }
 
+        /// <summary>
+        /// Обрабатывает запрос на просмотр детальной информации о кролике
+        /// </summary>
+        /// <param name="id">Идентификатор кролика для просмотра</param>
         private void OnReadRabbit(int id)
         {
-            try
+            var rabbitDto = _model.ReadRabbitDto(id);
+            if (rabbitDto != null)
             {
-                var result = _logic.ReadRabbit(id);
-                _view.DisplayRabbitDetails(result);
+                var details = $"Имя: {rabbitDto.Name}\nВозраст: {rabbitDto.Age}\nВес: {rabbitDto.Weight}\nПорода: {rabbitDto.Breed}";
+                _view.DisplayRabbitDetails(details);
             }
-            catch (Exception ex)
+            else
             {
-                _view.DisplayMessage($"Ошибка: {ex.Message}");
+                _view.DisplayRabbitDetails("Кролик с заданным Id не найден");
             }
         }
 
-        private void OnUpdateRabbit(int id, string name, int age, int weight, string breed)
+        /// <summary>
+        /// Обрабатывает запрос на обновление данных кролика
+        /// </summary>
+        /// <param name="rabbitDto">DTO с обновленными данными кролика</param>
+        private void OnUpdateRabbit(RabbitDTO rabbitDto)
         {
-            try
-            {
-                _logic.ChangeStatRabbit(id, name, age, weight, breed);
-                _view.DisplayMessage("Данные кролика обновлены");
-                RefreshRabbitsList();
-            }
-            catch (Exception ex)
-            {
-                _view.DisplayMessage($"Ошибка: {ex.Message}");
-            }
+            var result = _model.UpdateRabbit(rabbitDto);
+            _view.DisplayMessage(result);
         }
 
+        /// <summary>
+        /// Обрабатывает запрос на отображение среднего возраста кроликов
+        /// </summary>
         private void OnShowAverageAge()
         {
-            try
-            {
-                var average = _logic.GetAverageAge();
-                _view.DisplayStatistics($"Средний возраст: {average:F2} лет");
-            }
-            catch (Exception ex)
-            {
-                _view.DisplayMessage($"Ошибка: {ex.Message}");
-            }
+            var average = _model.GetAverageAge();
+            _view.DisplayStatistics($"Средний возраст: {average:F2} лет");
         }
 
+        /// <summary>
+        /// Обрабатывает запрос на отображение среднего веса кроликов
+        /// </summary>
         private void OnShowAverageWeight()
         {
-            try
-            {
-                var average = _logic.GetAverageWeight();
-                _view.DisplayStatistics($"Средний вес: {average:F2} кг");
-            }
-            catch (Exception ex)
-            {
-                _view.DisplayMessage($"Ошибка: {ex.Message}");
-            }
+            var average = _model.GetAverageWeight();
+            _view.DisplayStatistics($"Средний вес: {average:F2} кг");
         }
 
+        /// <summary>
+        /// Обрабатывает запрос на добавление случайного кролика
+        /// </summary>
         private void OnAddRandomRabbit()
         {
-            try
-            {
-                var result = _logic.AddRandomRabbit();
-                _view.DisplayMessage(result);
-                RefreshRabbitsList();
-            }
-            catch (Exception ex)
-            {
-                _view.DisplayMessage($"Ошибка: {ex.Message}");
-            }
+            var result = _model.AddRandomRabbit();
+            _view.DisplayMessage(result);
         }
 
+        /// <summary>
+        /// Обрабатывает запрос на отображение всех кроликов
+        /// </summary>
         private void OnShowAllRabbits()
         {
             RefreshRabbitsList();
         }
 
-        private void OnSortRabbits(int field, bool ascending)
+        /// <summary>
+        /// Обрабатывает запрос на сортировку списка кроликов
+        /// </summary>
+        /// <param name="sortDto">DTO с параметрами сортировки</param>
+        private void OnSortRabbits(SortOperationDTO sortDto)
         {
-            try
-            {
-                _logic.SortRabbits(field, ascending);
-                RefreshRabbitsList();
-                _view.DisplayMessage("Сортировка выполнена");
-            }
-            catch (Exception ex)
-            {
-                _view.DisplayMessage($"Ошибка: {ex.Message}");
-            }
+            _model.SortRabbits(sortDto.SortField, sortDto.Ascending);
+            _view.DisplayMessage("Сортировка выполнена");
         }
 
-        private void RefreshRabbitsList()
+        /// <summary>
+        /// Обрабатывает уведомление от Model об изменении данных
+        /// </summary>
+        /// <param name="message">Сообщение об изменении</param>
+        private void OnDataChanged(string message)
         {
-            try
+            _view.DisplayMessage(message);
+        }
+
+        /// <summary>
+        /// Обрабатывает уведомление от Model об изменении списка кроликов
+        /// </summary>
+        /// <param name="rabbits">Обновленный список кроликов в формате DTO</param>
+        private void OnRabbitsListChanged(List<IDTO> rabbits)
+        {
+            DisplayRabbitsInView(rabbits);
+        }
+
+        /// <summary>
+        /// Обновляет список кроликов в View
+        /// </summary>
+        public void RefreshRabbitsList()
+        {
+            var rabbits = _model.GetAllRabbits();
+            DisplayRabbitsInView(rabbits);
+        }
+
+        /// <summary>
+        /// Форматирует и отображает список кроликов в View
+        /// </summary>
+        /// <param name="rabbits">Список кроликов для отображения</param>
+        private void DisplayRabbitsInView(List<IDTO> rabbits)
+        {
+            if (rabbits == null || rabbits.Count == 0)
             {
-                var rabbits = _logic.ShowAllRabbits();
-                _view.DisplayAllRabbits(rabbits);
+                _view.DisplayAllRabbits("Список кроликов пуст");
+                return;
             }
-            catch (Exception ex)
+
+            string result = "=== СПИСОК ВСЕХ КРОЛИКОВ ===\n";
+            foreach (var rabbit in rabbits)
             {
-                _view.DisplayMessage($"Ошибка при загрузке списка: {ex.Message}");
+                result += $"ID: {rabbit.Id} | Имя: {rabbit.Name} | Порода: {rabbit.Breed} | Возраст: {rabbit.Age} | Вес: {rabbit.Weight}\n";
             }
+
+            _view.DisplayAllRabbits(result);
+        }
+
+        /// <summary>
+        /// Инициализирует презентер и загружает начальные данные
+        /// </summary>
+        public void Initialize()
+        {
+            RefreshRabbitsList();
+        }
+
+        /// <summary>
+        /// Возвращает список доступных пород кроликов
+        /// </summary>
+        /// <returns>Массив строк с названиями пород</returns>
+        public string[] GetBreeds()
+        {
+            return _model.GetBreeds();
         }
     }
 }

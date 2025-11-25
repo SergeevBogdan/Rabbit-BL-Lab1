@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace RabbitShared
 {
+    //ШЛАК
     public interface IPresenter
     {
         void Initialize();

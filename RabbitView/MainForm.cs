@@ -1,40 +1,56 @@
 ﻿using System;
 using System.Windows.Forms;
-using Business_logic___rabbit;
 using RabbitPresenter;
-using RabbitShared;
+using RabbitSharedMVP;
 
 namespace RabbitView
 {
     public partial class MainForm : Form, IView
     {
-        private Presenter _presenter;
-        private bool _useEF;
-
-        // IView events
-        public event Action<int, string, int, int, string> AddRabbitRequested;
+        public event Action<RabbitDTO> AddRabbitRequested;
         public event Action<int> RemoveRabbitRequested;
         public event Action<int> ReadRabbitRequested;
-        public event Action<int, string, int, int, string> UpdateRabbitRequested;
+        public event Action<RabbitDTO> UpdateRabbitRequested;
         public event Action ShowAverageAgeRequested;
         public event Action ShowAverageWeightRequested;
         public event Action AddRandomRabbitRequested;
         public event Action ShowAllRabbitsRequested;
-        public event Action<int, bool> SortRabbitsRequested;
+        public event Action<SortOperationDTO> SortRabbitsRequested;
 
-        public MainForm(bool useEntityFramework = true)
+        private Presenter _presenter;
+        
+
+        public MainForm(IModel model)
         {
-            _useEF = useEntityFramework;
+            
             InitializeComponent();
-            InitializePresenter();
+            InitializeDataGridViewColumns();
+            InitializePresenter(model);
         }
 
-        private void InitializePresenter()
+        private void InitializeDataGridViewColumns()
         {
-            var logic = LogicFactory.CreateLogic(_useEF);
-            _presenter = new Presenter(this, logic);
+            dataGridViewRabbits.Columns.Clear();
+            dataGridViewRabbits.Columns.Add("Id", "ID");
+            dataGridViewRabbits.Columns.Add("Name", "Имя");
+            dataGridViewRabbits.Columns.Add("Breed", "Порода");
+            dataGridViewRabbits.Columns.Add("Age", "Возраст");
+            dataGridViewRabbits.Columns.Add("Weight", "Вес");
+            dataGridViewRabbits.Columns["Id"].Width = 50;
+            dataGridViewRabbits.Columns["Name"].Width = 100;
+            dataGridViewRabbits.Columns["Breed"].Width = 100;
+            dataGridViewRabbits.Columns["Age"].Width = 70;
+            dataGridViewRabbits.Columns["Weight"].Width = 70;
+            dataGridViewRabbits.AllowUserToAddRows = false;
+            dataGridViewRabbits.AllowUserToDeleteRows = false;
+            dataGridViewRabbits.ReadOnly = true;
+            dataGridViewRabbits.RowHeadersVisible = false;
+            dataGridViewRabbits.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+        }
 
-            // Initialize breeds combo
+        private void InitializePresenter(IModel model)
+        {
+            _presenter = new Presenter(this, model);
             var breeds = _presenter.GetBreeds();
             comboBoxBreed.Items.Clear();
             comboBoxBreed.Items.AddRange(breeds);
@@ -44,14 +60,21 @@ namespace RabbitView
             _presenter.Initialize();
         }
 
-        // Event handlers
         private void btnAdd_Click(object sender, EventArgs e)
         {
             if (int.TryParse(txtId.Text, out int id) &&
                 int.TryParse(txtAge.Text, out int age) &&
                 int.TryParse(txtWeight.Text, out int weight))
             {
-                AddRabbitRequested?.Invoke(id, txtName.Text, age, weight, comboBoxBreed.SelectedItem?.ToString());
+                var rabbitDto = new RabbitDTO
+                {
+                    Id = id,
+                    Name = txtName.Text,
+                    Age = age,
+                    Weight = weight,
+                    Breed = comboBoxBreed.SelectedItem?.ToString()
+                };
+                AddRabbitRequested?.Invoke(rabbitDto); 
             }
             else
             {
@@ -91,7 +114,15 @@ namespace RabbitView
                 int.TryParse(txtAge.Text, out int age) &&
                 int.TryParse(txtWeight.Text, out int weight))
             {
-                UpdateRabbitRequested?.Invoke(id, txtName.Text, age, weight, comboBoxBreed.SelectedItem?.ToString());
+                var rabbitDto = new RabbitDTO
+                {
+                    Id = id,
+                    Name = txtName.Text,
+                    Age = age,
+                    Weight = weight,
+                    Breed = comboBoxBreed.SelectedItem?.ToString()
+                };
+                UpdateRabbitRequested?.Invoke(rabbitDto); 
             }
             else
             {
@@ -99,19 +130,68 @@ namespace RabbitView
             }
         }
 
-        private void btnShowAll_Click(object sender, EventArgs e) => ShowAllRabbitsRequested?.Invoke();
-        private void btnAddRandom_Click(object sender, EventArgs e) => AddRandomRabbitRequested?.Invoke();
-        private void btnAvgAge_Click(object sender, EventArgs e) => ShowAverageAgeRequested?.Invoke();
-        private void btnAvgWeight_Click(object sender, EventArgs e) => ShowAverageWeightRequested?.Invoke();
+        private void btnShowAll_Click(object sender, EventArgs e)
+            => ShowAllRabbitsRequested?.Invoke();
 
-        // IView implementation
+        private void btnAddRandom_Click(object sender, EventArgs e)
+            => AddRandomRabbitRequested?.Invoke();
+
+        private void btnAvgAge_Click(object sender, EventArgs e)
+            => ShowAverageAgeRequested?.Invoke();
+
+        private void btnAvgWeight_Click(object sender, EventArgs e)
+            => ShowAverageWeightRequested?.Invoke();
+
+        private void btnSort_Click(object sender, EventArgs e)
+        {
+            var sortDialog = new Form()
+            {
+                Text = "Сортировка кроликов",
+                Size = new System.Drawing.Size(300, 200),
+                FormBorderStyle = FormBorderStyle.FixedDialog,
+                StartPosition = FormStartPosition.CenterParent
+            };
+
+            var comboField = new ComboBox() { Location = new System.Drawing.Point(20, 20), Width = 200 };
+            comboField.Items.AddRange(new string[] { "ID", "Имя", "Порода", "Возраст", "Вес" });
+            comboField.SelectedIndex = 0;
+
+            var radioAsc = new RadioButton() { Text = "По возрастанию", Location = new System.Drawing.Point(20, 60), Checked = true };
+            var radioDesc = new RadioButton() { Text = "По убыванию", Location = new System.Drawing.Point(20, 85) };
+
+            var btnOk = new Button() { Text = "OK", Location = new System.Drawing.Point(20, 120), DialogResult = DialogResult.OK };
+            var btnCancel = new Button() { Text = "Отмена", Location = new System.Drawing.Point(120, 120), DialogResult = DialogResult.Cancel };
+
+            sortDialog.Controls.AddRange(new Control[] { comboField, radioAsc, radioDesc, btnOk, btnCancel });
+
+            if (sortDialog.ShowDialog() == DialogResult.OK)
+            {
+                int field = comboField.SelectedIndex + 1;
+                bool ascending = radioAsc.Checked;
+                var sortDto = new SortOperationDTO(field, ascending); 
+                SortRabbitsRequested?.Invoke(sortDto); 
+            }
+        }
+
         public void DisplayMessage(string message)
         {
+            if (InvokeRequired)
+            {
+                Invoke(new Action<string>(DisplayMessage), message);
+                return;
+            }
+
             MessageBox.Show(message, "Информация", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         public void DisplayAllRabbits(string rabbits)
         {
+            if (InvokeRequired)
+            {
+                Invoke(new Action<string>(DisplayAllRabbits), rabbits);
+                return;
+            }
+
             dataGridViewRabbits.Rows.Clear();
 
             if (string.IsNullOrEmpty(rabbits) || rabbits.Contains("пуст"))
@@ -139,11 +219,23 @@ namespace RabbitView
 
         public void DisplayRabbitDetails(string details)
         {
+            if (InvokeRequired)
+            {
+                Invoke(new Action<string>(DisplayRabbitDetails), details);
+                return;
+            }
+
             MessageBox.Show(details, "Данные кролика", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         public void DisplayStatistics(string stats)
         {
+            if (InvokeRequired)
+            {
+                Invoke(new Action<string>(DisplayStatistics), stats);
+                return;
+            }
+
             MessageBox.Show(stats, "Статистика", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 

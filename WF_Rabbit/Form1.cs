@@ -19,11 +19,8 @@ namespace WF_Rabbit
 
         public Form1(bool useEntityFramework = true)
         {
-            InitializeComponent();
-            
+            InitializeComponent(); 
             useEF = useEntityFramework;
-            InitializeComponent();
-
             logic = LogicFactory.CreateLogic(useEF);
             InitializeTechnologySelection();
             InitializeDataGridView();
