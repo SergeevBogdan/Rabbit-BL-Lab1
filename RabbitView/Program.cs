@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace WF_Rabbit
+namespace RabbitView
 {
     internal static class Program
     {
@@ -16,7 +13,7 @@ namespace WF_Rabbit
 
             // Определяем технологию из аргументов
             bool useEF = args.Length == 0 || args[0].ToLower() != "dapper";
-            Application.Run(new Form1(useEF));
+            Application.Run(new MainForm(useEF));
         }
     }
 }

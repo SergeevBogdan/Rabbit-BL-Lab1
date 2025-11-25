@@ -135,3 +135,4 @@ C:\Users\User\Source\Repos\Rabbit-BL-Lab1\Business logic - rabbit\obj\Debug\Busi
 C:\Users\User\Source\Repos\Rabbit-BL-Lab1\Business logic - rabbit\obj\Debug\Business.E35980D8.Up2Date
 C:\Users\User\Source\Repos\Rabbit-BL-Lab1\Business logic - rabbit\obj\Debug\Business logic - rabbit.dll
 C:\Users\User\Source\Repos\Rabbit-BL-Lab1\Business logic - rabbit\obj\Debug\Business logic - rabbit.pdb
+C:\Users\AceR\Desktop\Rabbit-Lab - 4\Business logic - rabbit\bin\Debug\System.Configuration.ConfigurationManager.dll

@@ -5,32 +5,19 @@ using Business_logic___rabbit;
 
 namespace Console_Rabbit
 {
-    class Program
+    public class Program  // ← Сделать класс PUBLIC
     {
-        static void Main(string[] args)
+        [STAThread]
+        public static void Main(string[] args)  // ← Сделать метод PUBLIC
         {
+            // Определяем технологию из аргументов
+            bool useEF = args.Length == 0 || args[0].ToLower() != "dapper";
+
+            Console.WriteLine($"=== MVVM CONSOLE ({GetTechName(useEF)}) ===");
             Console.WriteLine("СИСТЕМА УПРАВЛЕНИЯ КРОЛИКАМИ");
 
-            bool useEF = ChooseTechnology();
             var logic = LogicFactory.CreateLogic(useEF);
-
-            Console.WriteLine("Используется: " + logic.GetCurrentTechnology());
             RunMainMenu(logic);
-        }
-
-        static bool ChooseTechnology()
-        {
-            Console.WriteLine("Выберите технологию:");
-            Console.WriteLine("1 - Entity Framework");
-            Console.WriteLine("2 - Dapper");
-
-            while (true)
-            {
-                var choice = Console.ReadLine();
-                if (choice == "1") return true;
-                else if (choice == "2") return false;
-                Console.Write("Введите 1 или 2: ");
-            }
         }
 
         static void RunMainMenu(Logic logic)
@@ -395,5 +382,6 @@ namespace Console_Rabbit
             Console.WriteLine("\nНажмите любую клавишу для продолжения...");
             Console.ReadKey();
         }
+        static string GetTechName(bool useEF) => useEF ? "Entity Framework" : "Dapper";
     }
 }
