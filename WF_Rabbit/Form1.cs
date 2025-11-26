@@ -14,13 +14,13 @@ namespace WF_Rabbit
     public partial class Form1 : Form
     {
         private Logic logic;
-        private bool useEF = true; 
+        private bool useEF = true;
         private ToolStripMenuItem technologyStatusItem;
 
-        public Form1()
+        public Form1(bool useEntityFramework = true)
         {
-            InitializeComponent();
-
+            InitializeComponent(); 
+            useEF = useEntityFramework;
             logic = LogicFactory.CreateLogic(useEF);
             InitializeTechnologySelection();
             InitializeDataGridView();
