@@ -10,7 +10,7 @@ namespace RabbitDAL
             Database.SetInitializer<RabbitDbContext>(null);
         }
 
-        private static string GetConnectionString()
+        private static string GetConnectionString() 
         {
             return @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\User\source\repos\Rabbit-BL-Lab1\RabbitDAL\Database1.mdf;Integrated Security=True";
         }
