@@ -1,0 +1,9 @@
+﻿<Window x:Class="RabbitViewMVVM.BaseView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Base View" Height="300" Width="400">
+    <Grid>
+        <!-- Базовый шаблон для всех окон -->
+        <ContentControl Content="{Binding}"/>
+    </Grid>
+</Window>

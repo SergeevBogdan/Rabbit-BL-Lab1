@@ -2,8 +2,6 @@
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using Console_Rabbit;      
-using RabbitConsoleMVP;    
 
 namespace RabbitStarter
 {
@@ -18,7 +16,8 @@ namespace RabbitStarter
                 Console.WriteLine("ВЫБЕРИТЕ АРХИТЕКТУРУ:");
                 Console.WriteLine("1 - MVP Architecture");
                 Console.WriteLine("2 - MVVM Architecture");
-                Console.WriteLine("3 - Выход");
+                Console.WriteLine("3 - MVVM WPF Architecture (Новая)");
+                Console.WriteLine("4 - Выход");
                 Console.Write("Ваш выбор: ");
 
                 var choice = Console.ReadLine();
@@ -32,6 +31,9 @@ namespace RabbitStarter
                         LaunchMVVM();
                         break;
                     case "3":
+                        LaunchMVVMWPF();
+                        break;
+                    case "4":
                         return;
                     default:
                         Console.WriteLine("Неверный выбор!");
@@ -71,12 +73,23 @@ namespace RabbitStarter
             }
         }
 
+        static void LaunchMVVMWPF()
+        {
+            Console.WriteLine("\n=== MVVM WPF АРХИТЕКТУРА ===");
+            var useEF = GetTechnologyChoice();
+
+            LaunchApplication("RabbitViewMVVM.exe", useEF ? "ef" : "dapper", "MVVM WPF");
+        }
+
         static void LaunchMVPConsoleDirectly(bool useEF)
         {
             try
             {
                 Console.WriteLine($"Запуск MVP Console ({GetTechName(useEF)})...");
-                RabbitConsoleMVP.Program.Main(new string[] { useEF ? "ef" : "dapper" });
+                // Раскомментируйте когда будет готов MVP Console
+                // RabbitConsoleMVP.Program.Main(new string[] { useEF ? "ef" : "dapper" });
+                Console.WriteLine("MVP Console временно недоступен");
+                WaitForContinue();
             }
             catch (Exception ex)
             {
@@ -90,7 +103,10 @@ namespace RabbitStarter
             try
             {
                 Console.WriteLine($"Запуск MVVM Console ({GetTechName(useEF)})...");
-                Console_Rabbit.Program.Main(new string[] { useEF ? "ef" : "dapper" });
+                // Раскомментируйте когда будет готов MVVM Console
+                // Console_Rabbit.Program.Main(new string[] { useEF ? "ef" : "dapper" });
+                Console.WriteLine("MVVM Console временно недоступен");
+                WaitForContinue();
             }
             catch (Exception ex)
             {
@@ -114,12 +130,14 @@ namespace RabbitStarter
                     return;
                 }
 
+                Console.WriteLine($"Найден: {exePath}");
                 Process.Start(exePath, args);
-                Console.WriteLine($" {appType} запущено");
+                Console.WriteLine($"{appType} успешно запущено!");
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Ошибка: {ex.Message}");
+                Console.WriteLine($"Ошибка при запуске: {ex.Message}");
+                WaitForContinue();
             }
         }
 
@@ -133,32 +151,43 @@ namespace RabbitStarter
             var interfaceChoice = Console.ReadLine();
             string interfaceType = interfaceChoice == "1" ? "winforms" : "console";
 
+            bool useEF = GetTechnologyChoice();
+
+            return (interfaceType, useEF);
+        }
+
+        static bool GetTechnologyChoice()
+        {
             Console.WriteLine("\nВыберите технологию данных:");
             Console.WriteLine("1 - Entity Framework");
             Console.WriteLine("2 - Dapper");
             Console.Write("Ваш выбор: ");
 
             var techChoice = Console.ReadLine();
-            bool useEF = techChoice == "1";
-
-            return (interfaceType, useEF);
+            return techChoice == "1";
         }
 
         static string FindExecutable(string exeName)
         {
-            if (File.Exists(exeName)) return exeName;
+            // Прямой путь
+            if (File.Exists(exeName))
+                return Path.GetFullPath(exeName);
 
-            string[] patterns = {
+            // Поиск в поддиректориях
+            string[] searchPatterns = {
+                exeName,
                 Path.Combine("bin", "Debug", exeName),
-                Path.Combine("bin", "Release", exeName)
+                Path.Combine("bin", "Release", exeName),
+                Path.Combine("..", "bin", "Debug", exeName),
+                Path.Combine("..", "bin", "Release", exeName)
             };
 
-            foreach (string pattern in patterns)
+            foreach (string pattern in searchPatterns)
             {
                 try
                 {
-                    string[] files = Directory.GetFiles(".", pattern, SearchOption.AllDirectories);
-                    if (files.Length > 0) return files[0];
+                    if (File.Exists(pattern))
+                        return Path.GetFullPath(pattern);
                 }
                 catch { }
             }

@@ -66,7 +66,6 @@ namespace BusinessLogicMVP
 
         public string[] GetBreeds() => _logic.GetBreeds();
 
-
         public string AddRabbit(IDTO rabbitDto)
         {
             var result = _logic.AddRabbit(rabbitDto.Id, rabbitDto.Name, rabbitDto.Age, rabbitDto.Weight, rabbitDto.Breed);
@@ -106,7 +105,7 @@ namespace BusinessLogicMVP
                 Breed = r.Breed,
                 Age = r.Age,
                 Weight = r.Weight
-            }).Cast<IDTO>().ToList();
+            }).ToList<IDTO>(); // Убрали Cast, используем ToList<IDTO>
         }
 
         private void NotifyDataChanged()

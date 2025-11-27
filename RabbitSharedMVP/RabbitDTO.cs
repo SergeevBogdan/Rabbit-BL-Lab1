@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -15,13 +17,50 @@ namespace RabbitSharedMVP
         int Weight { get; set; }
     }
 
-    public class RabbitDTO : IDTO
+    public class RabbitDTO : IDTO, INotifyPropertyChanged
     {
-        public int Id { get; set; }
-        public string Name { get; set; }
-        public string Breed { get; set; }
-        public int Age { get; set; }
-        public int Weight { get; set; }
+        private int _id;
+        private string _name;
+        private string _breed;
+        private int _age;
+        private int _weight;
+
+        public int Id
+        {
+            get => _id;
+            set { _id = value; OnPropertyChanged(); }
+        }
+
+        public string Name
+        {
+            get => _name;
+            set { _name = value; OnPropertyChanged(); }
+        }
+
+        public string Breed
+        {
+            get => _breed;
+            set { _breed = value; OnPropertyChanged(); }
+        }
+
+        public int Age
+        {
+            get => _age;
+            set { _age = value; OnPropertyChanged(); }
+        }
+
+        public int Weight
+        {
+            get => _weight;
+            set { _weight = value; OnPropertyChanged(); }
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
     }
     public class SortOperationDTO
     {
