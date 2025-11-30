@@ -2,8 +2,6 @@
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using Console_Rabbit;      
-using RabbitConsoleMVP;    
 
 namespace RabbitStarter
 {
@@ -17,8 +15,9 @@ namespace RabbitStarter
                 Console.WriteLine("=== СИСТЕМА УПРАВЛЕНИЯ КРОЛИКАМИ ===");
                 Console.WriteLine("ВЫБЕРИТЕ АРХИТЕКТУРУ:");
                 Console.WriteLine("1 - MVP Architecture");
-                Console.WriteLine("2 - MVVM Architecture");
-                Console.WriteLine("3 - Выход");
+                Console.WriteLine("2 - MVVM Architecture (старая)");
+                Console.WriteLine("3 - MVVM Architecture (новая WPF)");
+                Console.WriteLine("4 - Выход");
                 Console.Write("Ваш выбор: ");
 
                 var choice = Console.ReadLine();
@@ -32,12 +31,44 @@ namespace RabbitStarter
                         LaunchMVVM();
                         break;
                     case "3":
+                        LaunchNewMVVM();
+                        break;
+                    case "4":
                         return;
                     default:
                         Console.WriteLine("Неверный выбор!");
                         WaitForContinue();
                         break;
                 }
+            }
+        }
+
+        static void LaunchNewMVVM()
+        {
+            Console.WriteLine("\n=== НОВАЯ MVVM АРХИТЕКТУРА (WPF) ===");
+            var (interfaceType, useEF) = GetInterfaceAndTechnologyChoice();
+
+            if (interfaceType == "winforms")
+            {
+                LaunchApplication("RabbitWPFApp.exe", useEF ? "ef" : "dapper", "Новая MVVM WPF");
+            }
+            else
+            {
+                LaunchConsoleMVVMDirectly(useEF);
+            }
+        }
+
+        static void LaunchConsoleMVVMDirectly(bool useEF)
+        {
+            try
+            {
+                Console.WriteLine($"Запуск MVVM Console ({GetTechName(useEF)})...");
+                RabbitConsoleMVVM.Program.Main(new string[] { useEF ? "ef" : "dapper" });
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Ошибка: {ex.Message}");
+                WaitForContinue();
             }
         }
 
@@ -58,7 +89,7 @@ namespace RabbitStarter
 
         static void LaunchMVVM()
         {
-            Console.WriteLine("\n=== MVVM АРХИТЕКТУРА ===");
+            Console.WriteLine("\n=== MVVM АРХИТЕКТУРА (СТАРАЯ) ===");
             var (interfaceType, useEF) = GetInterfaceAndTechnologyChoice();
 
             if (interfaceType == "winforms")
@@ -76,7 +107,7 @@ namespace RabbitStarter
             try
             {
                 Console.WriteLine($"Запуск MVP Console ({GetTechName(useEF)})...");
-                RabbitConsoleMVP.Program.Main(new string[] { useEF ? "ef" : "dapper" });
+                Console_Rabbit.Program.Main(new string[] { useEF ? "ef" : "dapper" });
             }
             catch (Exception ex)
             {
@@ -90,7 +121,7 @@ namespace RabbitStarter
             try
             {
                 Console.WriteLine($"Запуск MVVM Console ({GetTechName(useEF)})...");
-                Console_Rabbit.Program.Main(new string[] { useEF ? "ef" : "dapper" });
+                RabbitConsoleMVP.Program.Main(new string[] { useEF ? "ef" : "dapper" });
             }
             catch (Exception ex)
             {
@@ -150,7 +181,11 @@ namespace RabbitStarter
 
             string[] patterns = {
                 Path.Combine("bin", "Debug", exeName),
-                Path.Combine("bin", "Release", exeName)
+                Path.Combine("bin", "Release", exeName),
+                Path.Combine("..", "bin", "Debug", exeName),
+                Path.Combine("..", "bin", "Release", exeName),
+                Path.Combine("..", "RabbitWPFApp", "bin", "Debug", exeName),
+                Path.Combine("..", "RabbitWPFApp", "bin", "Release", exeName)
             };
 
             foreach (string pattern in patterns)

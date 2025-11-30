@@ -1,0 +1,65 @@
+﻿<Window x:Class="RabbitWPFApp.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Rabbit Management - MVVM" Height="600" Width="800">
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Панель кнопок -->
+        <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="0,0,0,10">
+            <Button Content="Обновить" Click="LoadRabbits_Click" Margin="0,0,5,0"/>
+            <Button Content="Добавить" Click="AddRabbit_Click" Margin="0,0,5,0"/>
+            <Button Content="Удалить" Click="RemoveRabbit_Click" Margin="0,0,5,0"/>
+            <Button Content="Обновить данные" Click="UpdateRabbit_Click" Margin="0,0,5,0"/>
+            <Button Content="Случайный кролик" Click="AddRandomRabbit_Click" Margin="0,0,5,0"/>
+            <Button Content="Статистика" Click="ShowStatistics_Click"/>
+        </StackPanel>
+
+        <!-- Список кроликов -->
+        <DataGrid Grid.Row="1" ItemsSource="{Binding Rabbits}" SelectedItem="{Binding SelectedRabbit}"
+                  AutoGenerateColumns="False" CanUserAddRows="False" IsReadOnly="True">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="50"/>
+                <DataGridTextColumn Header="Имя" Binding="{Binding Name}" Width="150"/>
+                <DataGridTextColumn Header="Порода" Binding="{Binding Breed}" Width="120"/>
+                <DataGridTextColumn Header="Возраст" Binding="{Binding Age}" Width="70"/>
+                <DataGridTextColumn Header="Вес" Binding="{Binding Weight}" Width="70"/>
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <!-- Панель редактирования -->
+        <Grid Grid.Row="2" Margin="0,10,0,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <TextBlock Grid.Column="0" Text="ID:" VerticalAlignment="Center" Margin="0,0,5,0"/>
+            <TextBox Grid.Column="1" Text="{Binding SelectedRabbit.Id}" IsReadOnly="True" Margin="0,0,10,0"/>
+
+            <TextBlock Grid.Column="2" Text="Имя:" VerticalAlignment="Center" Margin="0,0,5,0"/>
+            <TextBox Grid.Column="3" Text="{Binding SelectedRabbit.Name}" Margin="0,0,10,0"/>
+
+            <TextBlock Grid.Column="4" Text="Возраст:" VerticalAlignment="Center" Margin="0,0,5,0"/>
+            <TextBox Grid.Column="5" Text="{Binding SelectedRabbit.Age}" Margin="0,0,10,0"/>
+
+            <TextBlock Grid.Column="6" Text="Вес:" VerticalAlignment="Center" Margin="0,0,5,0"/>
+            <TextBox Grid.Column="7" Text="{Binding SelectedRabbit.Weight}"/>
+        </Grid>
+
+        <!-- Статус -->
+        <TextBlock Grid.Row="3" Text="{Binding StatusMessage}" Margin="0,10,0,0" 
+                   FontWeight="Bold" Foreground="Blue"/>
+    </Grid>
+</Window>
