@@ -16,11 +16,19 @@ namespace BusinessLogicMVP
         {
             _logic = logic;
         }
+
         public string GetCurrentTechnology() => _logic.GetCurrentTechnology();
 
         public string AddRabbit(int id, string name, int age, int weight, string breed)
         {
             var result = _logic.AddRabbit(id, name, age, weight, breed);
+            NotifyDataChanged();
+            return result;
+        }
+
+        public string AddRabbit(IDTO rabbitDto)
+        {
+            var result = _logic.AddRabbit(rabbitDto.Id, rabbitDto.Name, rabbitDto.Age, rabbitDto.Weight, rabbitDto.Breed);
             NotifyDataChanged();
             return result;
         }
@@ -37,10 +45,32 @@ namespace BusinessLogicMVP
             return _logic.ReadRabbit(id);
         }
 
+        public IDTO ReadRabbitDto(int id)
+        {
+            var rabbit = _logic.GetRabbitById(id);
+            if (rabbit == null) return null;
+
+            return new RabbitDTO
+            {
+                Id = rabbit.Id,
+                Name = rabbit.Name,
+                Age = rabbit.Age,
+                Weight = rabbit.Weight,
+                Breed = rabbit.Breed
+            };
+        }
+
         public void ChangeStatRabbit(int id, string name, int age, int weight, string breed)
         {
             _logic.ChangeStatRabbit(id, name, age, weight, breed);
             NotifyDataChanged();
+        }
+
+        public string UpdateRabbit(IDTO rabbitDto)
+        {
+            _logic.ChangeStatRabbit(rabbitDto.Id, rabbitDto.Name, rabbitDto.Age, rabbitDto.Weight, rabbitDto.Breed);
+            NotifyDataChanged();
+            return "Данные кролика обновлены";
         }
 
         public double GetAverageAge() => _logic.GetAverageAge();
@@ -66,36 +96,6 @@ namespace BusinessLogicMVP
 
         public string[] GetBreeds() => _logic.GetBreeds();
 
-
-        public string AddRabbit(IDTO rabbitDto)
-        {
-            var result = _logic.AddRabbit(rabbitDto.Id, rabbitDto.Name, rabbitDto.Age, rabbitDto.Weight, rabbitDto.Breed);
-            NotifyDataChanged();
-            return result;
-        }
-
-        public string UpdateRabbit(IDTO rabbitDto)
-        {
-            _logic.ChangeStatRabbit(rabbitDto.Id, rabbitDto.Name, rabbitDto.Age, rabbitDto.Weight, rabbitDto.Breed);
-            NotifyDataChanged();
-            return "Данные кролика обновлены";
-        }
-
-        public IDTO ReadRabbitDto(int id)
-        {
-            var rabbit = _logic.GetRabbitById(id);
-            if (rabbit == null) return null;
-
-            return new RabbitDTO
-            {
-                Id = rabbit.Id,
-                Name = rabbit.Name,
-                Age = rabbit.Age,
-                Weight = rabbit.Weight,
-                Breed = rabbit.Breed
-            };
-        }
-
         public List<IDTO> GetAllRabbits()
         {
             var rabbits = _logic.GetAllRabbits();
@@ -114,54 +114,6 @@ namespace BusinessLogicMVP
             DataChanged?.Invoke("Данные обновлены");
             var rabbits = GetAllRabbits();
             RabbitsListChanged?.Invoke(rabbits);
-        }
-
-        public string AddRabbitWithValidation(RabbitExtendedDTO rabbitDto)
-        {
-            if (!rabbitDto.IsIdEditable && rabbitDto.Id <= 0)
-                return "ID должен быть положительным";
-
-            return _logic.AddRabbit(rabbitDto.Id, rabbitDto.Name,
-                                   rabbitDto.Age, rabbitDto.Weight, rabbitDto.Breed);
-        }
-
-        public string UpdateRabbitExtended(RabbitExtendedDTO rabbitDto)
-        {
-            _logic.ChangeStatRabbit(rabbitDto.Id, rabbitDto.Name,
-                                   rabbitDto.Age, rabbitDto.Weight, rabbitDto.Breed);
-            return "Данные кролика обновлены";
-        }
-
-        public RabbitExtendedDTO ReadRabbitExtended(int id)
-        {
-            var rabbit = _logic.GetRabbitById(id);
-            if (rabbit == null) return null;
-
-            return new RabbitExtendedDTO
-            {
-                Id = rabbit.Id,
-                Name = rabbit.Name,
-                Breed = rabbit.Breed,
-                Age = rabbit.Age,
-                Weight = rabbit.Weight,
-                IsIdEditable = true, // По умолчанию редактируемый
-                CreatedDate = DateTime.Now
-            };
-        }
-
-        public List<RabbitExtendedDTO> GetAllRabbitsExtended()
-        {
-            var rabbits = _logic.GetAllRabbits();
-            return rabbits.Select(r => new RabbitExtendedDTO
-            {
-                Id = r.Id,
-                Name = r.Name,
-                Breed = r.Breed,
-                Age = r.Age,
-                Weight = r.Weight,
-                IsIdEditable = true,
-                CreatedDate = DateTime.Now
-            }).ToList();
         }
     }
 }

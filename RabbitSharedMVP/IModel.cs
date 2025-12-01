@@ -26,12 +26,5 @@ namespace RabbitSharedMVP
 
         event Action<string> DataChanged;
         event Action<List<IDTO>> RabbitsListChanged;
-
-
-        //MVVM
-        string AddRabbitWithValidation(RabbitExtendedDTO rabbitDto);
-        string UpdateRabbitExtended(RabbitExtendedDTO rabbitDto);
-        RabbitExtendedDTO ReadRabbitExtended(int id);
-        List<RabbitExtendedDTO> GetAllRabbitsExtended();
     }
 }

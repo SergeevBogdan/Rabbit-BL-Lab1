@@ -11,7 +11,6 @@ namespace RabbitConsoleMVVM
         public void Initialize(MainViewModel viewModel)
         {
             _viewModel = viewModel;
-            _viewModel.IsIdEditable = true; // Всегда ручной режим
             ShowMainMenu();
         }
 
