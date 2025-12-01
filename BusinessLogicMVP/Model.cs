@@ -115,5 +115,53 @@ namespace BusinessLogicMVP
             var rabbits = GetAllRabbits();
             RabbitsListChanged?.Invoke(rabbits);
         }
+
+        public string AddRabbitWithValidation(RabbitExtendedDTO rabbitDto)
+        {
+            if (!rabbitDto.IsIdEditable && rabbitDto.Id <= 0)
+                return "ID должен быть положительным";
+
+            return _logic.AddRabbit(rabbitDto.Id, rabbitDto.Name,
+                                   rabbitDto.Age, rabbitDto.Weight, rabbitDto.Breed);
+        }
+
+        public string UpdateRabbitExtended(RabbitExtendedDTO rabbitDto)
+        {
+            _logic.ChangeStatRabbit(rabbitDto.Id, rabbitDto.Name,
+                                   rabbitDto.Age, rabbitDto.Weight, rabbitDto.Breed);
+            return "Данные кролика обновлены";
+        }
+
+        public RabbitExtendedDTO ReadRabbitExtended(int id)
+        {
+            var rabbit = _logic.GetRabbitById(id);
+            if (rabbit == null) return null;
+
+            return new RabbitExtendedDTO
+            {
+                Id = rabbit.Id,
+                Name = rabbit.Name,
+                Breed = rabbit.Breed,
+                Age = rabbit.Age,
+                Weight = rabbit.Weight,
+                IsIdEditable = true, // По умолчанию редактируемый
+                CreatedDate = DateTime.Now
+            };
+        }
+
+        public List<RabbitExtendedDTO> GetAllRabbitsExtended()
+        {
+            var rabbits = _logic.GetAllRabbits();
+            return rabbits.Select(r => new RabbitExtendedDTO
+            {
+                Id = r.Id,
+                Name = r.Name,
+                Breed = r.Breed,
+                Age = r.Age,
+                Weight = r.Weight,
+                IsIdEditable = true,
+                CreatedDate = DateTime.Now
+            }).ToList();
+        }
     }
 }
