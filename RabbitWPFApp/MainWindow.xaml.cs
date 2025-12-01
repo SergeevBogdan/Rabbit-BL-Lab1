@@ -14,7 +14,6 @@ namespace RabbitWPFApp
             _viewModel = viewModel;
             DataContext = _viewModel;
 
-            // Загружаем данные при старте
             LoadRabbits_Click(null, null);
         }
 
@@ -35,7 +34,6 @@ namespace RabbitWPFApp
         {
             try
             {
-                // Проверяем ввод
                 if (!int.TryParse(txtNewId.Text, out int id) || id <= 0)
                 {
                     MessageBox.Show("Введите корректный положительный ID", "Ошибка",
@@ -117,7 +115,6 @@ namespace RabbitWPFApp
 
             try
             {
-                // Проверяем ввод
                 if (string.IsNullOrWhiteSpace(txtEditName.Text))
                 {
                     MessageBox.Show("Введите имя кролика", "Ошибка",
@@ -179,7 +176,6 @@ namespace RabbitWPFApp
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            // При закрытии окна
             MessageBox.Show("Спасибо за использование Rabbit Management!", "Выход",
                 MessageBoxButton.OK, MessageBoxImage.Information);
         }

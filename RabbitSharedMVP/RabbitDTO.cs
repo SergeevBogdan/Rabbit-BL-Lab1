@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 
 namespace RabbitSharedMVP
 {
-    // В RabbitSharedMVP добавляем
     public interface IDTO
     {
         int Id { get; set; }
@@ -15,8 +14,6 @@ namespace RabbitSharedMVP
         int Age { get; set; }
         int Weight { get; set; }
     }
-
-    // Оставляем старый RabbitDTO для обратной совместимости
     public class RabbitDTO : IDTO
     {
         public int Id { get; set; }
@@ -26,7 +23,6 @@ namespace RabbitSharedMVP
         public int Weight { get; set; }
     }
 
-    // Добавляем новый расширенный DTO
     public class RabbitExtendedDTO : RabbitDTO
     {
         public bool IsIdEditable { get; set; } = true;

@@ -14,7 +14,6 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <!-- Панель управления -->
         <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="10,10,10,5">
             <CheckBox x:Name="chkEditMode" Content="Ручной ввод ID" 
                       IsChecked="{Binding IsIdEditable}" 
@@ -24,7 +23,6 @@
             <Button Content="Статистика" Click="ShowStatistics_Click" Width="80"/>
         </StackPanel>
 
-        <!-- Список кроликов -->
         <TextBlock Grid.Row="1" Text="Список кроликов:" FontWeight="Bold" Margin="10,0,10,5"/>
         <DataGrid Grid.Row="2" x:Name="dgRabbits" ItemsSource="{Binding Rabbits}" 
                   SelectedItem="{Binding SelectedRabbit, Mode=TwoWay}"
@@ -39,7 +37,6 @@
             </DataGrid.Columns>
         </DataGrid>
 
-        <!-- Форма создания нового кролика -->
         <GroupBox Grid.Row="3" Header="Создание нового кролика" Margin="10,0,10,5">
             <Grid>
                 <Grid.ColumnDefinitions>
@@ -89,7 +86,6 @@
             </Grid>
         </GroupBox>
 
-        <!-- Форма редактирования -->
         <GroupBox Grid.Row="4" Header="Редактирование выбранного кролика" 
                   Margin="10,0,10,5" Visibility="{Binding CanModifyRabbit}">
             <Grid>
@@ -145,7 +141,6 @@
             </Grid>
         </GroupBox>
 
-        <!-- Статус -->
         <TextBlock Grid.Row="5" Text="{Binding StatusMessage}" 
                    Margin="10,5,10,10" FontWeight="Bold" Foreground="Blue"/>
     </Grid>

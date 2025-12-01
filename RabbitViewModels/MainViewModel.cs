@@ -7,7 +7,6 @@ using System.Runtime.CompilerServices;
 
 namespace RabbitViewModels
 {
-    // RabbitExtendedDTO остается как расширение в ViewModels
     public class RabbitExtendedDTO : RabbitDTO, INotifyPropertyChanged
     {
         private bool _isIdEditable;
@@ -66,7 +65,6 @@ namespace RabbitViewModels
             CreatedDate = DateTime.Now;
         }
 
-        // Конструктор для удобства
         public RabbitExtendedDTO(int id, string name, string breed, int age, int weight)
             : this()
         {
@@ -77,7 +75,6 @@ namespace RabbitViewModels
             Weight = weight;
         }
 
-        // Метод для преобразования из базового RabbitDTO
         public static RabbitExtendedDTO FromRabbitDTO(RabbitDTO dto)
         {
             if (dto == null) return null;
@@ -89,12 +86,11 @@ namespace RabbitViewModels
                 Breed = dto.Breed,
                 Age = dto.Age,
                 Weight = dto.Weight,
-                IsIdEditable = false, // Существующие записи нельзя редактировать
+                IsIdEditable = false,
                 CreatedDate = DateTime.Now
             };
         }
 
-        // Метод для преобразования в базовый RabbitDTO
         public RabbitDTO ToRabbitDTO()
         {
             return new RabbitDTO
@@ -192,7 +188,6 @@ namespace RabbitViewModels
         {
             Breeds = _model.GetBreeds();
 
-            // Инициализация нового кролика
             NewRabbit = new RabbitExtendedDTO
             {
                 Id = 1,
@@ -213,10 +208,8 @@ namespace RabbitViewModels
             {
                 Rabbits.Clear();
 
-                // Используем оригинальный метод GetAllRabbits()
                 var allRabbits = _model.GetAllRabbits();
 
-                // Преобразуем IDTO в RabbitExtendedDTO
                 foreach (var rabbitDto in allRabbits)
                 {
                     var rabbit = RabbitExtendedDTO.FromRabbitDTO((RabbitDTO)rabbitDto);
@@ -225,7 +218,6 @@ namespace RabbitViewModels
 
                 StatusMessage = $"Загружено {Rabbits.Count} кроликов";
 
-                // Обновляем следующий доступный ID
                 NewRabbit.Id = GetNextAvailableId();
             }
             catch (Exception ex)
@@ -238,14 +230,11 @@ namespace RabbitViewModels
         {
             try
             {
-                // Проверяем валидность
                 if (!ValidateRabbit(NewRabbit))
                     return;
 
-                // Преобразуем в базовый DTO
                 var rabbitDto = NewRabbit.ToRabbitDTO();
 
-                // Используем оригинальный метод
                 var result = _model.AddRabbit(rabbitDto);
                 StatusMessage = result;
 
@@ -299,10 +288,8 @@ namespace RabbitViewModels
                 if (!ValidateRabbit(SelectedRabbit))
                     return;
 
-                // Преобразуем в базовый DTO
                 var rabbitDto = SelectedRabbit.ToRabbitDTO();
 
-                // Используем оригинальный метод
                 var result = _model.UpdateRabbit(rabbitDto);
                 StatusMessage = result;
 
@@ -365,7 +352,6 @@ namespace RabbitViewModels
                 return false;
             }
 
-            // Проверяем уникальность ID только для нового кролика
             if (rabbit == NewRabbit && Rabbits.Any(r => r.Id == rabbit.Id))
             {
                 StatusMessage = $"Кролик с ID {rabbit.Id} уже существует";
@@ -381,7 +367,6 @@ namespace RabbitViewModels
 
             int maxId = Rabbits.Max(r => r.Id);
 
-            // Ищем первое свободное ID
             for (int i = 1; i <= maxId + 1; i++)
             {
                 if (!Rabbits.Any(r => r.Id == i))

@@ -17,10 +17,5 @@ namespace RabbitWPFApp
             var mainWindow = new MainWindow(mainViewModel);
             mainWindow.Show();
         }
-
-        private void Application_Startup(object sender, StartupEventArgs e)
-        {
-            // Startup logic is handled in OnStartup
-        }
     }
 }

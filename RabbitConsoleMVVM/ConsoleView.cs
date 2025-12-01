@@ -77,7 +77,7 @@ namespace RabbitConsoleMVVM
             Console.Clear();
             Console.WriteLine("=== ДОБАВЛЕНИЕ НОВОГО КРОЛИКА ===");
 
-            // Всегда показываем полный список кроликов
+
             _viewModel.LoadRabbits();
             if (_viewModel.Rabbits.Count > 0)
             {
@@ -88,7 +88,7 @@ namespace RabbitConsoleMVVM
                 }
             }
 
-            // Ввод ID
+
             int id;
             while (true)
             {
@@ -105,13 +105,12 @@ namespace RabbitConsoleMVVM
                     continue;
                 }
 
-                // Проверяем, не занят ли ID
+
                 if (_viewModel.Rabbits.Any(r => r.Id == id))
                 {
                     Console.WriteLine($"ID {id} уже занят кроликом: {_viewModel.Rabbits.First(r => r.Id == id).Name}");
                     Console.WriteLine("Выберите другой ID из списка свободных:");
 
-                    // Показываем свободные ID (первые 20)
                     int maxId = _viewModel.Rabbits.Count > 0 ? _viewModel.Rabbits.Max(r => r.Id) + 10 : 10;
                     var freeIds = Enumerable.Range(1, maxId)
                         .Where(i => !_viewModel.Rabbits.Any(r => r.Id == i))
@@ -124,7 +123,6 @@ namespace RabbitConsoleMVVM
                 break;
             }
 
-            // Ввод имени
             string name;
             while (true)
             {
@@ -138,7 +136,6 @@ namespace RabbitConsoleMVVM
                 break;
             }
 
-            // Ввод возраста
             int age;
             while (true)
             {
@@ -156,7 +153,6 @@ namespace RabbitConsoleMVVM
                 break;
             }
 
-            // Ввод веса
             int weight;
             while (true)
             {
@@ -174,7 +170,6 @@ namespace RabbitConsoleMVVM
                 break;
             }
 
-            // Выбор породы
             string breed;
             if (_viewModel.Breeds != null && _viewModel.Breeds.Length > 0)
             {
@@ -203,15 +198,12 @@ namespace RabbitConsoleMVVM
                 Console.Write("Введите породу кролика: ");
                 breed = Console.ReadLine();
             }
-
-            // Устанавливаем данные в ViewModel и добавляем
             _viewModel.NewRabbit.Id = id;
             _viewModel.NewRabbit.Name = name;
             _viewModel.NewRabbit.Age = age;
             _viewModel.NewRabbit.Weight = weight;
             _viewModel.NewRabbit.Breed = breed;
 
-            // Добавляем кролика
             _viewModel.AddRabbit();
             Console.WriteLine($"\n{_viewModel.StatusMessage}");
             WaitForContinue();
@@ -230,7 +222,6 @@ namespace RabbitConsoleMVVM
                 return;
             }
 
-            // Показываем всех кроликов
             Console.WriteLine("\nТекущие кролики:");
             foreach (var rabbit in _viewModel.Rabbits)
             {
@@ -272,7 +263,6 @@ namespace RabbitConsoleMVVM
                 return;
             }
 
-            // Показываем всех кроликов
             Console.WriteLine("\nТекущие кролики:");
             foreach (var rabbits in _viewModel.Rabbits)
             {
@@ -297,7 +287,6 @@ namespace RabbitConsoleMVVM
 
             Console.WriteLine($"\nОбновление кролика: {rabbit.Name} (ID: {rabbit.Id})");
 
-            // Ввод новых данных
             string name;
             Console.Write("Новое имя (оставьте пустым для сохранения текущего): ");
             name = Console.ReadLine();
@@ -388,7 +377,6 @@ namespace RabbitConsoleMVVM
                 }
             }
 
-            // Устанавливаем и обновляем
             rabbit.Name = name;
             rabbit.Age = age;
             rabbit.Weight = weight;
