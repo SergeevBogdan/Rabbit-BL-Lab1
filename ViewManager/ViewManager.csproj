@@ -4,17 +4,16 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{C7B59EFB-56E1-454A-9210-1C7A10F293CB}</ProjectGuid>
-    <OutputType>Exe</OutputType>
-    <RootNamespace>RabbitStarter</RootNamespace>
-    <AssemblyName>RabbitStarter</AssemblyName>
+    <ProjectGuid>{63BE8F0F-0848-4D37-AC8C-A2D0CA0014D0}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>ViewManager</RootNamespace>
+    <AssemblyName>ViewManager</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -24,16 +23,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup>
-    <StartupObject>RabbitStarter.Program</StartupObject>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -46,44 +41,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Program.cs" />
+    <Compile Include="MainView.cs" />
+    <Compile Include="RabbitDetailsView.cs" />
+    <Compile Include="StatisticsView.cs" />
+    <Compile Include="ViewManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Console-Rabbit\Console-Rabbit.csproj">
-      <Project>{3bacc693-ddba-4aeb-942b-629390cdc2fb}</Project>
-      <Name>Console-Rabbit</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\RabbitConsoleMVP\RabbitConsoleMVP.csproj">
-      <Project>{7208d652-bc34-4ca6-b0d4-f965e5df9085}</Project>
-      <Name>RabbitConsoleMVP</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\RabbitConsoleMVVM\RabbitConsoleMVVM.csproj">
-      <Project>{d82183df-796a-4965-b601-5d720be77240}</Project>
-      <Name>RabbitConsoleMVVM</Name>
-    </ProjectReference>
     <ProjectReference Include="..\RabbitViewModels\RabbitViewModels.csproj">
       <Project>{40b6f122-107f-4807-82ca-b4b710d9d72b}</Project>
       <Name>RabbitViewModels</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\RabbitView\RabbitView.csproj">
-      <Project>{babc5d20-042a-4d3c-9ca8-a34449e746ee}</Project>
-      <Name>RabbitView</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\RabbitWPFApp\RabbitWPFApp.csproj">
-      <Project>{912cc180-1f6f-420b-bb6b-dabea708c6c7}</Project>
-      <Name>RabbitWPFApp</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\ViewManager\ViewManager.csproj">
-      <Project>{63be8f0f-0848-4d37-ac8c-a2d0ca0014d0}</Project>
-      <Name>ViewManager</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\WF_Rabbit\WF_Rabbit.csproj">
-      <Project>{cac10e00-4675-4f4e-9ece-6597126a87e5}</Project>
-      <Name>WF_Rabbit</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

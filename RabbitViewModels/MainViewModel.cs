@@ -1,153 +1,12 @@
 ﻿using RabbitSharedMVP;
 using System;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
 
+
 namespace RabbitViewModels
 {
-    public class RabbitExtendedDTO : RabbitDTO, INotifyPropertyChanged
-    {
-        private bool _isIdEditable;
-        private DateTime _createdDate;
-        private string _description;
-
-        public bool IsIdEditable
-        {
-            get => _isIdEditable;
-            set
-            {
-                if (_isIdEditable != value)
-                {
-                    _isIdEditable = value;
-                    OnPropertyChanged();
-                }
-            }
-        }
-
-        public DateTime CreatedDate
-        {
-            get => _createdDate;
-            set
-            {
-                if (_createdDate != value)
-                {
-                    _createdDate = value;
-                    OnPropertyChanged();
-                }
-            }
-        }
-
-        public string Description
-        {
-            get => _description;
-            set
-            {
-                if (_description != value)
-                {
-                    _description = value;
-                    OnPropertyChanged();
-                }
-            }
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        protected virtual void OnPropertyChanged(string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
-        public RabbitExtendedDTO()
-        {
-            IsIdEditable = true;
-            CreatedDate = DateTime.Now;
-        }
-
-        public RabbitExtendedDTO(int id, string name, string breed, int age, int weight)
-            : this()
-        {
-            Id = id;
-            Name = name;
-            Breed = breed;
-            Age = age;
-            Weight = weight;
-        }
-
-        public static RabbitExtendedDTO FromRabbitDTO(RabbitDTO dto)
-        {
-            if (dto == null) return null;
-
-            return new RabbitExtendedDTO
-            {
-                Id = dto.Id,
-                Name = dto.Name,
-                Breed = dto.Breed,
-                Age = dto.Age,
-                Weight = dto.Weight,
-                IsIdEditable = false,
-                CreatedDate = DateTime.Now
-            };
-        }
-
-        public RabbitDTO ToRabbitDTO()
-        {
-            return new RabbitDTO
-            {
-                Id = this.Id,
-                Name = this.Name,
-                Breed = this.Breed,
-                Age = this.Age,
-                Weight = this.Weight
-            };
-        }
-    }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
     public class MainViewModel : BaseViewModel
@@ -156,6 +15,12 @@ namespace RabbitViewModels
         private RabbitExtendedDTO _selectedRabbit;
         private RabbitExtendedDTO _newRabbit;
         private string _statusMessage;
+        private bool _isIdEditable = true;
+
+        // Ссылки на View через интерфейсы
+        private IMainView _mainView;
+        private IRabbitDetailsView _detailsView;
+        private IStatisticsView _statsView;
 
         public ObservableCollection<RabbitExtendedDTO> Rabbits { get; } = new ObservableCollection<RabbitExtendedDTO>();
         public string[] Breeds { get; private set; }
@@ -178,10 +43,118 @@ namespace RabbitViewModels
             set => SetProperty(ref _statusMessage, value);
         }
 
+        public bool IsIdEditable
+        {
+            get => _isIdEditable;
+            set
+            {
+                if (SetProperty(ref _isIdEditable, value))
+                {
+                    if (NewRabbit != null)
+                        NewRabbit.IsIdEditable = value;
+                }
+            }
+        }
+
+        // Свойства для View через интерфейсы
+        public IMainView MainView
+        {
+            get => _mainView;
+            set
+            {
+                _mainView = value;
+                if (_mainView != null)
+                {
+                    _mainView.Requested += OnMainViewRequested;
+                    _mainView.Closed += OnMainViewClosed;
+                }
+            }
+        }
+
+        public IRabbitDetailsView DetailsView
+        {
+            get => _detailsView;
+            set
+            {
+                _detailsView = value;
+                if (_detailsView != null)
+                {
+                    _detailsView.Requested += OnDetailsViewRequested;
+                    _detailsView.Closed += OnDetailsViewClosed;
+                }
+            }
+        }
+
+        public IStatisticsView StatsView
+        {
+            get => _statsView;
+            set
+            {
+                _statsView = value;
+                if (_statsView != null)
+                {
+                    _statsView.Requested += OnStatsViewRequested;
+                    _statsView.Closed += OnStatsViewClosed;
+                }
+            }
+        }
+
         public MainViewModel(IModel model)
         {
             _model = model;
             InitializeData();
+        }
+
+        // Метод для инициализации View (вызывается из ViewManager)
+        public void InitializeViews(IMainView mainView, IRabbitDetailsView detailsView = null, IStatisticsView statsView = null)
+        {
+            MainView = mainView;
+            DetailsView = detailsView;
+            StatsView = statsView;
+        }
+
+        // Обработчики событий View
+        private void OnMainViewRequested()
+        {
+            StatusMessage = "Главное окно открыто";
+            LoadRabbits();
+        }
+
+        private void OnMainViewClosed()
+        {
+            StatusMessage = "Главное окно закрыто";
+        }
+
+        private void OnDetailsViewRequested()
+        {
+            if (SelectedRabbit != null && DetailsView != null)
+            {
+                DetailsView.RabbitId = SelectedRabbit.Id;
+                DetailsView.RabbitName = SelectedRabbit.Name;
+                StatusMessage = $"Детали кролика: {SelectedRabbit.Name}";
+            }
+        }
+
+        private void OnDetailsViewClosed()
+        {
+            StatusMessage = "Окно деталей закрыто";
+        }
+
+        private void OnStatsViewRequested()
+        {
+            if (StatsView != null)
+            {
+                ShowStatistics();
+                StatsView.AverageAge = _model.GetAverageAge();
+                StatsView.AverageWeight = _model.GetAverageWeight();
+                StatsView.TotalRabbits = Rabbits.Count;
+                StatusMessage = "Открыта статистика";
+            }
+        }
+
+        private void OnStatsViewClosed()
+        {
+            StatusMessage = "Окно статистики закрыто";
         }
 
         private void InitializeData()
@@ -195,11 +168,9 @@ namespace RabbitViewModels
                 Age = 1,
                 Weight = 1,
                 Breed = Breeds?.FirstOrDefault() ?? "Беляк",
-                IsIdEditable = true,
+                IsIdEditable = _isIdEditable,
                 CreatedDate = DateTime.Now
             };
-
-            LoadRabbits();
         }
 
         public void LoadRabbits()
@@ -207,7 +178,6 @@ namespace RabbitViewModels
             try
             {
                 Rabbits.Clear();
-
                 var allRabbits = _model.GetAllRabbits();
 
                 foreach (var rabbitDto in allRabbits)
@@ -217,7 +187,6 @@ namespace RabbitViewModels
                 }
 
                 StatusMessage = $"Загружено {Rabbits.Count} кроликов";
-
                 NewRabbit.Id = GetNextAvailableId();
             }
             catch (Exception ex)
@@ -234,7 +203,6 @@ namespace RabbitViewModels
                     return;
 
                 var rabbitDto = NewRabbit.ToRabbitDTO();
-
                 var result = _model.AddRabbit(rabbitDto);
                 StatusMessage = result;
 
@@ -289,7 +257,6 @@ namespace RabbitViewModels
                     return;
 
                 var rabbitDto = SelectedRabbit.ToRabbitDTO();
-
                 var result = _model.UpdateRabbit(rabbitDto);
                 StatusMessage = result;
 
@@ -328,8 +295,33 @@ namespace RabbitViewModels
             }
             catch (Exception ex)
             {
-                StatusMessage = $"Ошибка: {ex.Message}";
+                StatusMessage = $"Ошибка при расчете статистики: {ex.Message}";
             }
+        }
+
+        private int GetNextAvailableId()
+        {
+            if (Rabbits.Count == 0) return 1;
+            int maxId = Rabbits.Max(r => r.Id);
+
+            for (int i = 1; i <= maxId + 1; i++)
+            {
+                if (!Rabbits.Any(r => r.Id == i))
+                {
+                    return i;
+                }
+            }
+
+            return maxId + 1;
+        }
+
+        private void ResetNewRabbitForm()
+        {
+            NewRabbit.Id = GetNextAvailableId();
+            NewRabbit.Name = "Новый кролик";
+            NewRabbit.Age = 1;
+            NewRabbit.Weight = 1;
+            NewRabbit.Breed = Breeds?.FirstOrDefault() ?? "Беляк";
         }
 
         private bool ValidateRabbit(RabbitExtendedDTO rabbit)
@@ -361,30 +353,21 @@ namespace RabbitViewModels
             return true;
         }
 
-        private int GetNextAvailableId()
+        // Методы для запроса View
+        public void RequestDetailsView()
         {
-            if (Rabbits.Count == 0) return 1;
-
-            int maxId = Rabbits.Max(r => r.Id);
-
-            for (int i = 1; i <= maxId + 1; i++)
+            if (SelectedRabbit != null && DetailsView != null)
             {
-                if (!Rabbits.Any(r => r.Id == i))
-                {
-                    return i;
-                }
+                DetailsView.OnRequested();
             }
-
-            return maxId + 1;
         }
 
-        private void ResetNewRabbitForm()
+        public void RequestStatsView()
         {
-            NewRabbit.Id = GetNextAvailableId();
-            NewRabbit.Name = "Новый кролик";
-            NewRabbit.Age = 1;
-            NewRabbit.Weight = 1;
-            NewRabbit.Breed = Breeds?.FirstOrDefault() ?? "Беляк";
+            if (StatsView != null)
+            {
+                StatsView.OnRequested();
+            }
         }
     }
 

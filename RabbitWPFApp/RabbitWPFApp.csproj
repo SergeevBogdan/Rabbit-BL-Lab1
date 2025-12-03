@@ -107,6 +107,10 @@
       <Project>{40b6f122-107f-4807-82ca-b4b710d9d72b}</Project>
       <Name>RabbitViewModels</Name>
     </ProjectReference>
+    <ProjectReference Include="..\ViewManager\ViewManager.csproj">
+      <Project>{63be8f0f-0848-4d37-ac8c-a2d0ca0014d0}</Project>
+      <Name>ViewManager</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
