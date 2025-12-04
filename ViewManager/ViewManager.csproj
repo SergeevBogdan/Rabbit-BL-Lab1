@@ -41,11 +41,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="MainView.cs" />
-    <Compile Include="RabbitDetailsView.cs" />
-    <Compile Include="StatisticsView.cs" />
-    <Compile Include="ViewManager.cs" />
+    <Compile Include="IViewManager.cs" />
+    <Compile Include="IViewManagerService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewManagerService.cs" />
     <Compile Include="Views.cs" />
   </ItemGroup>
   <ItemGroup>
