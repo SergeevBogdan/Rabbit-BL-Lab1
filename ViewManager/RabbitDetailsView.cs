@@ -7,7 +7,7 @@ using RabbitViewModels;
 
 namespace ViewManager
 {
-    public class RabbitDetailsView : IRabbitDetailsView
+   /* public class RabbitDetailsView : IRabbitDetailsView
     {
         public Type ViewType => typeof(RabbitDetailsView);
         public string Title => "Детали кролика";
@@ -20,5 +20,5 @@ namespace ViewManager
 
         public void OnRequested() => Requested?.Invoke();
         public void OnClosed() => Closed?.Invoke();
-    }
+    } */
 }

@@ -7,7 +7,7 @@ using RabbitViewModels;
 
 namespace ViewManager
 {
-    public class StatisticsView : IStatisticsView
+ /*   public class StatisticsView : IStatisticsView
     {
         public Type ViewType => typeof(StatisticsView);
         public string Title => "Статистика кроликов";
@@ -22,4 +22,5 @@ namespace ViewManager
         public void OnRequested() => Requested?.Invoke();
         public void OnClosed() => Closed?.Invoke();
     }
+ */
 }

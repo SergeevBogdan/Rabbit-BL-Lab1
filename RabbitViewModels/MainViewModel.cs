@@ -7,8 +7,6 @@ using System.Runtime.CompilerServices;
 
 namespace RabbitViewModels
 {
-
-
     public class MainViewModel : BaseViewModel
     {
         private readonly IModel _model;

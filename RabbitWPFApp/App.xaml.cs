@@ -4,11 +4,12 @@ using ViewManager;
 using RabbitViewModels;
 using System;
 using System.Windows;
+
 namespace RabbitWPFApp
 {
     public partial class App : Application
     {
-        private ViewManager.ViewManager _viewManager;
+        private IViewManagerService _viewManager;
         private MainViewModel _mainViewModel;
 
         protected override void OnStartup(StartupEventArgs e)
@@ -21,7 +22,7 @@ namespace RabbitWPFApp
             // Создаем ViewModel
             _mainViewModel = new MainViewModel(model);
 
-            // Создаем WPF View
+            // Создаем View
             var mainView = new MainView();
             var detailsView = new RabbitDetailsView();
             var statsView = new StatisticsView();
@@ -29,18 +30,20 @@ namespace RabbitWPFApp
             // Инициализируем View в ViewModel
             _mainViewModel.InitializeViews(mainView, detailsView, statsView);
 
-            // Создаем ViewManager
-            _viewManager = new ViewManager.ViewManager();
-            _viewManager.RegisterView<MainView, MainViewModel>(_mainViewModel);
-            _viewManager.RegisterView<RabbitDetailsView, MainViewModel>(_mainViewModel);
-            _viewManager.RegisterView<StatisticsView, MainViewModel>(_mainViewModel);
+            // Создаем ViewManagerService
+            _viewManager = new ViewManagerService();
+
+            // Регистрируем View используя typeof()
+            _viewManager.RegisterView(typeof(MainView), _mainViewModel);
+            _viewManager.RegisterView(typeof(RabbitDetailsView), _mainViewModel);
+            _viewManager.RegisterView(typeof(StatisticsView), _mainViewModel);
 
             // Подписываемся на события
             _viewManager.ViewRequested += OnViewRequested;
             _viewManager.ViewClosed += OnViewClosed;
 
             // Запускаем главное окно
-            _viewManager.ShowView<MainView>();
+            _viewManager.ShowView(typeof(MainView));
         }
 
         private void OnViewRequested(Type viewType, BaseViewModel viewModel)
@@ -54,33 +57,77 @@ namespace RabbitWPFApp
                 // Уведомляем View
                 mainViewModel.MainView?.OnRequested();
             }
-            else if (viewType == typeof(RabbitDetailsView) && viewModel is MainViewModel)
+            else if (viewType == typeof(RabbitDetailsView) && viewModel is MainViewModel vm)
             {
-                // Можно создать окно деталей
-                MessageBox.Show("Открыты детали кролика", "Детали",
-                    MessageBoxButton.OK, MessageBoxImage.Information);
+                // Показываем детали в MessageBox
+                ShowDetailsInMessageBox(vm);
+
+                // Уведомляем View
+                vm.DetailsView?.OnRequested();
             }
-            else if (viewType == typeof(StatisticsView) && viewModel is MainViewModel)
+            else if (viewType == typeof(StatisticsView) && viewModel is MainViewModel vms)
             {
-                // Можно создать окно статистики
-                MessageBox.Show("Открыта статистика", "Статистика",
-                    MessageBoxButton.OK, MessageBoxImage.Information);
+                // Показываем статистику в MessageBox
+                ShowStatisticsInMessageBox(vms);
+
+                // Уведомляем View
+                vms.StatsView?.OnRequested();
             }
+        }
+
+        private void ShowDetailsInMessageBox(MainViewModel vm)
+        {
+            if (vm.SelectedRabbit != null)
+            {
+                MessageBox.Show(
+                    $"Детали кролика:\n" +
+                    $"ID: {vm.SelectedRabbit.Id}\n" +
+                    $"Имя: {vm.SelectedRabbit.Name}\n" +
+                    $"Порода: {vm.SelectedRabbit.Breed}\n" +
+                    $"Возраст: {vm.SelectedRabbit.Age}\n" +
+                    $"Вес: {vm.SelectedRabbit.Weight}\n" +
+                    $"Создан: {vm.SelectedRabbit.CreatedDate}",
+                    "Детали кролика",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Information);
+            }
+            else
+            {
+                MessageBox.Show("Выберите кролика для просмотра деталей",
+                    "Информация",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Information);
+            }
+        }
+
+        private void ShowStatisticsInMessageBox(MainViewModel vm)
+        {
+            vm.ShowStatistics();
+
+            MessageBox.Show(
+                $"Статистика кроликов:\n" +
+                $"Всего кроликов: {vm.Rabbits.Count}\n" +
+                $"{vm.StatusMessage}",
+                "Статистика",
+                MessageBoxButton.OK,
+                MessageBoxImage.Information);
         }
 
         private void OnViewClosed(Type viewType)
         {
-            // Обработка закрытия View
             if (viewType == typeof(MainView))
             {
                 _mainViewModel.MainView?.OnClosed();
                 Current.Shutdown();
             }
-        }
-
-        private void Application_Startup(object sender, StartupEventArgs e)
-        {
-            // Startup logic is handled in OnStartup
+            else if (viewType == typeof(RabbitDetailsView))
+            {
+                _mainViewModel.DetailsView?.OnClosed();
+            }
+            else if (viewType == typeof(StatisticsView))
+            {
+                _mainViewModel.StatsView?.OnClosed();
+            }
         }
     }
 }

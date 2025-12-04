@@ -7,7 +7,7 @@ using RabbitViewModels;
 
 namespace ViewManager
 {
-    public class MainView : IMainView
+  /*  public class MainView : IMainView
     {
         public Type ViewType => typeof(MainView);
         public string Title => "Главное окно управления кроликами";
@@ -18,5 +18,5 @@ namespace ViewManager
         public void OnRequested() => Requested?.Invoke();
         public void OnClosed() => Closed?.Invoke();
     }
-
+  */
 }

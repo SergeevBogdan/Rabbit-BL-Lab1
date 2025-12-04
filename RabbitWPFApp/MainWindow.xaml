@@ -4,9 +4,8 @@
         Title="Rabbit Management - MVVM" Height="600" Width="800"
         Closing="Window_Closing">
 
-    <Grid>
+    <Grid Margin="10">
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
@@ -14,34 +13,36 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="10,10,10,5">
-            <CheckBox x:Name="chkEditMode" Content="Ручной ввод ID" 
-                      IsChecked="{Binding IsIdEditable}" 
-                      VerticalAlignment="Center" Margin="0,0,10,0"/>
-            <Button Content="Обновить" Click="LoadRabbits_Click" Margin="0,0,5,0" Width="80"/>
-            <Button Content="Случайный" Click="AddRandomRabbit_Click" Margin="0,0,5,0" Width="80"/>
-            <Button Content="Статистика" Click="ShowStatistics_Click" Width="80"/>
+        <!-- Панель кнопок -->
+        <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="0,0,0,10">
+            <Button Content="Обновить" Click="LoadRabbits_Click" Margin="0,0,5,0"/>
+            <Button Content="Добавить" Click="AddRabbit_Click" Margin="0,0,5,0"/>
+            <Button Content="Удалить" Click="RemoveRabbit_Click" Margin="0,0,5,0"/>
+            <Button Content="Обновить данные" Click="UpdateRabbit_Click" Margin="0,0,5,0"/>
+            <Button Content="Случайный" Click="AddRandomRabbit_Click" Margin="0,0,5,0"/>
+            <Button Content="Статистика" Click="ShowStatistics_Click" Margin="0,0,5,0"/>
+            <Button Content="Детали" Click="ShowDetails_Click"/>
         </StackPanel>
 
-        <TextBlock Grid.Row="1" Text="Список кроликов:" FontWeight="Bold" Margin="10,0,10,5"/>
-        <DataGrid Grid.Row="2" x:Name="dgRabbits" ItemsSource="{Binding Rabbits}" 
-                  SelectedItem="{Binding SelectedRabbit, Mode=TwoWay}"
+        <!-- Список кроликов -->
+        <DataGrid Grid.Row="1" ItemsSource="{Binding Rabbits}" SelectedItem="{Binding SelectedRabbit}"
                   AutoGenerateColumns="False" CanUserAddRows="False" IsReadOnly="True"
-                  SelectionMode="Single" Margin="10,0,10,10">
+                  Margin="0,0,0,10">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="50"/>
-                <DataGridTextColumn Header="Имя" Binding="{Binding Name}" Width="120"/>
-                <DataGridTextColumn Header="Порода" Binding="{Binding Breed}" Width="100"/>
-                <DataGridTextColumn Header="Возраст" Binding="{Binding Age}" Width="60"/>
-                <DataGridTextColumn Header="Вес" Binding="{Binding Weight}" Width="60"/>
+                <DataGridTextColumn Header="Имя" Binding="{Binding Name}" Width="150"/>
+                <DataGridTextColumn Header="Порода" Binding="{Binding Breed}" Width="120"/>
+                <DataGridTextColumn Header="Возраст" Binding="{Binding Age}" Width="70"/>
+                <DataGridTextColumn Header="Вес" Binding="{Binding Weight}" Width="70"/>
             </DataGrid.Columns>
         </DataGrid>
 
-        <GroupBox Grid.Row="3" Header="Создание нового кролика" Margin="10,0,10,5">
+        <!-- Форма добавления -->
+        <GroupBox Grid.Row="2" Header="Добавить нового кролика" Margin="0,0,0,10">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="80"/>
+                    <ColumnDefinition Width="100"/>
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="Auto"/>
@@ -55,30 +56,19 @@
                 </Grid.ColumnDefinitions>
 
                 <TextBlock Grid.Column="0" Text="ID:" VerticalAlignment="Center" Margin="5,0,5,0"/>
-                <TextBox Grid.Column="1" x:Name="txtNewId" 
-                         Text="{Binding NewRabbit.Id, UpdateSourceTrigger=PropertyChanged}"
-                         IsEnabled="{Binding IsIdEditable}"
-                         VerticalAlignment="Center"/>
+                <TextBox Grid.Column="1" Text="{Binding NewRabbit.Id}" VerticalAlignment="Center"/>
 
                 <TextBlock Grid.Column="2" Text="Имя:" VerticalAlignment="Center" Margin="10,0,5,0"/>
-                <TextBox Grid.Column="3" x:Name="txtNewName" 
-                         Text="{Binding NewRabbit.Name, UpdateSourceTrigger=PropertyChanged}"
-                         VerticalAlignment="Center"/>
+                <TextBox Grid.Column="3" Text="{Binding NewRabbit.Name}" VerticalAlignment="Center"/>
 
                 <TextBlock Grid.Column="4" Text="Возраст:" VerticalAlignment="Center" Margin="10,0,5,0"/>
-                <TextBox Grid.Column="5" x:Name="txtNewAge" 
-                         Text="{Binding NewRabbit.Age, UpdateSourceTrigger=PropertyChanged}"
-                         VerticalAlignment="Center"/>
+                <TextBox Grid.Column="5" Text="{Binding NewRabbit.Age}" VerticalAlignment="Center"/>
 
                 <TextBlock Grid.Column="6" Text="Вес:" VerticalAlignment="Center" Margin="10,0,5,0"/>
-                <TextBox Grid.Column="7" x:Name="txtNewWeight" 
-                         Text="{Binding NewRabbit.Weight, UpdateSourceTrigger=PropertyChanged}"
-                         VerticalAlignment="Center"/>
+                <TextBox Grid.Column="7" Text="{Binding NewRabbit.Weight}" VerticalAlignment="Center"/>
 
                 <TextBlock Grid.Column="8" Text="Порода:" VerticalAlignment="Center" Margin="10,0,5,0"/>
-                <ComboBox Grid.Column="9" x:Name="cmbNewBreed"
-                          ItemsSource="{Binding Breeds}"
-                          SelectedItem="{Binding NewRabbit.Breed}"
+                <ComboBox Grid.Column="9" ItemsSource="{Binding Breeds}" SelectedItem="{Binding NewRabbit.Breed}"
                           VerticalAlignment="Center"/>
 
                 <Button Grid.Column="11" Content="Добавить" Click="AddRabbit_Click" 
@@ -86,62 +76,12 @@
             </Grid>
         </GroupBox>
 
-        <GroupBox Grid.Row="4" Header="Редактирование выбранного кролика" 
-                  Margin="10,0,10,5" Visibility="{Binding CanModifyRabbit}">
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="80"/>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="60"/>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="60"/>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="120"/>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="80"/>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="80"/>
-                </Grid.ColumnDefinitions>
+        <!-- Статус View -->
+        <TextBlock Grid.Row="3" x:Name="txtStatus" Text="{Binding StatusMessage}" 
+                   Margin="0,5,0,5" FontWeight="Bold" Foreground="Blue"/>
 
-                <TextBlock Grid.Column="0" Text="ID:" VerticalAlignment="Center" Margin="5,0,5,0"/>
-                <TextBox Grid.Column="1" x:Name="txtEditId" 
-                         Text="{Binding SelectedRabbit.Id}"
-                         IsEnabled="False"
-                         Background="LightGray"
-                         VerticalAlignment="Center"/>
-
-                <TextBlock Grid.Column="2" Text="Имя:" VerticalAlignment="Center" Margin="10,0,5,0"/>
-                <TextBox Grid.Column="3" x:Name="txtEditName" 
-                         Text="{Binding SelectedRabbit.Name, UpdateSourceTrigger=PropertyChanged}"
-                         VerticalAlignment="Center"/>
-
-                <TextBlock Grid.Column="4" Text="Возраст:" VerticalAlignment="Center" Margin="10,0,5,0"/>
-                <TextBox Grid.Column="5" x:Name="txtEditAge" 
-                         Text="{Binding SelectedRabbit.Age, UpdateSourceTrigger=PropertyChanged}"
-                         VerticalAlignment="Center"/>
-
-                <TextBlock Grid.Column="6" Text="Вес:" VerticalAlignment="Center" Margin="10,0,5,0"/>
-                <TextBox Grid.Column="7" x:Name="txtEditWeight" 
-                         Text="{Binding SelectedRabbit.Weight, UpdateSourceTrigger=PropertyChanged}"
-                         VerticalAlignment="Center"/>
-
-                <TextBlock Grid.Column="8" Text="Порода:" VerticalAlignment="Center" Margin="10,0,5,0"/>
-                <ComboBox Grid.Column="9" x:Name="cmbEditBreed"
-                          ItemsSource="{Binding Breeds}"
-                          SelectedItem="{Binding SelectedRabbit.Breed}"
-                          VerticalAlignment="Center"/>
-
-                <Button Grid.Column="11" Content="Обновить" Click="UpdateRabbit_Click" 
-                        Margin="10,0,5,0" Width="80"/>
-                <Button Grid.Column="13" Content="Удалить" Click="RemoveRabbit_Click" 
-                        Width="80"/>
-            </Grid>
-        </GroupBox>
-
-        <TextBlock Grid.Row="5" Text="{Binding StatusMessage}" 
-                   Margin="10,5,10,10" FontWeight="Bold" Foreground="Blue"/>
+        <!-- Общий статус -->
+        <TextBlock Grid.Row="4" Text="{Binding StatusMessage}" 
+                   Margin="0,5,0,0" FontWeight="Bold" Foreground="Green"/>
     </Grid>
 </Window>

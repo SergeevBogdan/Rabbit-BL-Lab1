@@ -1,24 +1,16 @@
-﻿using System;
+﻿using RabbitViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using RabbitViewModels;
 
 namespace ViewManager
 {
     public interface IViewManager
     {
-        void RegisterView<TView, TViewModel>(TViewModel viewModel)
-            where TView : IView
-            where TViewModel : BaseViewModel;
-
-        void ShowView<TView>() where TView : IView;
-        void CloseView<TView>() where TView : IView;
-
-        TViewModel GetViewModel<TView, TViewModel>()
-            where TView : IView
-            where TViewModel : BaseViewModel;
+        void RegisterView(Type viewType, BaseViewModel viewModel);
+        void ShowView(Type viewType);
+        void CloseView(Type viewType);
+        BaseViewModel GetViewModel(Type viewType);
 
         event Action<Type, BaseViewModel> ViewRequested;
         event Action<Type> ViewClosed;
@@ -27,21 +19,31 @@ namespace ViewManager
     public class ViewManager : IViewManager
     {
         private readonly Dictionary<Type, BaseViewModel> _viewModels = new Dictionary<Type, BaseViewModel>();
+        private readonly Dictionary<BaseViewModel, Type> _viewModelToView = new Dictionary<BaseViewModel, Type>();
 
         public event Action<Type, BaseViewModel> ViewRequested;
         public event Action<Type> ViewClosed;
 
-        public void RegisterView<TView, TViewModel>(TViewModel viewModel)
-            where TView : IView
-            where TViewModel : BaseViewModel
+        public void RegisterView(Type viewType, BaseViewModel viewModel)
         {
-            var viewType = typeof(TView);
-            _viewModels[viewType] = viewModel;
+            if (viewType == null) throw new ArgumentNullException(nameof(viewType));
+            if (viewModel == null) throw new ArgumentNullException(nameof(viewModel));
+
+            // Проверяем, что тип является View (реализует IView)
+            if (!typeof(IView).IsAssignableFrom(viewType))
+            {
+                throw new ArgumentException($"Тип {viewType.Name} должен реализовывать интерфейс IView");
+            }
+
+            if (!_viewModels.ContainsKey(viewType))
+            {
+                _viewModels[viewType] = viewModel;
+                _viewModelToView[viewModel] = viewType;
+            }
         }
 
-        public void ShowView<TView>() where TView : IView
+        public void ShowView(Type viewType)
         {
-            var viewType = typeof(TView);
             if (_viewModels.TryGetValue(viewType, out var viewModel))
             {
                 ViewRequested?.Invoke(viewType, viewModel);
@@ -52,22 +54,137 @@ namespace ViewManager
             }
         }
 
-        public void CloseView<TView>() where TView : IView
+        public void CloseView(Type viewType)
         {
-            var viewType = typeof(TView);
-            ViewClosed?.Invoke(viewType);
+            if (_viewModels.ContainsKey(viewType))
+            {
+                ViewClosed?.Invoke(viewType);
+            }
         }
 
-        public TViewModel GetViewModel<TView, TViewModel>()
-            where TView : IView
-            where TViewModel : BaseViewModel
+        public BaseViewModel GetViewModel(Type viewType)
         {
-            var viewType = typeof(TView);
-            if (_viewModels.TryGetValue(viewType, out var viewModel) && viewModel is TViewModel typedViewModel)
+            return _viewModels.TryGetValue(viewType, out var viewModel) ? viewModel : null;
+        }
+
+        public TViewModel GetViewModel<TViewModel>() where TViewModel : BaseViewModel
+        {
+            return _viewModels.Values.OfType<TViewModel>().FirstOrDefault();
+        }
+
+        public Type GetViewType(BaseViewModel viewModel)
+        {
+            return _viewModelToView.TryGetValue(viewModel, out var viewType) ? viewType : null;
+        }
+
+        public void UnregisterView(Type viewType)
+        {
+            if (_viewModels.TryGetValue(viewType, out var viewModel))
             {
-                return typedViewModel;
+                _viewModels.Remove(viewType);
+                _viewModelToView.Remove(viewModel);
             }
-            return null;
+        }
+
+        public IEnumerable<Type> GetAllViewTypes()
+        {
+            return _viewModels.Keys.ToList();
+        }
+
+        public IEnumerable<BaseViewModel> GetAllViewModels()
+        {
+            return _viewModels.Values.ToList();
+        }
+    }
+    public interface IViewManagerService
+    {
+        void RegisterView(Type viewType, BaseViewModel viewModel);
+        void ShowView(Type viewType);
+        void CloseView(Type viewType);
+        BaseViewModel GetViewModel(Type viewType);
+
+        event Action<Type, BaseViewModel> ViewRequested;
+        event Action<Type> ViewClosed;
+    }
+
+    public class ViewManagerService : IViewManagerService
+    {
+        private readonly Dictionary<Type, BaseViewModel> _viewModels = new Dictionary<Type, BaseViewModel>();
+        private readonly Dictionary<BaseViewModel, Type> _viewModelToView = new Dictionary<BaseViewModel, Type>();
+
+        public event Action<Type, BaseViewModel> ViewRequested;
+        public event Action<Type> ViewClosed;
+
+        public void RegisterView(Type viewType, BaseViewModel viewModel)
+        {
+            if (viewType == null) throw new ArgumentNullException(nameof(viewType));
+            if (viewModel == null) throw new ArgumentNullException(nameof(viewModel));
+
+            // Проверяем, что тип реализует IView
+            if (!typeof(IView).IsAssignableFrom(viewType))
+            {
+                throw new ArgumentException($"Тип {viewType.Name} должен реализовывать интерфейс IView");
+            }
+
+            if (!_viewModels.ContainsKey(viewType))
+            {
+                _viewModels[viewType] = viewModel;
+                _viewModelToView[viewModel] = viewType;
+            }
+        }
+
+        public void ShowView(Type viewType)
+        {
+            if (_viewModels.TryGetValue(viewType, out var viewModel))
+            {
+                ViewRequested?.Invoke(viewType, viewModel);
+            }
+            else
+            {
+                throw new KeyNotFoundException($"View типа {viewType.Name} не зарегистрирован");
+            }
+        }
+
+        public void CloseView(Type viewType)
+        {
+            if (_viewModels.ContainsKey(viewType))
+            {
+                ViewClosed?.Invoke(viewType);
+            }
+        }
+
+        public BaseViewModel GetViewModel(Type viewType)
+        {
+            return _viewModels.TryGetValue(viewType, out var viewModel) ? viewModel : null;
+        }
+
+        public TViewModel GetViewModel<TViewModel>() where TViewModel : BaseViewModel
+        {
+            return _viewModels.Values.OfType<TViewModel>().FirstOrDefault();
+        }
+
+        public Type GetViewType(BaseViewModel viewModel)
+        {
+            return _viewModelToView.TryGetValue(viewModel, out var viewType) ? viewType : null;
+        }
+
+        public void UnregisterView(Type viewType)
+        {
+            if (_viewModels.TryGetValue(viewType, out var viewModel))
+            {
+                _viewModels.Remove(viewType);
+                _viewModelToView.Remove(viewModel);
+            }
+        }
+
+        public IEnumerable<Type> GetAllViewTypes()
+        {
+            return _viewModels.Keys.ToList();
+        }
+
+        public IEnumerable<BaseViewModel> GetAllViewModels()
+        {
+            return _viewModels.Values.ToList();
         }
     }
 }

@@ -29,17 +29,19 @@ namespace RabbitConsoleMVVM
                 // Инициализируем View в ViewModel
                 mainViewModel.InitializeViews(mainView, detailsView, statsView);
 
-                // Создаем ViewManager
-                var viewManager = new ViewManager.ViewManager();
-                viewManager.RegisterView<ConsoleMainView, MainViewModel>(mainViewModel);
-                viewManager.RegisterView<ConsoleDetailsView, MainViewModel>(mainViewModel);
-                viewManager.RegisterView<ConsoleStatsView, MainViewModel>(mainViewModel);
+                // Создаем ViewManagerService (не ViewManager!)
+                var viewManager = new ViewManagerService();
+
+                // Регистрируем View используя typeof()
+                viewManager.RegisterView(typeof(ConsoleMainView), mainViewModel);
+                viewManager.RegisterView(typeof(ConsoleDetailsView), mainViewModel);
+                viewManager.RegisterView(typeof(ConsoleStatsView), mainViewModel);
 
                 // Подписываемся на события
                 viewManager.ViewRequested += OnViewRequested;
 
-                // Запускаем главное окно
-                viewManager.ShowView<ConsoleMainView>();
+                // Запускаем главное окно используя typeof()
+                viewManager.ShowView(typeof(ConsoleMainView));
             }
             catch (Exception ex)
             {

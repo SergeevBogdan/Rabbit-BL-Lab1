@@ -11,13 +11,61 @@ namespace RabbitConsoleMVVM
         public ConsoleView(MainViewModel viewModel)
         {
             _viewModel = viewModel;
+
+            // Подписываемся на события View
+            if (_viewModel.MainView != null)
+            {
+                _viewModel.MainView.Requested += OnMainViewRequested;
+                _viewModel.MainView.Closed += OnMainViewClosed;
+            }
+
+            if (_viewModel.DetailsView != null)
+            {
+                _viewModel.DetailsView.Requested += OnDetailsViewRequested;
+                _viewModel.DetailsView.Closed += OnDetailsViewClosed;
+            }
+
+            if (_viewModel.StatsView != null)
+            {
+                _viewModel.StatsView.Requested += OnStatsViewRequested;
+                _viewModel.StatsView.Closed += OnStatsViewClosed;
+            }
+        }
+
+        // Обработчики событий View
+        private void OnMainViewRequested()
+        {
+            Console.WriteLine("Главное консольное окно открыто");
+            _viewModel.LoadRabbits();
+        }
+
+        private void OnMainViewClosed()
+        {
+            Console.WriteLine("Главное консольное окно закрыто");
+        }
+
+        private void OnDetailsViewRequested()
+        {
+            Console.WriteLine("Запрошены детали кролика");
+        }
+
+        private void OnDetailsViewClosed()
+        {
+            Console.WriteLine("Детали кролика закрыты");
+        }
+
+        private void OnStatsViewRequested()
+        {
+            Console.WriteLine("Запрошена статистика");
+        }
+
+        private void OnStatsViewClosed()
+        {
+            Console.WriteLine("Статистика закрыта");
         }
 
         public void ShowMainMenu()
         {
-            // Уведомляем View, что оно открылось
-            _viewModel.MainView?.OnRequested();
-
             while (true)
             {
                 Console.Clear();
@@ -44,6 +92,7 @@ namespace RabbitConsoleMVVM
                     case "6": ShowStatistics(); break;
                     case "7": ShowDetailsView(); break;
                     case "8":
+                        // Уведомляем View о закрытии
                         _viewModel.MainView?.OnClosed();
                         return;
                     default: Console.WriteLine("Неверная опция!"); WaitForContinue(); break;
@@ -114,6 +163,10 @@ namespace RabbitConsoleMVVM
                 _viewModel.SelectedRabbit = rabbit;
                 _viewModel.RemoveRabbit();
             }
+            else
+            {
+                Console.WriteLine("Кролик не найден!");
+            }
 
             Console.WriteLine($"\n{_viewModel.StatusMessage}");
             WaitForContinue();
@@ -142,6 +195,10 @@ namespace RabbitConsoleMVVM
                 rabbit.Breed = Console.ReadLine();
 
                 _viewModel.UpdateRabbit();
+            }
+            else
+            {
+                Console.WriteLine("Кролик не найден!");
             }
 
             Console.WriteLine($"\n{_viewModel.StatusMessage}");

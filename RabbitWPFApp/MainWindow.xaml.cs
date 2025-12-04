@@ -14,17 +14,55 @@ namespace RabbitWPFApp
             _viewModel = viewModel;
             DataContext = _viewModel;
 
-            // Подписываемся на события ViewModel
+            // Подписываемся на события View
             if (_viewModel.MainView != null)
             {
                 _viewModel.MainView.Closed += OnMainViewClosed;
             }
+
+            if (_viewModel.DetailsView != null)
+            {
+                _viewModel.DetailsView.Requested += OnDetailsViewRequested;
+                _viewModel.DetailsView.Closed += OnDetailsViewClosed;
+            }
+
+            if (_viewModel.StatsView != null)
+            {
+                _viewModel.StatsView.Requested += OnStatsViewRequested;
+                _viewModel.StatsView.Closed += OnStatsViewClosed;
+            }
         }
 
+        // Обработчики событий View
         private void OnMainViewClosed()
         {
-            // Закрываем окно при закрытии View
             Dispatcher.Invoke(() => Close());
+        }
+
+        private void OnDetailsViewRequested()
+        {
+            // Детали запрошены - можно обновить UI
+            if (_viewModel.SelectedRabbit != null)
+            {
+                // Например, выделить выбранного кролика или показать панель деталей
+                txtStatus.Text = $"Просмотр деталей: {_viewModel.SelectedRabbit.Name}";
+            }
+        }
+
+        private void OnDetailsViewClosed()
+        {
+            txtStatus.Text = "Детали закрыты";
+        }
+
+        private void OnStatsViewRequested()
+        {
+            // Статистика запрошена
+            txtStatus.Text = "Статистика открыта";
+        }
+
+        private void OnStatsViewClosed()
+        {
+            txtStatus.Text = "Статистика закрыта";
         }
 
         // Обработчики кнопок
@@ -63,21 +101,6 @@ namespace RabbitWPFApp
         {
             // Запрашиваем View деталей через ViewModel
             _viewModel.RequestDetailsView();
-
-            // Показываем детали в MessageBox
-            if (_viewModel.SelectedRabbit != null)
-            {
-                MessageBox.Show(
-                    $"Детали кролика:\n" +
-                    $"ID: {_viewModel.SelectedRabbit.Id}\n" +
-                    $"Имя: {_viewModel.SelectedRabbit.Name}\n" +
-                    $"Порода: {_viewModel.SelectedRabbit.Breed}\n" +
-                    $"Возраст: {_viewModel.SelectedRabbit.Age}\n" +
-                    $"Вес: {_viewModel.SelectedRabbit.Weight}",
-                    "Детали кролика",
-                    MessageBoxButton.OK,
-                    MessageBoxImage.Information);
-            }
         }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)

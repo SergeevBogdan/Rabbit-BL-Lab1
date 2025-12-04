@@ -46,6 +46,7 @@
     <Compile Include="StatisticsView.cs" />
     <Compile Include="ViewManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Views.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\RabbitViewModels\RabbitViewModels.csproj">
