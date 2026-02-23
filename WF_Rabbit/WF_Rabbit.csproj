@@ -85,6 +85,10 @@
       <Project>{6e2186b9-c59d-4f20-9acd-67d05ef29aa2}</Project>
       <Name>Business logic - rabbit</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Console-Rabbit\Console-Rabbit.csproj">
+      <Project>{3bacc693-ddba-4aeb-942b-629390cdc2fb}</Project>
+      <Name>Console-Rabbit</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

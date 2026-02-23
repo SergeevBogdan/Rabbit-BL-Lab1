@@ -1,310 +1,384 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 using Business_logic___rabbit;
+
 
 namespace Console_Rabbit
 {
-    internal class Program
+    public class Program  
     {
-        static void Main(string[] args)
+        [STAThread]
+        public static void Main(string[] args)  
         {
-            Logic logic = new Logic();
-            //TODO Сделать оформление
-            string text = " Выберите опцию: " +
-                "\n 1. Создать кролика" +
-                "\n 2. Удалить кролика " +
-                "\n 3. Прочесть кролика" +
-                "\n 4. Изменить кролика" +
-                "\n 5. Вычесть средний возраст кролика"+
-                "\n 6. Вычесть средний вес кролика"+
-                "\n 7. Создать  рандомного кролика" +
-                "\n 8. Показать весь список кроликов" +
-                "\n 9. Изменить/фильтр весь список кроликов по определенному индексу" +
-                "\n 10. Выход";
-            int position = 0;
-            while (position != 10)
+            bool useEF = args.Length == 0 || args[0].ToLower() != "dapper";
+            Console.WriteLine($"=== MVVM CONSOLE ({GetTechName(useEF)}) ===");
+            Console.WriteLine("СИСТЕМА УПРАВЛЕНИЯ КРОЛИКАМИ");
+            var logic = LogicFactory.CreateLogic(useEF);
+            RunMainMenu(logic);
+        }
+
+        static void RunMainMenu(Logic logic)
+        {
+            while (true)
             {
-                Console.WriteLine(text);
-                string inputPos = Console.ReadLine();
+                Console.Clear();
+                ShowMainMenu();
 
-                if (string.IsNullOrEmpty(inputPos) || !int.TryParse(inputPos, out position))//222
-                {
-                    Console.Clear();
-                    continue;
-                }
-                switch (position)
-                {
-                    case 1:
-                        string[] breeds = { "Беляк", "Русак", "Толай", "Маньжурский", "Оранжевый" };
+                if (!int.TryParse(Console.ReadLine(), out int choice)) continue;
 
-                        int id;
-                        while (true)
-                        {
-                            Console.WriteLine("Введите id кролика (до 3 цифр):");
-                            string inputId = Console.ReadLine();
+                if (choice == 10) break;
 
-                            if (string.IsNullOrEmpty(inputId) || inputId.Length > 3 || !int.TryParse(inputId, out id))
-                            {
-                                Console.WriteLine("Ошибка: Введите число не больше 3 цифр.");
-                                continue;
-                            }
-                            break;
-                        }
-
-                        Console.WriteLine("Введите имя кролика:");
-                        string name = Console.ReadLine();
-
-                        int age;
-                        while (true)
-                        {
-                            Console.WriteLine("Введите возраст кролика:");
-                            string inputAge = Console.ReadLine();
-
-                            if (string.IsNullOrEmpty(inputAge) || !int.TryParse(inputAge, out age))
-                            {
-                                Console.WriteLine("Ошибка: Введите корректное число для возраста.");
-                                continue;
-                            }
-                            break;
-                        }
-
-                        int weight;
-                        while (true)
-                        {
-                            Console.WriteLine("Введите вес кролика:");
-                            string inputWeight = Console.ReadLine();
-
-                            if (string.IsNullOrEmpty(inputWeight) || !int.TryParse(inputWeight, out weight))
-                            {
-                                Console.WriteLine("Ошибка: Введите корректное число для веса.");
-                                continue;
-                            }
-                            break;
-                        }
-
-                        int breedChoice;
-                        while (true)
-                        {
-                            Console.WriteLine("Выберите породу кролика, введя цифру:");
-                            for (int i = 0; i < breeds.Length; i++)
-                            {
-                                Console.WriteLine($"{i + 1}. {breeds[i]}");
-                            }
-                            string inputBreed = Console.ReadLine();
-
-                            if (string.IsNullOrEmpty(inputBreed) || !int.TryParse(inputBreed, out breedChoice) || breedChoice < 1 || breedChoice > breeds.Length)
-                            {
-                                Console.WriteLine("Ошибка: Выберите цифру из списка.");
-                                continue;
-                            }
-                            break;
-                        }
-
-                        string breed = breeds[breedChoice - 1];
-
-                        string result1 = Logic.Add(id, name, age, weight, breed);
-                        Console.WriteLine(result1);
-                        Console.WriteLine("Нажмите любую клавишу...");
-                        Console.ReadKey();
-                        Console.Clear();
-                        break;
-                    case 2:
-                        int idToRemove;
-                        while (true)
-                        {
-                            Console.WriteLine("Введите id кролика для удаления:");
-                            string input = Console.ReadLine();
-
-                            if (string.IsNullOrEmpty(input) || !int.TryParse(input, out idToRemove))
-                            {
-                                Console.WriteLine("Ошибка: введите корректное число.");
-                                continue;
-                            }
-                            break;
-
-                        }
-
-                        string result2 = Logic.Remove(idToRemove);
-                        Console.WriteLine(result2);
-                        Console.WriteLine("Нажмите любую клавишу...");
-                        Console.ReadKey();
-                        Console.Clear();
-                        break;
-                    case 3:
-                        int idToRead;
-                        while (true)
-                        {
-                            Console.WriteLine("Введите id кролика для чтения:");
-                            string input = Console.ReadLine();
-
-                            if (string.IsNullOrEmpty(input) || !int.TryParse(input, out idToRead))
-                            {
-                                Console.WriteLine("Ошибка: Введите корректное число");
-                                continue;
-                            }
-                            break;
-                        }
-
-                        string output = Logic.Read(idToRead);
-                        Console.WriteLine(output);
-                        Console.WriteLine("Нажмите любую клавишу...");
-                        Console.ReadKey();
-                        Console.Clear();
-                        break;
-                    case 4:
-                        int id1;
-                        while (true)
-                        {
-                            Console.WriteLine("Введите id кролика для изменения (не изменяется):");
-                            string inputId = Console.ReadLine();
-                            if (string.IsNullOrEmpty(inputId) || !int.TryParse(inputId, out id1) || id1.ToString().Length > 3)
-                            {
-                                Console.WriteLine("Ошибка: введите число до 3 цифр");
-                                continue;
-                            }
-                            break;
-                        }
-
-                        string name1;
-                        while (true)
-                        {
-                            Console.WriteLine("Введите имя кролика:");
-                            name1 = Console.ReadLine();
-                            if (string.IsNullOrEmpty(name1))
-                            {
-                                Console.WriteLine("Имя не может быть пустым");
-                                continue;
-                            }
-                            break;
-                        }
-
-                        int age1;
-                        while (true)
-                        {
-                            Console.WriteLine("Введите возраст кролика:");
-                            string inputAge = Console.ReadLine();
-                            if (string.IsNullOrEmpty(inputAge) || !int.TryParse(inputAge, out age1))
-                            {
-                                Console.WriteLine("Введите корректное число для возраста");
-                                continue;
-                            }
-                            break;
-                        }
-
-                        int weight1;
-                        while (true)
-                        {
-                            Console.WriteLine("Введите вес кролика:");
-                            string inputWeight = Console.ReadLine();
-                            if (string.IsNullOrEmpty(inputWeight) || !int.TryParse(inputWeight, out weight1))
-                            {
-                                Console.WriteLine("Введите корректное число для веса");
-                                continue;
-                            }
-                            break;
-                        }
-
-                        string[] breeds1 = { "Беляк", "Русак", "Толай", "Маньжурский", "Оранжевый" };
-                        int breedChoice1;
-                        while (true)
-                        {
-                            Console.WriteLine("Выберите породу кролика, введя цифру:");
-                            for (int i = 0; i < breeds1.Length; i++)
-                            {
-                                Console.WriteLine($"{i + 1}. {breeds1[i]}");
-                            }
-                            string inputBreed = Console.ReadLine();
-                            if (string.IsNullOrEmpty(inputBreed) || !int.TryParse(inputBreed, out breedChoice1) || breedChoice1 < 1 || breedChoice1 > breeds1.Length)
-                            {
-                                Console.WriteLine("Выберите цифру из списка");
-                                continue;
-                            }
-                            break;
-                        }
-
-                        string breed1 = breeds1[breedChoice1 - 1];
-
-                        Logic.Change(id1, name1, age1, weight1, breed1);
-                        Console.WriteLine("Кролик изменён");
-                        Console.WriteLine("Нажмите любую клавишу...");
-                        Console.ReadKey();
-                        Console.Clear();
-                        break;
-                    case 5:
-                        double ages = Logic.GetAverageAge();
-                        Console.WriteLine("Средний возраст кроликов: "+ ages);
-                        Console.WriteLine("Нажмите любую клавишу...");
-                        Console.ReadKey();
-                        Console.Clear();
-                        break;
-                    case 6:
-                        double weights = Logic.GetAverageWeight();
-                        Console.WriteLine("Средний вес кроликов: " + weights);
-                        Console.WriteLine("Нажмите любую клавишу...");
-                        Console.ReadKey();
-                        Console.Clear();
-                        break; 
-                    case 7:
-                        string RandomRabit = Logic.Random_rabbit_add();
-                        Console.WriteLine(RandomRabit);
-                        Console.WriteLine("Нажмите любую клавишу...");
-                        Console.ReadKey();
-                        Console.Clear();
-                        break;
-                    case 8:
-                        string ShowAll = Logic.ShowAllRabbits();
-                        Console.WriteLine(ShowAll);
-                        Console.WriteLine("Нажмите любую клавишу...");
-                        Console.ReadKey();
-                        Console.Clear();
-                        break;
-                    case 9:
-                        int change;
-                        while (true)
-                        {
-                            Console.WriteLine("Выберите индекс сортировки:\n1 - Id\n2 - Name\n3 - Breed\n4 - Age\n5 - Weight");
-                            string inputChange = Console.ReadLine();
-                            if (!int.TryParse(inputChange, out change) || change < 1 || change > 5)
-                            {
-                                Console.WriteLine("Введите число от 1 до 5");
-                                continue;
-                            }
-                            break;
-                        }
-
-                        bool direction;
-                        while (true)
-                        {
-                            Console.WriteLine("Выберите направление сортировки:\n1 - по возрастанию\n0 - по убыванию");
-                            string inputDir = Console.ReadLine();
-                            if (inputDir == "1")
-                            {
-                                direction = true;
-                                break;
-                            }
-                            else if (inputDir == "0")
-                            {
-                                direction = false;
-                                break;
-                            }
-                            else
-                            {
-                                Console.WriteLine("Введите 1 или 0");
-                            }
-                        }
-                        Logic.Filter(change, direction);
-                        Console.WriteLine("Нажмите любую клавишу...");
-                        Console.ReadKey();
-                        Console.Clear();
-                        break;
-
-                }
-
+                ProcessMenuChoice(choice, logic);
             }
         }
+
+        static void ShowMainMenu()
+        {
+            Console.WriteLine("ГЛАВНОЕ МЕНЮ");
+            Console.WriteLine("1. Создать кролика");
+            Console.WriteLine("2. Удалить кролика");
+            Console.WriteLine("3. Прочесть кролика");
+            Console.WriteLine("4. Изменить кролика");
+            Console.WriteLine("5. Средний возраст");
+            Console.WriteLine("6. Средний вес");
+            Console.WriteLine("7. Создать рандомного кролика");
+            Console.WriteLine("8. Показать всех кроликов");
+            Console.WriteLine("9. Сортировать кроликов");
+            Console.WriteLine("10. Выход");
+            Console.Write("Выберите опцию: ");
+        }
+
+        static void ProcessMenuChoice(int choice, Logic logic)
+        {
+            switch (choice)
+            {
+                case 1: AddRabbitMenu(logic); break;
+                case 2: RemoveRabbitMenu(logic); break;
+                case 3: ReadRabbitMenu(logic); break;
+                case 4: UpdateRabbitMenu(logic); break;
+                case 5: ShowAverageAge(logic); break;
+                case 6: ShowAverageWeight(logic); break;
+                case 7: AddRandomRabbitMenu(logic); break;
+                case 8: ShowAllRabbitsMenu(logic); break;
+                case 9: SortRabbitsMenu(logic); break;
+                default: Console.WriteLine("Неверная опция!"); break;
+            }
+
+            Console.WriteLine("\nНажмите любую клавишу...");
+            Console.ReadKey();
+        }
+
+        static void AddRabbitMenu(Logic logic)
+        {
+            Console.Clear();
+            Console.WriteLine("СОЗДАНИЕ КРОЛИКА");
+
+            try
+            {
+                string allRabbits = logic.ShowAllRabbits();
+                if (!allRabbits.Contains("пуст"))
+                {
+                    Console.WriteLine("Текущие кролики:");
+                    Console.WriteLine(allRabbits);
+                    Console.WriteLine();
+                }
+
+                int id = ReadValidNumber("Введите ID кролика (1-9999): ", 1, 9999);
+
+                string existingRabbit = logic.ReadRabbit(id);
+                if (!existingRabbit.Contains("не найден"))
+                {
+                    ShowError("Кролик с ID " + id + " уже существует!");
+                    return;
+                }
+
+                Console.Write("Введите имя кролика: ");
+                string name = Console.ReadLine();
+                if (string.IsNullOrWhiteSpace(name))
+                {
+                    ShowError("Имя не может быть пустым!");
+                    return;
+                }
+
+                int age = ReadValidNumber("Введите возраст кролика (1-50): ", 1, 50);
+                int weight = ReadValidNumber("Введите вес кролика (1-100): ", 1, 100);
+
+                string[] breeds = logic.GetBreeds();
+                Console.WriteLine("Доступные породы:");
+                for (int i = 0; i < breeds.Length; i++)
+                {
+                    Console.WriteLine((i + 1) + ". " + breeds[i]);
+                }
+                int breedChoice = ReadValidNumber("Выберите породу (1-5): ", 1, breeds.Length);
+                string breed = breeds[breedChoice - 1];
+
+                Console.WriteLine("Подтвердите данные:");
+                Console.WriteLine("ID: " + id);
+                Console.WriteLine("Имя: " + name);
+                Console.WriteLine("Возраст: " + age + " лет");
+                Console.WriteLine("Вес: " + weight + " кг");
+                Console.WriteLine("Порода: " + breed);
+          
+
+                string result = logic.AddRabbit(id, name, age, weight, breed);
+
+                if (result.Contains("успешно"))
+                {
+                    ShowSuccess(result);
+                    Console.WriteLine("Обновленный список кроликов:");
+                    Console.WriteLine(logic.ShowAllRabbits());
+                }
+                else
+                {
+                    ShowError(result);
+                }
+            }
+            catch (Exception ex)
+            {
+                ShowError("Ошибка при создании кролика: " + ex.Message);
+            }
+        }
+
+        static void RemoveRabbitMenu(Logic logic)
+        {
+            Console.Clear();
+            Console.WriteLine("УДАЛЕНИЕ КРОЛИКА");
+
+            string allRabbits = logic.ShowAllRabbits();
+            Console.WriteLine(allRabbits);
+            Console.WriteLine();
+
+            try
+            {
+                int id = ReadValidNumber("Введите ID кролика для удаления: ", 1, 9999);
+                string result = logic.RemoveRabbit(id);
+                ShowSuccess(result);
+
+                Console.WriteLine("Обновленный список:");
+                Console.WriteLine(logic.ShowAllRabbits());
+            }
+            catch (Exception ex)
+            {
+                ShowError("Ошибка при удалении: " + ex.Message);
+            }
+        }
+
+        static void ReadRabbitMenu(Logic logic)
+        {
+            Console.Clear();
+            Console.WriteLine("ПРОСМОТР КРОЛИКА");
+
+            try
+            {
+                int id = ReadValidNumber("Введите ID кролика: ", 1, 9999);
+                string result = logic.ReadRabbit(id);
+
+                if (result.Contains("не найден"))
+                    ShowError(result);
+                else
+                    ShowSuccess("Данные кролика:\n" + result);
+            }
+            catch (Exception ex)
+            {
+                ShowError("Ошибка при чтении: " + ex.Message);
+            }
+        }
+
+        static void UpdateRabbitMenu(Logic logic)
+        {
+            Console.Clear();
+            Console.WriteLine("ИЗМЕНЕНИЕ ДАННЫХ КРОЛИКА");
+
+            string allRabbits = logic.ShowAllRabbits();
+            if (allRabbits.Contains("пуст"))
+            {
+                ShowInfo("Список кроликов пуст! Сначала создайте кроликов.");
+                return;
+            }
+
+            Console.WriteLine("Текущие кролики:");
+            Console.WriteLine(allRabbits);
+            Console.WriteLine();
+
+            try
+            {
+                int id = ReadValidNumber("Введите ID кролика для изменения: ", 1, 9999);
+                string currentData = logic.ReadRabbit(id);
+                if (currentData.Contains("не найден"))
+                {
+                    ShowError("Кролик с ID " + id + " не найден!");
+                    return;
+                }
+
+                Console.WriteLine("Текущие данные кролика:");
+                Console.WriteLine(currentData);
+                Console.WriteLine("Введите новые данные:");
+
+                Console.Write("Введите новое имя кролика: ");
+                string name = Console.ReadLine();
+                if (string.IsNullOrWhiteSpace(name))
+                {
+                    ShowError("Имя не может быть пустым!");
+                    return;
+                }
+
+                int age = ReadValidNumber("Введите новый возраст кролика (1-50): ", 1, 50);
+                int weight = ReadValidNumber("Введите новый вес кролика (1-100): ", 1, 100);
+
+                string[] breeds = logic.GetBreeds();
+                Console.WriteLine("Доступные породы:");
+                for (int i = 0; i < breeds.Length; i++)
+                {
+                    Console.WriteLine((i + 1) + ". " + breeds[i]);
+                }
+                int breedChoice = ReadValidNumber("Выберите новую породу (1-5): ", 1, breeds.Length);
+                string breed = breeds[breedChoice - 1];
+
+                Console.WriteLine("Подтвердите изменения:");
+                Console.WriteLine("ID: " + id + " (неизменяем)");
+                Console.WriteLine("Новое имя: " + name);
+                Console.WriteLine("Новый возраст: " + age + " лет");
+                Console.WriteLine("Новый вес: " + weight + " кг");
+                Console.WriteLine("Новая порода: " + breed);
+           
+
+                logic.ChangeStatRabbit(id, name, age, weight, breed);
+                ShowSuccess("Данные кролика успешно обновлены!");
+
+                Console.WriteLine("Обновленные данные:");
+                string updatedData = logic.ReadRabbit(id);
+                Console.WriteLine(updatedData);
+
+                Console.WriteLine("Обновленный список всех кроликов:");
+                Console.WriteLine(logic.ShowAllRabbits());
+            }
+            catch (Exception ex)
+            {
+                ShowError("Ошибка при изменении данных кролика: " + ex.Message);
+            }
+        }
+
+        static void ShowAverageAge(Logic logic)
+        {
+            Console.Clear();
+            Console.WriteLine("СРЕДНИЙ ВОЗРАСТ");
+
+            double averageAge = logic.GetAverageAge();
+            ShowInfo("Средний возраст всех кроликов: " + averageAge + " лет");
+        }
+
+        static void ShowAverageWeight(Logic logic)
+        {
+            Console.Clear();
+            Console.WriteLine("СРЕДНИЙ ВЕС");
+
+            double averageWeight = logic.GetAverageWeight();
+            ShowInfo("Средний вес всех кроликов: " + averageWeight + " кг");
+        }
+
+        static void AddRandomRabbitMenu(Logic logic)
+        {
+            Console.Clear();
+            Console.WriteLine("СОЗДАНИЕ РАНДОМНОГО КРОЛИКА");
+
+            try
+            {
+                string result = logic.AddRandomRabbit();
+                ShowSuccess(result);
+
+                Console.WriteLine("Обновленный список:");
+                Console.WriteLine(logic.ShowAllRabbits());
+            }
+            catch (Exception ex)
+            {
+                ShowError("Ошибка при создании рандомного кролика: " + ex.Message);
+            }
+        }
+
+        static void ShowAllRabbitsMenu(Logic logic)
+        {
+            Console.Clear();
+            Console.WriteLine("ВСЕ КРОЛИКИ");
+
+            try
+            {
+                string result = logic.ShowAllRabbits();
+                Console.WriteLine(result);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Ошибка: " + ex.Message);
+            }
+            WaitForContinue();
+        }
+
+        static void SortRabbitsMenu(Logic logic)
+        {
+            Console.Clear();
+            Console.WriteLine("СОРТИРОВКА КРОЛИКОВ");
+
+            try
+            {
+                Console.WriteLine("Выберите поле для сортировки:");
+                Console.WriteLine("1 - ID");
+                Console.WriteLine("2 - Имя");
+                Console.WriteLine("3 - Порода");
+                Console.WriteLine("4 - Возраст");
+                Console.WriteLine("5 - Вес");
+
+                int field = ReadValidNumber("Поле: ", 1, 5);
+
+                Console.WriteLine("Направление сортировки:");
+                Console.WriteLine("1 - По возрастанию");
+                Console.WriteLine("2 - По убыванию");
+
+                int directionChoice = ReadValidNumber("Направление: ", 1, 2);
+                bool ascending = directionChoice == 1;
+
+                logic.SortRabbits(field, ascending);
+                WaitForContinue();
+            }
+            catch (Exception ex)
+            {
+                ShowError("Ошибка при сортировке: " + ex.Message);
+            }
+        }
+
+        static int ReadValidNumber(string prompt, int min, int max)
+        {
+            while (true)
+            {
+                Console.Write(prompt);
+                if (int.TryParse(Console.ReadLine(), out int result) && result >= min && result <= max)
+                    return result;
+
+                ShowError("Введите число от " + min + " до " + max + "!");
+            }
+        }
+
+        static void ShowSuccess(string message)
+        {
+            Console.WriteLine(message);
+            WaitForContinue();
+        }
+
+        static void ShowError(string message)
+        {
+            Console.WriteLine(message);
+            WaitForContinue();
+        }
+
+        static void ShowInfo(string message)
+        {
+            Console.WriteLine(message);
+            WaitForContinue();
+        }
+
+        static void WaitForContinue()
+        {
+            Console.WriteLine("\nНажмите любую клавишу для продолжения...");
+            Console.ReadKey();
+        }
+        static string GetTechName(bool useEF) => useEF ? "Entity Framework" : "Dapper";
     }
 }

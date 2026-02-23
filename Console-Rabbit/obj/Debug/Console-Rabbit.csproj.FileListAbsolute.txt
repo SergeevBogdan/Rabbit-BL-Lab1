@@ -1,0 +1,116 @@
+C:\Users\AceR\Desktop\teat_github\Business logic - rabbit\Console-Rabbit\bin\Debug\Console-Rabbit.exe.config
+C:\Users\AceR\Desktop\teat_github\Business logic - rabbit\Console-Rabbit\bin\Debug\Console-Rabbit.exe
+C:\Users\AceR\Desktop\teat_github\Business logic - rabbit\Console-Rabbit\bin\Debug\Console-Rabbit.pdb
+C:\Users\AceR\Desktop\teat_github\Business logic - rabbit\Console-Rabbit\bin\Debug\Business logic - rabbit.dll
+C:\Users\AceR\Desktop\teat_github\Business logic - rabbit\Console-Rabbit\bin\Debug\Business logic - rabbit.pdb
+C:\Users\AceR\Desktop\teat_github\Business logic - rabbit\Console-Rabbit\obj\Debug\Console-Rabbit.csproj.AssemblyReference.cache
+C:\Users\AceR\Desktop\teat_github\Business logic - rabbit\Console-Rabbit\obj\Debug\Console-Rabbit.csproj.CoreCompileInputs.cache
+C:\Users\AceR\Desktop\teat_github\Business logic - rabbit\Console-Rabbit\obj\Debug\Console-.18CEF01B.Up2Date
+C:\Users\AceR\Desktop\teat_github\Business logic - rabbit\Console-Rabbit\obj\Debug\Console-Rabbit.exe
+C:\Users\AceR\Desktop\teat_github\Business logic - rabbit\Console-Rabbit\obj\Debug\Console-Rabbit.pdb
+C:\Users\AceR\Desktop\teat_github\Business logic - rabbit\Console-Rabbit\obj\Debug\Console-Rabbit.exe.config
+C:\Users\User\Source\Repos\Rabbit-BL-Lab1\Console-Rabbit\bin\Debug\Console-Rabbit.exe.config
+C:\Users\User\Source\Repos\Rabbit-BL-Lab1\Console-Rabbit\bin\Debug\Console-Rabbit.exe
+C:\Users\User\Source\Repos\Rabbit-BL-Lab1\Console-Rabbit\bin\Debug\Console-Rabbit.pdb
+C:\Users\User\Source\Repos\Rabbit-BL-Lab1\Console-Rabbit\bin\Debug\Business logic - rabbit.dll
+C:\Users\User\Source\Repos\Rabbit-BL-Lab1\Console-Rabbit\bin\Debug\Business logic - rabbit.pdb
+C:\Users\User\Source\Repos\Rabbit-BL-Lab1\Console-Rabbit\obj\Debug\Console-Rabbit.csproj.AssemblyReference.cache
+C:\Users\User\Source\Repos\Rabbit-BL-Lab1\Console-Rabbit\obj\Debug\Console-Rabbit.exe.config
+C:\Users\User\Source\Repos\Rabbit-BL-Lab1\Console-Rabbit\obj\Debug\Console-Rabbit.csproj.CoreCompileInputs.cache
+C:\Users\User\Source\Repos\Rabbit-BL-Lab1\Console-Rabbit\obj\Debug\Console-.18CEF01B.Up2Date
+C:\Users\User\Source\Repos\Rabbit-BL-Lab1\Console-Rabbit\obj\Debug\Console-Rabbit.exe
+C:\Users\User\Source\Repos\Rabbit-BL-Lab1\Console-Rabbit\obj\Debug\Console-Rabbit.pdb
+C:\Users\AceR\Desktop\Rabbit-Lab - 4\Console-Rabbit\bin\Debug\Console-Rabbit.exe.config
+C:\Users\AceR\Desktop\Rabbit-Lab - 4\Console-Rabbit\bin\Debug\Console-Rabbit.exe
+C:\Users\AceR\Desktop\Rabbit-Lab - 4\Console-Rabbit\bin\Debug\Console-Rabbit.pdb
+C:\Users\AceR\Desktop\Rabbit-Lab - 4\Console-Rabbit\bin\Debug\Business logic - rabbit.dll
+C:\Users\AceR\Desktop\Rabbit-Lab - 4\Console-Rabbit\bin\Debug\EntityFramework.dll
+C:\Users\AceR\Desktop\Rabbit-Lab - 4\Console-Rabbit\bin\Debug\Dapper.dll
+C:\Users\AceR\Desktop\Rabbit-Lab - 4\Console-Rabbit\bin\Debug\Business logic - rabbit.pdb
+C:\Users\AceR\Desktop\Rabbit-Lab - 4\Console-Rabbit\bin\Debug\Business logic - rabbit.dll.config
+C:\Users\AceR\Desktop\Rabbit-Lab - 4\Console-Rabbit\bin\Debug\EntityFramework.xml
+C:\Users\AceR\Desktop\Rabbit-Lab - 4\Console-Rabbit\bin\Debug\Dapper.xml
+C:\Users\AceR\Desktop\Rabbit-Lab - 4\Console-Rabbit\obj\Debug\Console-Rabbit.csproj.AssemblyReference.cache
+C:\Users\AceR\Desktop\Rabbit-Lab - 4\Console-Rabbit\obj\Debug\Console-Rabbit.exe.config
+C:\Users\AceR\Desktop\Rabbit-Lab - 4\Console-Rabbit\obj\Debug\Console-Rabbit.csproj.CoreCompileInputs.cache
+C:\Users\AceR\Desktop\Rabbit-Lab - 4\Console-Rabbit\obj\Debug\Console-.18CEF01B.Up2Date
+C:\Users\AceR\Desktop\Rabbit-Lab - 4\Console-Rabbit\obj\Debug\Console-Rabbit.exe
+C:\Users\AceR\Desktop\Rabbit-Lab - 4\Console-Rabbit\obj\Debug\Console-Rabbit.pdb
+C:\Users\AceR\Desktop\Rabbit-Lab - 4\Console-Rabbit\bin\Debug\Database1.mdf
+C:\Users\AceR\Desktop\Rabbit-Lab - 4\Console-Rabbit\bin\Debug\Database1_log.ldf
+C:\Users\AceR\Desktop\Rabbit-Lab - 4\Console-Rabbit\bin\Debug\System.Configuration.ConfigurationManager.dll
+C:\Users\AceR\Desktop\Rabbit-Lab - 4\Console-Rabbit\bin\Debug\System.Security.AccessControl.dll
+C:\Users\AceR\Desktop\Rabbit-Lab - 4\Console-Rabbit\bin\Debug\System.Security.Permissions.dll
+C:\Users\AceR\Desktop\Rabbit-Lab - 4\Console-Rabbit\bin\Debug\System.Security.Principal.Windows.dll
+C:\Users\AceR\Desktop\Rabbit-Lab - 4\Console-Rabbit\bin\Debug\System.Configuration.ConfigurationManager.xml
+C:\Users\AceR\Desktop\Rabbit-Lab - 4\Console-Rabbit\bin\Debug\System.Security.AccessControl.xml
+C:\Users\AceR\Desktop\Rabbit-Lab - 4\Console-Rabbit\bin\Debug\System.Security.Permissions.xml
+C:\Users\AceR\Desktop\Rabbit-Lab - 4\Console-Rabbit\bin\Debug\System.Security.Principal.Windows.xml
+C:\Users\AceR\Desktop\Rabbit-Lab - 4\Console-Rabbit\bin\Debug\EntityFramework.SqlServer.dll
+C:\Users\AceR\Desktop\Rabbit-Lab - 4\Console-Rabbit\bin\Debug\EntityFramework.SqlServer.xml
+C:\Users\AceR\Desktop\Rabbit-Lab - 4\Console-Rabbit\bin\Debug\RabbitDAL.dll
+C:\Users\AceR\Desktop\Rabbit-Lab - 4\Console-Rabbit\bin\Debug\RabbitModel.dll
+C:\Users\AceR\Desktop\Rabbit-Lab - 4\Console-Rabbit\bin\Debug\RabbitDAL.pdb
+C:\Users\AceR\Desktop\Rabbit-Lab - 4\Console-Rabbit\bin\Debug\RabbitDAL.dll.config
+C:\Users\AceR\Desktop\Rabbit-Lab - 4\Console-Rabbit\bin\Debug\RabbitModel.pdb
+C:\Users\AceR\Desktop\Rabbit-Lab - 4\Console-Rabbit\bin\Debug\Ninject.dll
+C:\Users\AceR\Desktop\Rabbit-Lab - 4\Console-Rabbit\bin\Debug\Ninject.xml
+C:\Users\User\Source\Repos\Rabbit-BL-Lab1\Console-Rabbit\bin\Debug\Database1.mdf
+C:\Users\User\Source\Repos\Rabbit-BL-Lab1\Console-Rabbit\bin\Debug\Database1_log.ldf
+C:\Users\User\Source\Repos\Rabbit-BL-Lab1\Console-Rabbit\bin\Debug\EntityFramework.dll
+C:\Users\User\Source\Repos\Rabbit-BL-Lab1\Console-Rabbit\bin\Debug\EntityFramework.SqlServer.dll
+C:\Users\User\Source\Repos\Rabbit-BL-Lab1\Console-Rabbit\bin\Debug\System.Configuration.ConfigurationManager.dll
+C:\Users\User\Source\Repos\Rabbit-BL-Lab1\Console-Rabbit\bin\Debug\System.Security.AccessControl.dll
+C:\Users\User\Source\Repos\Rabbit-BL-Lab1\Console-Rabbit\bin\Debug\System.Security.Permissions.dll
+C:\Users\User\Source\Repos\Rabbit-BL-Lab1\Console-Rabbit\bin\Debug\System.Security.Principal.Windows.dll
+C:\Users\User\Source\Repos\Rabbit-BL-Lab1\Console-Rabbit\bin\Debug\RabbitDAL.dll
+C:\Users\User\Source\Repos\Rabbit-BL-Lab1\Console-Rabbit\bin\Debug\RabbitModel.dll
+C:\Users\User\Source\Repos\Rabbit-BL-Lab1\Console-Rabbit\bin\Debug\Ninject.dll
+C:\Users\User\Source\Repos\Rabbit-BL-Lab1\Console-Rabbit\bin\Debug\Dapper.dll
+C:\Users\User\Source\Repos\Rabbit-BL-Lab1\Console-Rabbit\bin\Debug\Business logic - rabbit.dll.config
+C:\Users\User\Source\Repos\Rabbit-BL-Lab1\Console-Rabbit\bin\Debug\EntityFramework.xml
+C:\Users\User\Source\Repos\Rabbit-BL-Lab1\Console-Rabbit\bin\Debug\EntityFramework.SqlServer.xml
+C:\Users\User\Source\Repos\Rabbit-BL-Lab1\Console-Rabbit\bin\Debug\System.Configuration.ConfigurationManager.xml
+C:\Users\User\Source\Repos\Rabbit-BL-Lab1\Console-Rabbit\bin\Debug\System.Security.AccessControl.xml
+C:\Users\User\Source\Repos\Rabbit-BL-Lab1\Console-Rabbit\bin\Debug\System.Security.Permissions.xml
+C:\Users\User\Source\Repos\Rabbit-BL-Lab1\Console-Rabbit\bin\Debug\System.Security.Principal.Windows.xml
+C:\Users\User\Source\Repos\Rabbit-BL-Lab1\Console-Rabbit\bin\Debug\RabbitDAL.pdb
+C:\Users\User\Source\Repos\Rabbit-BL-Lab1\Console-Rabbit\bin\Debug\RabbitDAL.dll.config
+C:\Users\User\Source\Repos\Rabbit-BL-Lab1\Console-Rabbit\bin\Debug\RabbitModel.pdb
+C:\Users\User\Source\Repos\Rabbit-BL-Lab1\Console-Rabbit\bin\Debug\Ninject.xml
+C:\Users\User\Source\Repos\Rabbit-BL-Lab1\Console-Rabbit\bin\Debug\Dapper.xml
+C:\Users\User\OneDrive\Рабочий стол\Rabbit-Lab - 4\Console-Rabbit\bin\Debug\Database1.mdf
+C:\Users\User\OneDrive\Рабочий стол\Rabbit-Lab - 4\Console-Rabbit\bin\Debug\Database1_log.ldf
+C:\Users\User\OneDrive\Рабочий стол\Rabbit-Lab - 4\Console-Rabbit\bin\Debug\Console-Rabbit.exe.config
+C:\Users\User\OneDrive\Рабочий стол\Rabbit-Lab - 4\Console-Rabbit\bin\Debug\Console-Rabbit.exe
+C:\Users\User\OneDrive\Рабочий стол\Rabbit-Lab - 4\Console-Rabbit\bin\Debug\Console-Rabbit.pdb
+C:\Users\User\OneDrive\Рабочий стол\Rabbit-Lab - 4\Console-Rabbit\bin\Debug\Business logic - rabbit.dll
+C:\Users\User\OneDrive\Рабочий стол\Rabbit-Lab - 4\Console-Rabbit\bin\Debug\EntityFramework.dll
+C:\Users\User\OneDrive\Рабочий стол\Rabbit-Lab - 4\Console-Rabbit\bin\Debug\EntityFramework.SqlServer.dll
+C:\Users\User\OneDrive\Рабочий стол\Rabbit-Lab - 4\Console-Rabbit\bin\Debug\System.Configuration.ConfigurationManager.dll
+C:\Users\User\OneDrive\Рабочий стол\Rabbit-Lab - 4\Console-Rabbit\bin\Debug\System.Security.AccessControl.dll
+C:\Users\User\OneDrive\Рабочий стол\Rabbit-Lab - 4\Console-Rabbit\bin\Debug\System.Security.Permissions.dll
+C:\Users\User\OneDrive\Рабочий стол\Rabbit-Lab - 4\Console-Rabbit\bin\Debug\System.Security.Principal.Windows.dll
+C:\Users\User\OneDrive\Рабочий стол\Rabbit-Lab - 4\Console-Rabbit\bin\Debug\RabbitDAL.dll
+C:\Users\User\OneDrive\Рабочий стол\Rabbit-Lab - 4\Console-Rabbit\bin\Debug\RabbitModel.dll
+C:\Users\User\OneDrive\Рабочий стол\Rabbit-Lab - 4\Console-Rabbit\bin\Debug\Ninject.dll
+C:\Users\User\OneDrive\Рабочий стол\Rabbit-Lab - 4\Console-Rabbit\bin\Debug\Dapper.dll
+C:\Users\User\OneDrive\Рабочий стол\Rabbit-Lab - 4\Console-Rabbit\bin\Debug\Business logic - rabbit.pdb
+C:\Users\User\OneDrive\Рабочий стол\Rabbit-Lab - 4\Console-Rabbit\bin\Debug\Business logic - rabbit.dll.config
+C:\Users\User\OneDrive\Рабочий стол\Rabbit-Lab - 4\Console-Rabbit\bin\Debug\EntityFramework.xml
+C:\Users\User\OneDrive\Рабочий стол\Rabbit-Lab - 4\Console-Rabbit\bin\Debug\EntityFramework.SqlServer.xml
+C:\Users\User\OneDrive\Рабочий стол\Rabbit-Lab - 4\Console-Rabbit\bin\Debug\System.Configuration.ConfigurationManager.xml
+C:\Users\User\OneDrive\Рабочий стол\Rabbit-Lab - 4\Console-Rabbit\bin\Debug\System.Security.AccessControl.xml
+C:\Users\User\OneDrive\Рабочий стол\Rabbit-Lab - 4\Console-Rabbit\bin\Debug\System.Security.Permissions.xml
+C:\Users\User\OneDrive\Рабочий стол\Rabbit-Lab - 4\Console-Rabbit\bin\Debug\System.Security.Principal.Windows.xml
+C:\Users\User\OneDrive\Рабочий стол\Rabbit-Lab - 4\Console-Rabbit\bin\Debug\RabbitDAL.pdb
+C:\Users\User\OneDrive\Рабочий стол\Rabbit-Lab - 4\Console-Rabbit\bin\Debug\RabbitDAL.dll.config
+C:\Users\User\OneDrive\Рабочий стол\Rabbit-Lab - 4\Console-Rabbit\bin\Debug\RabbitModel.pdb
+C:\Users\User\OneDrive\Рабочий стол\Rabbit-Lab - 4\Console-Rabbit\bin\Debug\Ninject.xml
+C:\Users\User\OneDrive\Рабочий стол\Rabbit-Lab - 4\Console-Rabbit\bin\Debug\Dapper.xml
+C:\Users\User\OneDrive\Рабочий стол\Rabbit-Lab - 4\Console-Rabbit\obj\Debug\Console-Rabbit.csproj.AssemblyReference.cache
+C:\Users\User\OneDrive\Рабочий стол\Rabbit-Lab - 4\Console-Rabbit\obj\Debug\Console-Rabbit.exe.config
+C:\Users\User\OneDrive\Рабочий стол\Rabbit-Lab - 4\Console-Rabbit\obj\Debug\Console-Rabbit.csproj.CoreCompileInputs.cache
+C:\Users\User\OneDrive\Рабочий стол\Rabbit-Lab - 4\Console-Rabbit\obj\Debug\Console-.18CEF01B.Up2Date
+C:\Users\User\OneDrive\Рабочий стол\Rabbit-Lab - 4\Console-Rabbit\obj\Debug\Console-Rabbit.exe
+C:\Users\User\OneDrive\Рабочий стол\Rabbit-Lab - 4\Console-Rabbit\obj\Debug\Console-Rabbit.pdb
